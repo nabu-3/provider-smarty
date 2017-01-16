@@ -1,5 +1,5 @@
 {
-    "type": "library",
+    "type": "provider-package",
     "name": "nabu-3/provider-smarty",
     "description": "nabu 3 provider to add Smarty as HTML Render",
     "keywords": [ "nabu-3", "nabu", "smarty", "provider" ],

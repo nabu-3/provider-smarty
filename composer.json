@@ -15,11 +15,12 @@
         {
             "name": "Rafael Gutierrez",
             "email": "ragutimar@gmail.com",
-            "role": "Developer" 
+            "role": "Developer"
         }
     ],
     "require": {
+        "nabu-3/provider-composer-plugin": "*",
         "smarty/smarty": "~3.1"
     },
-    "prefer-stable": false
+    "prefer-stable": true
 }

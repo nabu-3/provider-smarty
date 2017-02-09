@@ -19,7 +19,7 @@
 
 namespace providers\smarty;
 use Smarty;
-use nabu\core\interfaces\INabuSingleton;
+use nabu\core\exceptions\ENabuSingletonException;
 use nabu\http\app\base\CNabuHTTPApplication;
 use nabu\http\managers\CNabuHTTPRenderDescriptor;
 use nabu\http\managers\base\CNabuHTTPManager;
@@ -49,9 +49,7 @@ class CSmartyManager extends CNabuHTTPManager
     private $nb_smarty_current_model = null;
 
     /**
-     * Default constructor. This object is singleton then, more than one instantiation throws a ENabuSingletonException.
-     * It is not recommendable to instantiate directly. To do this, call \providers\smarty\CSmartyManager::getManager().
-     * @throws ENabuSingletonException
+     * Default constructor.
      */
     public function __construct(CNabuHTTPApplication $nb_application)
     {
@@ -64,7 +62,7 @@ class CSmartyManager extends CNabuHTTPManager
 
     /**
      * Register the provider in current application to extend their functionalities.
-     * @return boolean Returns true if enable process is succeed.
+     * @return bool Returns true if enable process is succeed.
      */
     public function enableManager()
     {

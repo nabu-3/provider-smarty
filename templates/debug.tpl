@@ -2,7 +2,7 @@
     <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
     <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
     <head>
-        <title>Nabu 3 - Smarty Debug Console</title>
+        <title>nabu-3 - Smarty Debug Console</title>
         <style type="text/css">
             {literal}
             body, h1, h2, h3, td, th, p {
@@ -137,7 +137,7 @@
     </head>
     <body>
 
-    <h1>Nabu 3 - Smarty {Smarty::SMARTY_VERSION} Debug Console
+    <h1>nabu-3 - Smarty {Smarty::SMARTY_VERSION} Debug Console
         -  {if isset($template_name)}{$template_name|debug_print_var nofilter} {/if}{if !empty($template_data)}Total Time {$execution_time|string_format:"%.5f"}{/if}</h1>
 
     {if !empty($template_data)}

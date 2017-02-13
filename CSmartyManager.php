@@ -17,20 +17,19 @@
  *  limitations under the License.
  */
 
-namespace providers\smarty;
+namespace providers\smarty\smarty;
 use Smarty;
-use nabu\core\exceptions\ENabuSingletonException;
-use nabu\http\app\base\CNabuHTTPApplication;
 use nabu\http\managers\CNabuHTTPRenderDescriptor;
-use nabu\http\managers\base\CNabuHTTPManager;
+use nabu\provider\base\CNabuProviderManagerAdapter;
 
 /**
  * Class to manage Smarty library
  * @author Rafael Gutierrez <rgutierrez@wiscot.com>
- * @version 3.0.0 Surface
- * @package \providers\smarty
+ * @since 0.0.1
+ * @version 0.0.4
+ * @package \providers\smarty\smarty
  */
-class CSmartyManager extends CNabuHTTPManager
+class CSmartyManager extends CNabuProviderManagerAdapter
 {
     /**
      * Collection of Smarty Model instances
@@ -51,13 +50,18 @@ class CSmartyManager extends CNabuHTTPManager
     /**
      * Default constructor.
      */
-    public function __construct(CNabuHTTPApplication $nb_application)
+    public function __construct()
     {
-        parent::__construct($nb_application);
+        parent::__construct();
 
         $this->base_path = dirname(__FILE__);
         $this->nb_smarty_model_list = new CSmartyModelList();
         $this->setKey(SMARTY_MANAGER_KEY);
+    }
+
+    public function getVendorKey()
+    {
+        return SMARTY_VENDOR_KEY;
     }
 
     /**

@@ -17,14 +17,15 @@
  *  limitations under the License.
  */
 
-namespace providers\smarty\builders;
-use providers\smarty\builders\base\CSmartyAbstractBlock;
+namespace providers\smarty\smarty\builders;
+use providers\smarty\smarty\builders\base\CSmartyAbstractBlock;
 
 /**
  * This class builds the tag nabu_raw_assign.
  * @author Rafael Gutierrez <rgutierrez@wiscot.com>
- * @version 3.0.0 Surface
- * @package \providers\smarty\renders
+ * @since 0.0.1
+ * @version 0.0.4
+ * @package \providers\smarty\smarty\renders
  */
 class CSmartyNabuRawAssignBlock extends CSmartyAbstractBlock
 {

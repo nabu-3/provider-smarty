@@ -19,13 +19,14 @@
 
 use nabu\core\CNabuEngine;
 use nabu\http\app\base\CNabuHTTPApplication;
-use providers\smarty\CSmartyManager;
-use providers\smarty\builders\CSmartyNabuModelCompiler;
+use providers\smarty\smarty\CSmartyManager;
+use providers\smarty\smarty\builders\CSmartyNabuModelCompiler;
 
 /**
  * This function is a wrapper to call CSmartyNabuModelCompiler that implements all functionalities.
  * @author Rafael Gutierrez <rgutierrez@wiscot.com>
- * @version 3.0.0 Surface
+ * @since 0.0.1
+ * @version 0.0.4
  */
 function smarty_compiler_nabu_model($params, Smarty $smarty)
 {

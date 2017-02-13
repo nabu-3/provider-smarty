@@ -17,18 +17,19 @@
  *  limitations under the License.
  */
 
-namespace providers\smarty\builders\base;
+namespace providers\smarty\smarty\builders\base;
 
-use providers\smarty\builders\base\CSmartyAbstractCompiler;
+use providers\smarty\smarty\builders\base\CSmartyAbstractCompiler;
 
 /**
  * This class is a partial implementation of Smarty compiler plugins that render a fragment of HTML
  * based on a modelized template stored in the Smarty Model libraries or in a custom folder.
  * @author Rafael Gutierrez <rgutierrez@wiscot.com>
- * @version 3.0.0 Surface
+ * @since 0.0.1
+ * @version 0.0.4
  * @package \providers\smarty\builders\base
  */
 abstract class CSmartyAbstractModel extends CSmartyAbstractCompiler
 {
-    
+
 }

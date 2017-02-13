@@ -17,7 +17,7 @@
  *  limitations under the License.
  */
 
-namespace providers\smarty;
+namespace providers\smarty\smarty;
 use Smarty;
 use nabu\core\exceptions\ENabuCoreException;
 use nabu\data\CNabuDataObject;
@@ -27,8 +27,9 @@ use nabu\http\managers\CNabuHTTPRenderDescriptor;
  * Class to manage a Smarty model to speed up the creation of templates based on layout and style standards like
  * Bootstrap.
  * @author Rafael Gutierrez <rgutierrez@wiscot.com>
- * @version 3.0.0 Surface
- * @package \providers\smarty
+ * @since 0.0.1
+ * @version 0.0.4
+ * @package \providers\smarty\smarty
  */
 class CSmartyModel extends CNabuDataObject
 {

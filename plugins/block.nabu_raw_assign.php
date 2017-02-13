@@ -17,12 +17,14 @@
  *  limitations under the License.
  */
 
-use providers\smarty\builders\CSmartyNabuRawAssignBlock;
+use providers\smarty\smarty\builders\CSmartyNabuRawAssignBlock;
 
 /**
  * This function is a wrapper to call CSmartyNabuRawAssignBlock that implements all functionalities.
  * @author Rafael Gutierrez <rgutierrez@wiscot.com>
- * @version 3.0.0 Surface
+ * @since 0.0.1
+ * @version 0.0.4
+ * @package \providers\smarty\smarty\builders
  */
 function smarty_block_nabu_raw_assign($params, $content, Smarty_Internal_Template $template, &$repeat)
 {

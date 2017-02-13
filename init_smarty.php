@@ -17,15 +17,20 @@
  *  limitations under the License.
  */
 
+use providers\smarty\smarty\CSmartyManager;
+
 /**
  * @author Rafael Gutierrez <rgutierrez@wiscot.com>
- * @version 3.0.0 Surface
+ * @since 0.0.1
+ * @version 0.0.4
  * @package \providers\smarty
  */
 
-define ('SMARTY_MANAGER_KEY', 'SmartyManager');
+define('SMARTY_VENDOR_KEY', 'Smarty');
+define('SMARTY_MODULE_KEY', 'Smarty');
+define('SMARTY_MANAGER_KEY', 'SmartyManager');
 
-define ('SMARTY_PROVIDER_PATH', dirname(__FILE__));
+define('SMARTY_PROVIDER_PATH', dirname(__FILE__));
 
 define('SMARTY_TEMPLATES_FOLDER', DIRECTORY_SEPARATOR . 'templates');
 define('SMARTY_COMPILES_FOLDER', DIRECTORY_SEPARATOR . 'compiles');
@@ -33,9 +38,4 @@ define('SMARTY_CONFIG_FOLDER', DIRECTORY_SEPARATOR . 'config');
 define('SMARTY_MODELS_FOLDER', DIRECTORY_SEPARATOR . 'models');
 define('SMARTY_PLUGINS_FOLDER', DIRECTORY_SEPARATOR . 'plugins');
 
-use nabu\core\CNabuEngine;
-use nabu\http\app\base\CNabuHTTPApplication;
-use providers\smarty\CSmartyManager;
-
-$nb_engine->traceLog(null, 'Init Smarty');
-$nb_application->registerManager('providers\smarty\CSmartyManager');
+$nb_engine->registerProviderManager(new CSmartyManager());

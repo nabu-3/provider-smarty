@@ -17,16 +17,17 @@
  *  limitations under the License.
  */
 
-namespace providers\smarty\builders\base;
+namespace providers\smarty\smarty\builders\base;
 
 use \Smarty;
-use \providers\smarty\builders\base\CSmartyAbstractBuilder;
+use \providers\smarty\smarty\builders\base\CSmartyAbstractBuilder;
 
 /**
  * This class represents an URI request.
  * @author Rafael Gutierrez <rgutierrez@wiscot.com>
- * @version 3.0.0 Surface
- * @package \providers\smarty\builders\base
+ * @since 0.0.1
+ * @version 0.0.4
+ * @package \providers\smarty\smarty\builders\base
  */
 abstract class CSmartyAbstractCompiler extends CSmartyAbstractBuilder
 {

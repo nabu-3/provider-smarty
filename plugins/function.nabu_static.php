@@ -17,12 +17,13 @@
  *  limitations under the License.
  */
 
-use \providers\smarty\builders\CSmartyNabuStaticFunction;
+use \providers\smarty\smarty\builders\CSmartyNabuStaticFunction;
 
 /**
  * This function is a wrapper to call CSmartyNabuStaticFunction that implements all functionalities.
  * @author Rafael Gutierrez <rgutierrez@wiscot.com>
- * @version 3.0.0 Surface
+ * @since 0.0.1
+ * @version 0.0.4
  */
 function smarty_function_nabu_static($params, Smarty_Internal_Template $template)
 {

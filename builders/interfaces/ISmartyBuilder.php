@@ -17,13 +17,14 @@
  *  limitations under the License.
  */
 
-namespace providers\smarty\builders\interfaces;
+namespace providers\smarty\smarty\builders\interfaces;
 
 /**
  * Interface to implement different Smarty Renders to create ad-hoc plugins of Smarty.
  * @author Rafael Gutierrez <rgutierrez@wiscot.com>
- * @version 3.0.0 Surface
- * @package \providers\smarty\builders\interfaces
+ * @since 0.0.1
+ * @version 0.0.4
+ * @package \providers\smarty\smarty\builders\interfaces
  */
 interface ISmartyBuilder
 {

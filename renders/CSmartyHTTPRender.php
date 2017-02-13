@@ -17,29 +17,29 @@
  *  limitations under the License.
  */
 
-namespace providers\smarty\renders;
-
-use \nabu\cache\interfaces\INabuCacheable;
-use \nabu\cache\interfaces\INabuCacheStorage;
-use \nabu\data\CNabuDataObject;
-use \nabu\core\CNabuEngine;
-use \nabu\data\CNabuDataObjectList;
-use \nabu\core\exceptions\ENabuCoreException;
-use \nabu\data\site\CNabuSite;
-use \nabu\data\site\CNabuSiteTarget;
-use \nabu\http\interfaces\INabuHTTPResponseRender;
-use \nabu\http\renders\base\CNabuHTTPResponseRenderAdapter;
-use \Smarty;
+namespace providers\smarty\smarty\renders;
+use Smarty;
+use nabu\cache\interfaces\INabuCacheable;
+use nabu\cache\interfaces\INabuCacheStorage;
+use nabu\core\CNabuEngine;
+use nabu\core\exceptions\ENabuCoreException;
+use nabu\data\CNabuDataObject;
+use nabu\data\CNabuDataObjectList;
 use nabu\data\CNabuDataObjectListIndex;
+use nabu\data\site\CNabuSite;
+use nabu\data\site\CNabuSiteTarget;
 use nabu\http\app\base\CNabuHTTPApplication;
+use nabu\http\interfaces\INabuHTTPResponseRender;
+use nabu\http\renders\base\CNabuHTTPResponseRenderAdapter;
 
-require_once "lib/smarty/Smarty.class.php";
+//require_once "lib/smarty/Smarty.class.php";
 require_once SMARTY_PROVIDER_PATH . '/plugins/compiler.nabu_exists.php';
 
 /**
  * Class to dump HTML rendered with Smarty as HTTP response.
  * @author Rafael Gutierrez <rgutierrez@wiscot.com>
- * @version 3.0.0 Surface
+ * @since 0.0.1
+ * @version 0.0.4
  * @package \nabu\http\renders
  */
 class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter {

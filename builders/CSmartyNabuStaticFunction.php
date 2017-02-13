@@ -17,14 +17,15 @@
  *  limitations under the License.
  */
 
-namespace providers\smarty\builders;
+namespace providers\smarty\smarty\builders;
 
-use \providers\smarty\builders\base\CSmartyAbstractFunction;
+use \providers\smarty\smarty\builders\base\CSmartyAbstractFunction;
 
 /**
  * This class represents an URI request.
  * @author Rafael Gutierrez <rgutierrez@wiscot.com>
- * @version 3.0.0 Surface
+ * @since 0.0.1
+ * @version 0.0.4
  * @package \providers\smarty\renders
  */
 class CSmartyNabuStaticFunction extends CSmartyAbstractFunction

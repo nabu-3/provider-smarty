@@ -23,7 +23,8 @@
  * For that, is compounded of a set of classes Smarty_Internal_Compile_Nabu_Exists, Smarty_Internal_Compile_nabu_Exists_Else
  * and Smarty_Internal_Compile_NabuExistsclose.
  * @author Rafael Gutierrez <rgutierrez@wiscot.com>
- * @version 3.0.0 Surface
+ * @since 0.0.1
+ * @version 0.0.4
  */
 class Smarty_Internal_Compile_Nabu_Exists extends Smarty_Internal_CompileBase
 {

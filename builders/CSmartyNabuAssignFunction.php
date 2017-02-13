@@ -17,17 +17,17 @@
  *  limitations under the License.
  */
 
-namespace providers\smarty\builders;
+namespace providers\smarty\smarty\builders;
 
-use \providers\smarty\builders\base\CSmartyAbstractFunction;
+use \providers\smarty\smarty\builders\base\CSmartyAbstractFunction;
 use \Smarty;
-use \Smarty_Variable;
 
 /**
  * This class represents an URI request.
  * @author Rafael Gutierrez <rgutierrez@wiscot.com>
- * @version 3.0.0 Surface
- * @package \providers\smarty\builders
+ * @since 0.0.1
+ * @version 0.0.4
+ * @package \providers\smarty\smarty\builders
  */
 class CSmartyNabuAssignFunction extends CSmartyAbstractFunction
 {

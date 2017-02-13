@@ -17,19 +17,20 @@
  *  limitations under the License.
  */
 
-namespace providers\smarty\builders;
+namespace providers\smarty\smarty\builders;
 
 use Smarty;
 use SmartyCompilerException;
 use nabu\core\CNabuEngine;
-use providers\smarty\CSmartyManager;
-use providers\smarty\builders\base\CSmartyAbstractCompiler;
+use providers\smarty\smarty\CSmartyManager;
+use providers\smarty\smarty\builders\base\CSmartyAbstractCompiler;
 
 /**
  * This class compiles a {nabu_textbox} Smarty tag.
  * @author Rafael Gutierrez <rgutierrez@wiscot.com>
- * @version 3.0.0 Surface
- * @package \providers\smarty\builders
+ * @since 0.0.1
+ * @version 0.0.4
+ * @package \providers\smarty\smarty\builders
  */
 class CSmartyNabuModelCompiler extends CSmartyAbstractCompiler
 {

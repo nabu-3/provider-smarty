@@ -17,15 +17,16 @@
  *  limitations under the License.
  */
 
-namespace providers\smarty\builders\base;
+namespace providers\smarty\smarty\builders\base;
 
 use \nabu\core\CNabuObject;
-use \providers\smarty\builders\interfaces\ISmartyBuilder;
+use \providers\smarty\smarty\builders\interfaces\ISmartyBuilder;
 
 /**
  * This class represents an URI request.
  * @author Rafael Gutierrez <rgutierrez@wiscot.com>
- * @version 3.0.0 Surface
+ * @since 0.0.1
+ * @version 0.0.4
  * @package \providers\smarty\builders\base
  */
 abstract class CSmartyAbstractBuilder extends CNabuObject implements ISmartyBuilder

@@ -54,14 +54,11 @@ class CSmartyManager extends CNabuProviderManagerAdapter
     {
         parent::__construct();
 
+        $this->setVendorKey(SMARTY_VENDOR_KEY);
+        $this->setModuleKey(SMARTY_MODULE_KEY);
+
         $this->base_path = dirname(__FILE__);
         $this->nb_smarty_model_list = new CSmartyModelList();
-        $this->setKey(SMARTY_MANAGER_KEY);
-    }
-
-    public function getVendorKey()
-    {
-        return SMARTY_VENDOR_KEY;
     }
 
     /**

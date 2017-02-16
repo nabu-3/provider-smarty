@@ -19,6 +19,8 @@
 
 namespace providers\smarty\smarty;
 use Smarty;
+use nabu\core\interfaces\INabuApplication;
+use nabu\http\app\base\CNabuHTTPApplication;
 use nabu\http\managers\CNabuHTTPRenderDescriptor;
 use nabu\provider\base\CNabuProviderManagerAdapter;
 
@@ -61,19 +63,23 @@ class CSmartyManager extends CNabuProviderManagerAdapter
         $this->nb_smarty_model_list = new CSmartyModelList();
     }
 
-    /**
-     * Register the provider in current application to extend their functionalities.
-     * @return bool Returns true if enable process is succeed.
-     */
     public function enableManager()
     {
-        $this->nb_application->registerRender(
-            (new CNabuHTTPRenderDescriptor())
-                ->setKey('HTML')
-                ->setClassName('providers\smarty\renders\CSmartyHTTPRender')
-        );
-
         return true;
+    }
+
+    public function registerApplication(INabuApplication $nb_application)
+    {
+        if ($nb_application instanceof CNabuHTTPApplication) {
+            $this->nb_application = $nb_application;
+            $this->nb_application->registerRender(
+                (new CNabuHTTPRenderDescriptor())
+                    ->setKey('HTML')
+                    ->setClassName('providers\smarty\smarty\renders\CSmartyHTTPRender')
+            );
+        }
+
+        return $this;
     }
 
     /**

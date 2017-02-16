@@ -44,7 +44,7 @@ class CSmartyNabuModelCompiler extends CSmartyAbstractCompiler
     {
         parent::__construct($params, $smarty);
 
-        $this->nb_smarty_manager = CNabuEngine::getEngine()->getApplication()->getManager(SMARTY_MANAGER_KEY);
+        $this->nb_smarty_manager = CNabuEngine::getEngine()->getProviderManager(SMARTY_VENDOR_KEY, SMARTY_MODULE_KEY);
     }
 
     public function execute($content = null, &$repeat = false)
@@ -54,13 +54,18 @@ class CSmartyNabuModelCompiler extends CSmartyAbstractCompiler
             // Below, an example of error raised with Smarty Core
             //     Syntax error in template "file:/var/opt/nabu-3/vhosts/cms.nabu.local/templates/content/login.tpl" on line 1 "{nabu_model xmodel="bootstrap-3.3.7"*}" - Unexpected "}"
             // And below, the best that we can do out of Smarty Core without warranty of compatibility in next versions.
-            throw new SmartyCompilerException('Syntax error in template "file:' . $this->smarty->_current_file .'" on {nabu_model ...} - Missing model attribute');
+            throw new SmartyCompilerException(
+                'Syntax error in template "file:'
+                . $this->smarty->_current_file
+                . '" on {nabu_model ...} - Missing model attribute'
+            );
         } else {
             $model = $this->params['model'];
             $this->nb_smarty_manager->setModel(substr($model, 1, strlen($model) - 2), $this->smarty);
 
             $output = "<?php "
-                    . "\\nabu\\core\\CNabuEngine::getEngine()->getApplication()->getManager(SMARTY_MANAGER_KEY)->setModel($model, \$_smarty_tpl->smarty);?>\n";
+                    . "\\nabu\\core\\CNabuEngine::getEngine()->getProviderManager(SMARTY_VENDOR_KEY, SMARTY_MODULE_KEY)"
+                    . "->setModel($model, \$_smarty_tpl->smarty);?>\n";
 
             return $output;
         }

@@ -42,10 +42,13 @@ require_once SMARTY_PROVIDER_PATH . '/plugins/compiler.nabu_exists.php';
  * @version 0.0.4
  * @package \nabu\http\renders
  */
-class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter {
-
+class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
+{
+    /** @var Smarty $smarty Smarty native render class */
     private $smarty = null;
+    /** @var INabuCacheStorage $cache_storage Cache storage assigned instance */
     private $cache_storage = null;
+    /** @var CSmartyManager $nb_smarty_manager Smarty manager instance */
     private $nb_smarty_manager = null;
 
     public function __construct(
@@ -55,7 +58,8 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter {
     ) {
         parent::__construct($nb_application, $main_render);
 
-        $this->nb_smarty_manager = $nb_application->getManager(SMARTY_MANAGER_KEY);
+        $this->nb_smarty_manager = CNabuEngine::getEngine()->getProviderManager(SMARTY_VENDOR_KEY, SMARTY_MODULE_KEY);
+        //$this->nb_smarty_manager = $nb_application->getManager(SMARTY_MANAGER_KEY);
 
         $nb_server = $nb_application->getHTTPServer()->getServer();
         $nb_site = $nb_application->getHTTPServer()->getSite();

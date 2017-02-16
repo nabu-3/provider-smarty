@@ -37,9 +37,10 @@ function smarty_compiler_nabu_model($params, Smarty $smarty)
 
 function smarty_compiler_nabu_generic_model($params, Smarty $smarty, $fragment)
 {
-    $nb_application = CNabuEngine::getEngine()->getApplication();
+    $nb_engine = CNabuEngine::getEngine();
+    $nb_application = $nb_engine->getApplication();
     if (($nb_application instanceof CNabuHTTPApplication) &&
-        ($nb_smarty_manager = $nb_application->getManager(SMARTY_MANAGER_KEY)) &&
+        ($nb_smarty_manager = $nb_engine->getProviderManager(SMARTY_VENDOR_KEY, SMARTY_MODULE_KEY)) &&
         ($nb_smarty_manager instanceof CSmartyManager) &&
         ($nb_smarty_model = $nb_smarty_manager->getCurrentModel()) !== null &&
         ($nb_smarty_model->isValidFragment($fragment))

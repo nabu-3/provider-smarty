@@ -31,6 +31,7 @@ use nabu\data\site\CNabuSiteTarget;
 use nabu\http\app\base\CNabuHTTPApplication;
 use nabu\http\interfaces\INabuHTTPResponseRender;
 use nabu\http\renders\base\CNabuHTTPResponseRenderAdapter;
+use prividers\smarty\smarty\CSmartyManager;
 
 //require_once "lib/smarty/Smarty.class.php";
 require_once SMARTY_PROVIDER_PATH . '/plugins/compiler.nabu_exists.php';

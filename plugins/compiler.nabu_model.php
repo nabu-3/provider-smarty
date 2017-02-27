@@ -155,3 +155,13 @@ function smarty_compiler_nabu_tree($params, Smarty $smarty)
 {
     return smarty_compiler_nabu_generic_model($params, $smarty, 'tree');
 }
+
+function smarty_compiler_nabu_panel($params, Smarty $smarty)
+{
+    return smarty_compiler_nabu_generic_model($params, $smarty, 'panel');
+}
+
+function smarty_compiler_nabu_panelclose($params, Smarty $smarty)
+{
+    return smarty_compiler_nabu_generic_model($params, $smarty, 'panelclose');
+}

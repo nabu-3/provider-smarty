@@ -40,7 +40,7 @@ require_once SMARTY_PROVIDER_PATH . '/plugins/compiler.nabu_exists.php';
  * Class to dump HTML rendered with Smarty as HTTP response.
  * @author Rafael Gutierrez <rgutierrez@wiscot.com>
  * @since 0.0.1
- * @version 0.0.4
+ * @version 0.0.6
  * @package \nabu\http\renders
  */
 class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
@@ -54,8 +54,8 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
 
     public function __construct(
         CNabuHTTPApplication $nb_application,
-        INabuHTTPResponseRender $main_render = null,
-        $params = false
+        INabuHTTPResponseRender $main_render = null/*,
+        $params = false*/
     ) {
         parent::__construct($nb_application, $main_render);
 
@@ -64,48 +64,76 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
         $nb_server = $nb_http_server->getServer();
         $nb_site = $nb_http_server->getSite();
 
-        if (is_array($params) && array_key_exists('basepath', $params)) {
+        /*if (is_array($params) && array_key_exists('basepath', $params)) {
             $base = $params['basepath'];
         } else {
             $base = $nb_server->getVirtualHostsPath() . $nb_site->getValue('nb_site_base_path');
+        }*/
+        $vhosts_path = $nb_site->getVirtualHostPath($nb_server);
+        $vlib_path = $nb_site->getVirtualLibrariesPath($nb_server) . SMARTY_BASE_FOLDER;
+        if (!is_dir($vlib_path) && !mkdir($vlib_path, 0775, true)) {
+            throw new ENabuCoreException(ENabuCoreException::ERROR_HOST_PATH_NOT_FOUND, array($vlib_path));
         }
-        if (realpath($base) && $nb_site->isSmartyAvailable()) {
+        $vcache_path = $nb_site->getVirtualLibrariesPath($nb_server) . SMARTY_BASE_FOLDER;
+        if (!is_dir($vcache_path) && !mkdir($vcache_path, 0775, true)) {
+            throw new ENabuCoreException(ENabuCoreException::ERROR_HOST_PATH_NOT_FOUND, array($vcache_path));
+        }
+
+        if (realpath($vhosts_path) && realpath($vlib_path) && $nb_site->isSmartyAvailable()) {
             $this->smarty = new Smarty();
             /**
             * @todo Solve this strong path to be configurable via constant or similar
             */
             $this->smarty->addPluginsDir($this->nb_smarty_manager->getPluginsPath());
+            /*
             $this->smarty->setTemplateDir(
                 (is_array($params) && array_key_exists('templates', $params))
                 ? $params['templates']
                 : $base . $nb_site->getSmartyTemplatePath()
             );
+            */
+            $this->smarty->setTemplateDir($vhosts_path . NABU_SRC_FOLDER . SMARTY_BASE_FOLDER . SMARTY_TEMPLATES_FOLDER);
+            /*
             $this->smarty->setCompileDir(
                 (is_array($params) && array_key_exists('compiles', $params))
                 ? $params['compiles']
                 : $base . $nb_site->getSmartyCompilePath()
             );
+            */
+            $this->smarty->setCompileDir($vlib_path);
+            /*
             $this->smarty->setConfigDir(
                 (is_array($params) && array_key_exists('config', $params))
                 ? $params['config']
                 : $base . $nb_site->getSmartyConfigsPath()
             );
+            */
+            $this->smarty->setConfigDir($vhosts_path . NABU_SRC_FOLDER . SMARTY_BASE_FOLDER . SMARTY_CONFIG_FOLDER);
+            /*
             $this->smarty->setCacheDir(
                 (is_array($params) && array_key_exists('cache', $params))
                 ? $params['cache']
                 : $base.$nb_site->getSmartyCachePath()
             );
+            */
+            $this->smarty->setCacheDir($vcache_path);
             $this->smarty->compile_check = true;
+            /*
             $this->smarty->setDebugging(
                 (is_array($params) && array_key_exists('debugging', $params))
                 ? ($params['debugging'] === 'T')
                 : ($nb_site->getSmartyDebugging() === 'T')
             );
+            */
+            $this->smarty->setDebugging(($nb_site->getSmartyDebugging() === 'T'));
+            /*
             $this->smarty->setErrorReporting(
                 (is_array($params) && array_key_exists('error_reporting', $params))
                 ? $params['error_reporting']
                 : $nb_site->getSmartyErrorReporting()
             );
+            */
+            $this->smarty->setErrorReporting($nb_site->getSmartyErrorReporting());
             $this->smarty->setDebugTemplate($this->nb_smarty_manager->getTemplatesPath() . DIRECTORY_SEPARATOR . 'debug.tpl');
             $this->smarty->setCaching(false);
         } else {

@@ -28,7 +28,7 @@ use nabu\provider\base\CNabuProviderManagerAdapter;
  * Class to manage Smarty library
  * @author Rafael Gutierrez <rgutierrez@wiscot.com>
  * @since 0.0.1
- * @version 0.0.4
+ * @version 0.0.6
  * @package \providers\smarty\smarty
  */
 class CSmartyManager extends CNabuProviderManagerAdapter
@@ -109,9 +109,8 @@ class CSmartyManager extends CNabuProviderManagerAdapter
             $nb_http_server = $this->nb_application->getHTTPServer();
             $nb_server = $nb_http_server->getServer();
             $nb_site = $nb_http_server->getSite();
-            $path = $nb_server->getVirtualHostsPath()
-                  . $nb_site->getBasePath()
-                  . $nb_site->getSmartyTemplatePath()
+            $path = $nb_site->getVirtualHostSourcePath($nb_server)
+                  . SMARTY_BASE_FOLDER
                   . SMARTY_MODELS_FOLDER
                   . DIRECTORY_SEPARATOR . $key
             ;

@@ -32,6 +32,7 @@ define('SMARTY_MANAGER_KEY', 'SmartyManager');
 
 define('SMARTY_PROVIDER_PATH', dirname(__FILE__));
 
+define('SMARTY_BASE_FOLDER', DIRECTORY_SEPARATOR . 'smarty');
 define('SMARTY_TEMPLATES_FOLDER', DIRECTORY_SEPARATOR . 'templates');
 define('SMARTY_COMPILES_FOLDER', DIRECTORY_SEPARATOR . 'compiles');
 define('SMARTY_CONFIG_FOLDER', DIRECTORY_SEPARATOR . 'config');

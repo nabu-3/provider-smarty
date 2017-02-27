@@ -60,10 +60,9 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
         parent::__construct($nb_application, $main_render);
 
         $this->nb_smarty_manager = CNabuEngine::getEngine()->getProviderManager(SMARTY_VENDOR_KEY, SMARTY_MODULE_KEY);
-        //$this->nb_smarty_manager = $nb_application->getManager(SMARTY_MANAGER_KEY);
-
-        $nb_server = $nb_application->getHTTPServer()->getServer();
-        $nb_site = $nb_application->getHTTPServer()->getSite();
+        $nb_http_server = $nb_application->getHTTPServer();
+        $nb_server = $nb_http_server->getServer();
+        $nb_site = $nb_http_server->getSite();
 
         if (is_array($params) && array_key_exists('basepath', $params)) {
             $base = $params['basepath'];

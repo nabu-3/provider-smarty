@@ -63,67 +63,67 @@ function smarty_compiler_nabu_formclose($params, Smarty $smarty)
 
 function smarty_compiler_nabu_form_variable($params, Smarty $smarty)
 {
-    return smarty_compiler_nabu_generic_model($params, $smarty, 'form_variable');
+    return smarty_compiler_nabu_generic_model($params, $smarty, 'form-variable');
 }
 
 function smarty_compiler_nabu_form_fieldset($params, Smarty $smarty)
 {
-    return smarty_compiler_nabu_generic_model($params, $smarty, 'form_fieldset');
+    return smarty_compiler_nabu_generic_model($params, $smarty, 'form-fieldset');
 }
 
 function smarty_compiler_nabu_form_fieldsetclose($params, Smarty $smarty)
 {
-    return smarty_compiler_nabu_generic_model($params, $smarty, 'form_fieldsetclose');
+    return smarty_compiler_nabu_generic_model($params, $smarty, 'form-fieldsetclose');
 }
 
 function smarty_compiler_nabu_form_row($params, Smarty $smarty)
 {
-    return smarty_compiler_nabu_generic_model($params, $smarty, 'form_row');
+    return smarty_compiler_nabu_generic_model($params, $smarty, 'form-row');
 }
 
 function smarty_compiler_nabu_form_rowclose($params, Smarty $smarty)
 {
-    return smarty_compiler_nabu_generic_model($params, $smarty, 'form_rowclose');
+    return smarty_compiler_nabu_generic_model($params, $smarty, 'form-rowclose');
 }
 
 function smarty_compiler_nabu_form_textbox($params, Smarty $smarty)
 {
-    return smarty_compiler_nabu_generic_model($params, $smarty, 'form_textbox');
+    return smarty_compiler_nabu_generic_model($params, $smarty, 'form-textbox');
 }
 
 function smarty_compiler_nabu_form_checkbox($params, Smarty $smarty)
 {
-    return smarty_compiler_nabu_generic_model($params, $smarty, 'form_checkbox');
+    return smarty_compiler_nabu_generic_model($params, $smarty, 'form-checkbox');
 }
 
 function smarty_compiler_nabu_form_radiobox($params, Smarty $smarty)
 {
-    return smarty_compiler_nabu_generic_model($params, $smarty, 'form_radiobox');
+    return smarty_compiler_nabu_generic_model($params, $smarty, 'form-radiobox');
 }
 
 function smarty_compiler_nabu_form_select($params, Smarty $smarty)
 {
-    return smarty_compiler_nabu_generic_model($params, $smarty, 'form_select');
+    return smarty_compiler_nabu_generic_model($params, $smarty, 'form-select');
 }
 
 function smarty_compiler_nabu_form_static($params, Smarty $smarty)
 {
-    return smarty_compiler_nabu_generic_model($params, $smarty, 'form_static');
+    return smarty_compiler_nabu_generic_model($params, $smarty, 'form-static');
 }
 
 function smarty_compiler_nabu_form_command($params, Smarty $smarty)
 {
-    return smarty_compiler_nabu_generic_model($params, $smarty, 'form_command');
+    return smarty_compiler_nabu_generic_model($params, $smarty, 'form-command');
 }
 
 function smarty_compiler_nabu_form_commands($params, Smarty $smarty)
 {
-    return smarty_compiler_nabu_generic_model($params, $smarty, 'form_commands');
+    return smarty_compiler_nabu_generic_model($params, $smarty, 'form-commands');
 }
 
 function smarty_compiler_nabu_form_commandsclose($params, Smarty $smarty)
 {
-    return smarty_compiler_nabu_generic_model($params, $smarty, 'form_commandsclose');
+    return smarty_compiler_nabu_generic_model($params, $smarty, 'form-commandsclose');
 }
 
 function smarty_compiler_nabu_navbar($params, Smarty $smarty)
@@ -164,4 +164,49 @@ function smarty_compiler_nabu_panel($params, Smarty $smarty)
 function smarty_compiler_nabu_panelclose($params, Smarty $smarty)
 {
     return smarty_compiler_nabu_generic_model($params, $smarty, 'panelclose');
+}
+
+function smarty_compiler_nabu_open_modal($params, Smarty $smarty)
+{
+    return smarty_compiler_nabu_generic_model($params, $smarty, 'open-modal');
+}
+
+function smarty_compiler_nabu_modal($params, Smarty $smarty)
+{
+    return smarty_compiler_nabu_generic_model($params, $smarty, 'modal');
+}
+
+function smarty_compiler_nabu_modalclose($params, Smarty $smarty)
+{
+    return smarty_compiler_nabu_generic_model($params, $smarty, 'modalclose');
+}
+
+function smarty_compiler_nabu_modal_header($params, Smarty $smarty)
+{
+    return smarty_compiler_nabu_generic_model($params, $smarty, 'modal-header');
+}
+
+function smarty_compiler_nabu_modal_headerclose($params, Smarty $smarty)
+{
+    return smarty_compiler_nabu_generic_model($params, $smarty, 'modal-headerclose');
+}
+
+function smarty_compiler_nabu_modal_body($params, Smarty $smarty)
+{
+    return smarty_compiler_nabu_generic_model($params, $smarty, 'modal-body');
+}
+
+function smarty_compiler_nabu_modal_bodyclose($params, Smarty $smarty)
+{
+    return smarty_compiler_nabu_generic_model($params, $smarty, 'modal-bodyclose');
+}
+
+function smarty_compiler_nabu_modal_footer($params, Smarty $smarty)
+{
+    return smarty_compiler_nabu_generic_model($params, $smarty, 'modal-footer');
+}
+
+function smarty_compiler_nabu_modal_footerclose($params, Smarty $smarty)
+{
+    return smarty_compiler_nabu_generic_model($params, $smarty, 'modal-footerclose');
 }

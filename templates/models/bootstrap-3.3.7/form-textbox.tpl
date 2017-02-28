@@ -27,11 +27,11 @@
     {assign var=label_class value=''}
     {assign var=div_class value=''}
     {if $variant===horizontal}
-        {if count($rel)===2}
-            {assign var=label_class value="col-sm-{$rel.0} control-label"}
-            {assign var=div_class value="col-sm-{$rel.1}"}
-        {elseif count($rel)===1}
-            {assign var=label_class value="col-sm-{$rel.0} control-label"}
+        {if count($rel)===3}
+            {assign var=label_class value="col-sm-{$rel.1} control-label"}
+            {assign var=div_class value="col-sm-{$rel.2}"}
+        {elseif count($rel)===2}
+            {assign var=label_class value="col-sm-{$rel.1} control-label"}
             {assign var=div_class value="col-sm-{12-$rel.1}"}
         {else}
             {assign var=label_class value="col-sm-4 control-label"}
@@ -145,8 +145,8 @@
             {else}
                 <input class="form-control"
                        {if isset($autocomplete)} autocomplete="{if $autocomplete===true}on{else}off{/if}"{/if} type="{$type}"
-                       {if isset($id)} id="{$id}"{/if}
-                       {if $name} name="{$name}"{/if}
+                       {if isset($id)} id="{$id}{if isset($index) && is_numeric($index)}_{$index}{/if}"{/if}
+                       {if $name} name="{$name}{if isset($index) && is_numeric($index)}[{$index}]{/if}"{/if}
                        {if $addons && isset($addon_left) && ($addon_left==='radiobox' || $addon_left==='checkbox') && isset($addon_left_check) && $value_left!==$addon_left_check} disabled{/if}
                        {if $placeholder} placeholder="{$placeholder}"{/if}
                        {if is_string($value)} value="{$value|escape:"html"}"{/if}

@@ -1,2 +1,2 @@
 
-  <div class="modal-body">
+  <div class="modal-body" {include file="general-attrs.tpl"} {include file="aria-attrs.tpl"}>

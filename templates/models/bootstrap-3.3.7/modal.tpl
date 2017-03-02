@@ -1,3 +1,3 @@
-<div class="modal fade"{if isset($id) && strlen($id)>0} id="{$id}"{/if} tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" tabindex="-1" role="dialog" {include file="general-attrs.tpl"} {include file="aria-attrs.tpl"}>
     <div class="modal-dialog{if isset($size) && strlen($size)>0} modal-{$size}{/if}" role="document">
         <div class="modal-content">

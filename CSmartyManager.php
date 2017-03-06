@@ -22,7 +22,7 @@ use Smarty;
 use nabu\core\interfaces\INabuApplication;
 use nabu\http\app\base\CNabuHTTPApplication;
 use nabu\http\managers\CNabuHTTPRenderDescriptor;
-use nabu\provider\base\CNabuProviderManagerAdapter;
+use nabu\provider\base\CNabuProviderModuleManagerAdapter;
 
 /**
  * Class to manage Smarty library
@@ -31,7 +31,7 @@ use nabu\provider\base\CNabuProviderManagerAdapter;
  * @version 0.0.6
  * @package \providers\smarty\smarty
  */
-class CSmartyManager extends CNabuProviderManagerAdapter
+class CSmartyManager extends CNabuProviderModuleManagerAdapter
 {
     /**
      * Collection of Smarty Model instances
@@ -54,10 +54,7 @@ class CSmartyManager extends CNabuProviderManagerAdapter
      */
     public function __construct()
     {
-        parent::__construct();
-
-        $this->setVendorKey(SMARTY_VENDOR_KEY);
-        $this->setModuleKey(SMARTY_MODULE_KEY);
+        parent::__construct(SMARTY_VENDOR_KEY, SMARTY_MODULE_KEY);
 
         $this->base_path = dirname(__FILE__);
         $this->nb_smarty_model_list = new CSmartyModelList();

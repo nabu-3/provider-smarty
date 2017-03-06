@@ -28,6 +28,7 @@ use nabu\data\CNabuDataObjectList;
 use nabu\data\CNabuDataObjectListIndex;
 use nabu\data\site\CNabuSite;
 use nabu\data\site\CNabuSiteTarget;
+use nabu\db\CNabuDBObject;
 use nabu\http\app\base\CNabuHTTPApplication;
 use nabu\http\interfaces\INabuHTTPResponseRender;
 use nabu\http\renders\base\CNabuHTTPResponseRenderAdapter;
@@ -141,13 +142,13 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
         }
     }
 
-    public function setCacheStorage($cache_storage) {
-
+    public function setCacheStorage($cache_storage)
+    {
         $this->cache_storage = $cache_storage;
     }
 
-    public function isSmartyInitialized() {
-
+    public function isSmartyInitialized()
+    {
         return $this->smarty != null;
     }
 
@@ -235,8 +236,8 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
      * @param mixed $value Value to put into smarty variable
      * @return bool  If success return true, otherwise false
      */
-    public function smartyBypassAssign($name, $value, $cache_key = false, $cache_update = false) {
-
+    public function smartyBypassAssign($name, $value, $cache_key = false, $cache_update = false)
+    {
         if ($this->isSmartyInitialized()) {
 
             $is_cacheable = ($this->cache_storage instanceof INabuCacheStorage && $cache_key);
@@ -362,9 +363,17 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
             foreach ($array as $key=>$row) {
                 if ($row instanceof CNabuDataObject) {
                     if ($nb_language == null) {
-                        $list[$key] = $this->anidateSmartyConversion($row->getTreeData());
+                        if ($row instanceof CNabuDBObject) {
+                            $list[$key] = $this->anidateSmartyConversion($row->getTreeData());
+                        } else {
+                            $list[$key] = $this->anidateSmartyConversion($row->getTreeData(null, true));
+                        }
                     } else {
-                        $list[$key] = $this->anidateSmartyConversion($row->getTreeData($nb_language), $nb_language);
+                        if ($row instanceof CNabuDBObject) {
+                            $list[$key] = $this->anidateSmartyConversion($row->getTreeData($nb_language), $nb_language);
+                        } else {
+                            $list[$key] = $this->anidateSmartyConversion($row->getTreeData($nb_language, true), $nb_language);
+                        }
                     }
                 } elseif ($row instanceof CNabuDataObjectList) {
                     $list[$key] = $this->anidateSmartyConversion($row->getItems(), $nb_language);
@@ -400,8 +409,8 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
         return null;
     }
 
-    public function renderTemplate($filename) {
-
+    public function renderTemplate($filename)
+    {
         return $this->smarty->fetch($filename);
     }
 
@@ -412,8 +421,8 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
      * @param string $content_file Full file name of smarty template to fetch before display
      * @return bool Returns true if smarty display is executed and otherwise false
      */
-    public function display($display_file, $content_file = null, $output_type = 'HTML', $filename = null) {
-
+    public function display($display_file, $content_file = null, $output_type = 'HTML', $filename = null)
+    {
         if ($this->isSmartyInitialized()) {
             if ($content_file !== null) {
                 $content = $this->smarty->fetch('content/'.$content_file);

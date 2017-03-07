@@ -40,5 +40,6 @@
      {if isset($validation) && ($validation==='onchange' || $validation==='live')} data-validation="{$validation}"{/if}
      {if isset($reflection) && is_string($reflection) && strlen($reflection)>0} data-reflection="{$reflection}" data-reflection-success="has-success" data-reflection-warning="has-warning" data-reflection-error="has-error"{/if}
      {if $use_ajax} data-ajax="true" {if isset($ajax_target) && is_string($ajax_target) && strlen($ajax_target)>0} data-ajax-target="{$ajax_target}"{/if}{/if}
+     {if isset($multiform) && is_string($multiform) && strlen($multiform)>0} data-multiform-part="{$multiform}"{/if}
 >
 {/strip}

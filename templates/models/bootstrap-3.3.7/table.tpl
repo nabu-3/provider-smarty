@@ -55,17 +55,32 @@
     {nabu_exists_else}
         {assign var=editor_url value=$editor}
     {/nabu_exists}
+    {if is_string($editor_url) && (!isset($editor_mode) || ($editor_mode!=='ajax' && $editor_mode!=='page'))}
+        {assign var=editor_mode value=page}
+    {/if}
 {/if}
 {if isset($data) || isset($draw_empty) && $draw_empty}
-    <div class="table-container" data-toggle="nabu-table"{if isset($size)} data-table-size="{$size}"{/if}{if is_string($api_url)} data-api="{$api_url}"{/if}{if is_string($editor_url)} data-editor="{$editor_url}"{/if}{if isset($edit_button)} data-edit-button="{$edit_button}"{/if}>
+    {strip}<div{if isset($id) && strlen($id)>0} id="{$id}"{/if} class="table-container" data-toggle="nabu-table"
+            {if isset($size)} data-table-size="{$size}"{/if}
+            {if is_string($api_url)} data-api="{$api_url}"{/if}
+            {if is_string($editor_url)} data-editor="{$editor_url}" data-editor-mode="{$editor_mode}"
+                {if $editor_mode==="ajax" && isset($editor_container) && strlen($editor_container)>0} data-editor-container="{$editor_container}"{/if}
+            {/if}
+            {if isset($edit_button)} data-edit-button="{$edit_button}"{/if}
+    >{/strip}
         {if $toolbar}
             <div class="table-toolbar btn-toolbar">
                 {if isset($column_selector) && fields && count($fields)>0}
+                    {if $translations && array_key_exists('columns_button', $translations)}
+                        {assign var=btn_name value=$translations.columns_button}
+                    {else}
+                        {assign var=btn_nme value="Columns"}
+                    {/if}
                     <div class="btn-group pull-right table-columns-selector">
-                        <button type="button" class="btn btn-sm btn-columns" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{if $translations && array_key_exists('columns_button', $translations)}{$translations.columns_button}{else}Columns{/if}</button>
-                        <button type="button" class="btn btn-sm btn-columns dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button type="button" class="btn btn-sm btn-columns" data-toggle="dropdown" data-apply="all" aria-haspopup="true" aria-expanded="false" title="{$btn_name}"><i class="fa fa-columns"></i></button>
+                        <button type="button" class="btn btn-sm btn-columns dropdown-toggle" data-toggle="dropdown" data-apply="all" aria-haspopup="true" aria-expanded="false" title="{$btn_name}">
                             <span class="caret"></span>
-                            <span class="sr-only">Toggle Dropdown</span>
+                            <span class="sr-only">{$btn_name}</span>
                         </button>
                         <ul class="dropdown-menu">
                             {foreach from=$metadata.fields item=field}
@@ -81,7 +96,7 @@
                     <div class="btn-group pull-right table-search">
                         <div class="input-group input-group-sm">
                             <input type="search" class="form-control">
-                            <span class="input-group-btn"><button type="button" class="btn btn-default btn-search">{if $translations && array_key_exists('search_button', $translations)}{$translations.search_button}{else}Search{/if}</button></span>
+                            <span class="input-group-btn"><button type="button" class="btn btn-default btn-search" data-apply="all" title="{if $translations && array_key_exists('search_button', $translations)}{$translations.search_button}{else}Search{/if}"><i class="fa fa-search"></i></button></span>
                         </div>
                     </div>
                 {/if}
@@ -89,11 +104,10 @@
                     {foreach from=$toolbar.groups item=group}
                         {if is_array($group) && array_key_exists('buttons', $group) && count($group.buttons) > 0}
                             <div class="btn-group{if array_key_exists('align', $group) && strlen($group.align)>0} pull-{$group.align}{/if}">
-                                {foreach from=$group.buttons item=button}
+                                {foreach from=$group.buttons key=action item=button}
                                     {strip}
-                                        <button class="btn btn-sm{if array_key_exists('type', $button) && strlen($button.type)>0} btn-{$button.type}{/if}{if array_key_exists('align', $button) && strlen($button.align)>0} pull-{$button.align}{/if}"
-                                                {if array_key_exists('apply', $button)}data-apply="{$button.apply}"{/if}
-                                                type="button">
+                                        <button class="btn btn-sm{if array_key_exists('type', $button) && strlen($button.type)>0} btn-{$button.type}{/if}{if array_key_exists('align', $button) && strlen($button.align)>0} pull-{$button.align}{/if}" data-action="{$action}"
+                                                {if array_key_exists('apply', $button)} data-apply="{$button.apply}"{/if} type="button">
                                             {if array_key_exists('icon', $button) && strlen($button.icon)>0}<i class="{$button.icon}"></i>{/if}
                                             {if array_key_exists('name', $button) && strlen($button.name)>0}{$button.name}{/if}
                                         </button>
@@ -105,7 +119,7 @@
                 {/if}
             </div>
         {else}
-            {if isset($search) && $search}
+            {if (isset($search) && $search) || (isset($column_selector) && $column_selector)}
                 <div class="table-controls form-inline">
                     {if isset($search)}
                         <div class="input-group table-search">
@@ -155,6 +169,7 @@
                 </thead>
             {/if}
             <tbody>
+                {if isset($draw_empty) && $draw_empty && isset($empty_message) && strlen($empty_message)>0}<tr class="table-empty-row{if is_array($data) && count($data)>0} hide{/if}"><td colspan="{if isset($selectable) && $selectable}{count($fields)+1}{else}{count($fields)}{/if}">{$empty_message}</td></tr>{/if}
                 {foreach from=$data item=row}
                     <tr{if is_string($field_id) && array_key_exists($field_id, $row)} data-id="{$row[$field_id]}"{/if}{if isset($edit_button) && $edit_button==='line'} class="btn-edit-line"{/if}>
                         {if $selectable}<th class="col-selectable" data-toggle="table-selectable"><input type="checkbox" value="T"></th>{/if}
@@ -209,7 +224,6 @@
                         {if isset($edit_button) && $edit_button==='button'}<td><div class="btn-group" role="group"><button class="btn btn-editor btn-xs"><i class="fa fa-edit"></i></div></td>{/if}
                     </tr>
                 {/foreach}
-                {if isset($draw_empty) && $draw_empty && isset($empty_message) && strlen($empty_message)>0}<tr class="table-empty-row"><td colspan="{if isset($selectable) && $selectable}{count($fields)+1}{else}{count($fields)}{/if}">{$empty_message}</td></tr>{/if}
             </tbody>
         </table>
         {if isset($pager) && $pager}

@@ -4,6 +4,16 @@
     {else}
         {assign var=fields value=false}
     {/if}
+    {if array_key_exists('toolbar', $metadata) && is_array($metadata.toolbar)}
+        {assign var=toolbar value=$metadata.toolbar}
+    {else}
+        {assign var=toolvar value=false}
+    {/if}
+    {if array_key_exists('translations', $metadata) && is_array($metadata.translations)}
+        {assign var=translations value=$metadata.translations}
+    {else}
+        {assign var=translations value=false}
+    {/if}
 {else}
     {assign var=fields value=false}
 {/if}
@@ -46,34 +56,82 @@
         {assign var=editor_url value=$editor}
     {/nabu_exists}
 {/if}
-{if isset($data)}
+{if isset($data) || isset($draw_empty) && $draw_empty}
     <div class="table-container" data-toggle="nabu-table"{if isset($size)} data-table-size="{$size}"{/if}{if is_string($api_url)} data-api="{$api_url}"{/if}{if is_string($editor_url)} data-editor="{$editor_url}"{/if}{if isset($edit_button)} data-edit-button="{$edit_button}"{/if}>
-        {if isset($search) && $search}
-            <div class="table-controls form-inline">
-                {if isset($search)}
-                    <div class="input-group table-searcg">
-                        <input type="search" class="form-control">
-                        <span class="input-group-btn"><button type="button" class="btn btn-default btn-search">Search</button></span>
-                    </div>
-                {/if}
-                {if isset($column_selector) && $fields && count($fields) > 0}
-                    <div class="btn-group table-columns-selector">
-                        <button type="button" class="btn btn-columns" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Columns</button>
-                        <button type="button" class="btn btn-columns dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {if $toolbar}
+            <div class="table-toolbar btn-toolbar">
+                {if isset($column_selector) && fields && count($fields)>0}
+                    <div class="btn-group pull-right table-columns-selector">
+                        <button type="button" class="btn btn-sm btn-columns" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{if $translations && array_key_exists('columns_button', $translations)}{$translations.columns_button}{else}Columns{/if}</button>
+                        <button type="button" class="btn btn-sm btn-columns dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="caret"></span>
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>
                         <ul class="dropdown-menu">
-                            {foreach from=$metadata['fields'] item=field}
+                            {foreach from=$metadata.fields item=field}
                                 <li><a href="#"><i class="fa fa-square-o"></i>&nbsp;{$field.title}</a></li>
                             {/foreach}
                             <li role="separator" class="divider"></li>
-                            <li><a href="#">Show all</a></li>
-                            <li><a href="#">Hide all</a></li>
+                            <li><a href="#">{if $translations && array_key_exists('show_all_columns', $translations)}{$translations.show_all_columns}{else}Show all{/if}</a></li>
+                            <li><a href="#">{if $translations && array_key_exists('hide_all_columns', $translations)}{$translations.hide_all_columns}{else}Hide all{/if}</a></li>
                         </ul>
                     </div>
                 {/if}
+                {if isset($search) && $search}
+                    <div class="btn-group pull-right table-search">
+                        <div class="input-group input-group-sm">
+                            <input type="search" class="form-control">
+                            <span class="input-group-btn"><button type="button" class="btn btn-default btn-search">{if $translations && array_key_exists('search_button', $translations)}{$translations.search_button}{else}Search{/if}</button></span>
+                        </div>
+                    </div>
+                {/if}
+                {if array_key_exists('groups', $toolbar) && count($toolbar.groups) > 0}
+                    {foreach from=$toolbar.groups item=group}
+                        {if is_array($group) && array_key_exists('buttons', $group) && count($group.buttons) > 0}
+                            <div class="btn-group{if array_key_exists('align', $group) && strlen($group.align)>0} pull-{$group.align}{/if}">
+                                {foreach from=$group.buttons item=button}
+                                    {strip}
+                                        <button class="btn btn-sm{if array_key_exists('type', $button) && strlen($button.type)>0} btn-{$button.type}{/if}{if array_key_exists('align', $button) && strlen($button.align)>0} pull-{$button.align}{/if}"
+                                                {if array_key_exists('apply', $button)}data-apply="{$button.apply}"{/if}
+                                                type="button">
+                                            {if array_key_exists('icon', $button) && strlen($button.icon)>0}<i class="{$button.icon}"></i>{/if}
+                                            {if array_key_exists('name', $button) && strlen($button.name)>0}{$button.name}{/if}
+                                        </button>
+                                    {/strip}
+                                {/foreach}
+                            </div>
+                        {/if}
+                    {/foreach}
+                {/if}
             </div>
+        {else}
+            {if isset($search) && $search}
+                <div class="table-controls form-inline">
+                    {if isset($search)}
+                        <div class="input-group table-search">
+                            <input type="search" class="form-control">
+                            <span class="input-group-btn"><button type="button" class="btn btn-default btn-search">Search</button></span>
+                        </div>
+                    {/if}
+                    {if isset($column_selector) && $fields && count($fields) > 0}
+                        <div class="btn-group table-columns-selector">
+                            <button type="button" class="btn btn-columns" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Columns</button>
+                            <button type="button" class="btn btn-columns dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                {foreach from=$metadata['fields'] item=field}
+                                    <li><a href="#"><i class="fa fa-square-o"></i>&nbsp;{$field.title}</a></li>
+                                {/foreach}
+                                <li role="separator" class="divider"></li>
+                                <li><a href="#">Show all</a></li>
+                                <li><a href="#">Hide all</a></li>
+                            </ul>
+                        </div>
+                    {/if}
+                </div>
+            {/if}
         {/if}
         <table class="table{if isset($striped)} table-striped{/if}{if isset($bordered)} table-bordered{/if}{if isset($hover)} table-hover{/if}{if isset($condensed)} table-condensed{/if}">
             {assign var=field_id value=false}
@@ -151,6 +209,7 @@
                         {if isset($edit_button) && $edit_button==='button'}<td><div class="btn-group" role="group"><button class="btn btn-editor btn-xs"><i class="fa fa-edit"></i></div></td>{/if}
                     </tr>
                 {/foreach}
+                {if isset($draw_empty) && $draw_empty && isset($empty_message) && strlen($empty_message)>0}<tr class="table-empty-row"><td colspan="{if isset($selectable) && $selectable}{count($fields)+1}{else}{count($fields)}{/if}">{$empty_message}</td></tr>{/if}
             </tbody>
         </table>
         {if isset($pager) && $pager}

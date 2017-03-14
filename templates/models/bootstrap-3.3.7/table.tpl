@@ -7,7 +7,7 @@
     {if array_key_exists('toolbar', $metadata) && is_array($metadata.toolbar)}
         {assign var=toolbar value=$metadata.toolbar}
     {else}
-        {assign var=toolvar value=false}
+        {assign var=toolbar value=false}
     {/if}
     {if array_key_exists('translations', $metadata) && is_array($metadata.translations)}
         {assign var=translations value=$metadata.translations}

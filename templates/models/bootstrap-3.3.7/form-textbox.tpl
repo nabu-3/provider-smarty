@@ -134,43 +134,43 @@
                 {/if}
             {/if}
             {if isset($type) && $type===textarea}
-            {if isset($multilang) && is_array($multilang)}
-                {foreach from=$multilang key=index item=translation}
-                    {assign var=value value=false}
-                    {if isset($from) && $from!==null}
-                        {if is_array($from)}
-                            {if is_string($field)}
-                                {if array_key_exists('translations', $from) &&
-                                    is_array($from.translations) &&
-                                    array_key_exists($translation.id, $from.translations) &&
-                                    array_key_exists($field, $from.translations[$translation.id])}
-                                    {assign var=value value=$from.translations[$translation.id][$field]}
+                {if isset($multilang) && is_array($multilang)}
+                    {foreach from=$multilang key=index item=translation}
+                        {assign var=value value=false}
+                        {if isset($from) && $from!==null}
+                            {if is_array($from)}
+                                {if is_string($field)}
+                                    {if array_key_exists('translations', $from) &&
+                                        is_array($from.translations) &&
+                                        array_key_exists($translation.id, $from.translations) &&
+                                        array_key_exists($field, $from.translations[$translation.id])}
+                                        {assign var=value value=$from.translations[$translation.id][$field]}
+                                    {/if}
                                 {/if}
                             {/if}
                         {/if}
-                    {/if}
-                    <div class="input-group" lang="{$translation.default_country_code}">
-                        <textarea class="form-control"
-                                  {if isset($autocomplete)} autocomplete="{if $autocomplete===true}on{else}off{/if}"{/if} type="{$type}"
-                                  {if isset($id)} id="{$id}"{/if}
-                                  {if $name} name="{$name}{if isset($index) && is_numeric($index)}[{$index}]{/if}"{/if}
-                                  {if $addons && isset($addon_left) && ($addon_left==='radiobox' || $addon_left==='checkbox') && isset($addon_left_check) && $value_left!==$addon_left_check} disabled{/if}
-                                  {if $placeholder} placeholder="{$placeholder}"{/if}
-                                  {if isset($autofocus)} autofocus{/if}
-                                  {if isset($rows) && is_numeric($rows)} rows="{$rows}"{/if}>{/strip}{if is_string($value)}{$value|escape:"html"}{/if}{strip}</textarea>
-                        <span class="input-group-addon">{if array_key_exists('flag_url', $translation) && strlen($translation.flag_url)>0}<img class="flag" src="{$translation.flag_url}" alt="{$translation.default_country_code}" title="{$translation.name}">{else}<i class="fa fa-flag"></i>{$translation.default_country_code}{/if}</span>
-                    </div>
-                {/foreach}
-            {else}
-                <textarea class="form-control"
-                          {if isset($autocomplete)} autocomplete="{if $autocomplete===true}on{else}off{/if}"{/if} type="{$type}"
-                          {if isset($id)} id="{$id}"{/if}
-                          {if $name} name="{$name}{if isset($index) && is_numeric($index)}[{$index}]{/if}"{/if}
-                          {if $addons && isset($addon_left) && ($addon_left==='radiobox' || $addon_left==='checkbox') && isset($addon_left_check) && $value_left!==$addon_left_check} disabled{/if}
-                          {if $placeholder} placeholder="{$placeholder}"{/if}
-                          {if isset($autofocus)} autofocus{/if}
-                          {if isset($rows) && is_numeric($rows)} rows="{$rows}"{/if}>{/strip}{if is_string($value)}{$value|escape:"html"}{/if}{strip}</textarea>
-            {/if}
+                        <div class="input-group" lang="{$translation.default_country_code}">
+                            <textarea class="form-control"
+                                      {if isset($autocomplete)} autocomplete="{if $autocomplete===true}on{else}off{/if}"{/if}
+                                      {if isset($id)} id="{$id}"{/if}
+                                      {if $name} name="{$name}{if isset($index) && is_numeric($index)}[{$index}]{/if}"{/if}
+                                      {if $addons && isset($addon_left) && ($addon_left==='radiobox' || $addon_left==='checkbox') && isset($addon_left_check) && $value_left!==$addon_left_check} disabled{/if}
+                                      {if $placeholder} placeholder="{$placeholder}"{/if}
+                                      {if isset($autofocus)} autofocus{/if}
+                                      {if isset($rows) && is_numeric($rows)} rows="{$rows}"{/if}>{/strip}{if is_string($value)}{$value|escape:"html"}{/if}{strip}</textarea>
+                            <span class="input-group-addon">{if array_key_exists('flag_url', $translation) && strlen($translation.flag_url)>0}<img class="flag" src="{$translation.flag_url}" alt="{$translation.default_country_code}" title="{$translation.name}">{else}<i class="fa fa-flag"></i>{$translation.default_country_code}{/if}</span>
+                        </div>
+                    {/foreach}
+                {else}
+                    <textarea class="form-control"
+                              {if isset($autocomplete)} autocomplete="{if $autocomplete===true}on{else}off{/if}"{/if}
+                              {if isset($id)} id="{$id}"{/if}
+                              {if $name} name="{$name}{if isset($index) && is_numeric($index)}[{$index}]{/if}"{/if}
+                              {if $addons && isset($addon_left) && ($addon_left==='radiobox' || $addon_left==='checkbox') && isset($addon_left_check) && $value_left!==$addon_left_check} disabled{/if}
+                              {if $placeholder} placeholder="{$placeholder}"{/if}
+                              {if isset($autofocus)} autofocus{/if}
+                              {if isset($rows) && is_numeric($rows)} rows="{$rows}"{/if}>{/strip}{if is_string($value)}{$value|escape:"html"}{/if}{strip}</textarea>
+                {/if}
             {else}
                 {if isset($multilang) && is_array($multilang)}
                     {foreach from=$multilang key=index item=translation}

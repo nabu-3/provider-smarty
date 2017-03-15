@@ -157,7 +157,7 @@
                                       {if $addons && isset($addon_left) && ($addon_left==='radiobox' || $addon_left==='checkbox') && isset($addon_left_check) && $value_left!==$addon_left_check} disabled{/if}
                                       {if $placeholder} placeholder="{$placeholder}"{/if}
                                       {if isset($autofocus)} autofocus{/if}
-                                      {if isset($rows) && is_numeric($rows)} rows="{$rows}"{/if}>{/strip}{if is_string($value)}{$value|escape:"html"}{/if}{strip}</textarea>
+                                      {if isset($rows) && is_numeric($rows)} rows="{$rows}"{/if}>{/strip}{if is_string($value)}{$value|escape:"html"}{elseif is_array($value)}{$value|json_encode:128}{/if}{strip}</textarea>
                             <span class="input-group-addon">{if array_key_exists('flag_url', $translation) && strlen($translation.flag_url)>0}<img class="flag" src="{$translation.flag_url}" alt="{$translation.default_country_code}" title="{$translation.name}">{else}<i class="fa fa-flag"></i>{$translation.default_country_code}{/if}</span>
                         </div>
                     {/foreach}
@@ -169,7 +169,7 @@
                               {if $addons && isset($addon_left) && ($addon_left==='radiobox' || $addon_left==='checkbox') && isset($addon_left_check) && $value_left!==$addon_left_check} disabled{/if}
                               {if $placeholder} placeholder="{$placeholder}"{/if}
                               {if isset($autofocus)} autofocus{/if}
-                              {if isset($rows) && is_numeric($rows)} rows="{$rows}"{/if}>{/strip}{if is_string($value)}{$value|escape:"html"}{/if}{strip}</textarea>
+                              {if isset($rows) && is_numeric($rows)} rows="{$rows}"{/if}>{/strip}{if is_string($value)}{$value|escape:"html"}{elseif is_array($value)}{$value|json_encode:128}{/if}{strip}</textarea>
                 {/if}
             {else}
                 {if isset($multilang) && is_array($multilang)}

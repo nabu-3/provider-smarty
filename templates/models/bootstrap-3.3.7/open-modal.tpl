@@ -9,4 +9,4 @@
         {assign var=final_class value="{$final_class} btn-{$size}"}
     {/if}
 {/if}
-<a class="{$final_class}" data-toggle="modal" data-target="{if isset($target)}#{$target}{else}#modal_dialog{/if}">{$anchor_text}</a>
+<a class="{$final_class}" data-toggle="modal" data-target="{if isset($target)}#{$target}{else}#modal_dialog{/if}"{if isset($action) && strlen($action)>0} data-action="{$action}"{/if}{if isset($apply) && strlen($apply)>0} data-apply="{$apply}"{/if}>{$anchor_text}</a>

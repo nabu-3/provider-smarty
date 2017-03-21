@@ -9,7 +9,7 @@
             "url": "https://github.com/nabu-3/provider-smarty-smarty"
         }
     ],
-    "version": "0.0.7",
+    "version": "0.0.8",
     "license": "Apache-2.0",
     "authors": [
         {
@@ -20,7 +20,7 @@
     ],
     "require": {
         "nabu-3/composer-installer-plugin": "*",
-        "smarty/smarty": "~3.1"
+        "smarty/smarty": "3.1.31"
     },
     "require-dev": {
         "nabu-3/composer-installer-plugin": "dev-master",

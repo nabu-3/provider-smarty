@@ -157,7 +157,7 @@
                 </div>
             {/if}
         {/if}
-        <table class="table{if isset($striped)} table-striped{/if}{if isset($bordered)} table-bordered{/if}{if isset($hover)} table-hover{/if}{if isset($condensed)} table-condensed{/if}{if isset($scrolled)} table-scrolled{/if}">
+        <table{if isset($languages) && is_array($languages)} data-toggle="toggable-lang"{/if} class="table{if isset($striped)} table-striped{/if}{if isset($bordered)} table-bordered{/if}{if isset($hover)} table-hover{/if}{if isset($condensed)} table-condensed{/if}{if isset($scrolled)} table-scrolled{/if}">
             {assign var=field_id value=false}
             {if $fields && count($fields) > 0}
                 <thead>
@@ -179,7 +179,9 @@
                 </thead>
             {/if}
             <tbody>
-                {if isset($draw_empty) && $draw_empty && isset($empty_message) && strlen($empty_message)>0}<tr class="table-empty-row{if is_array($data) && count($data)>0} hide{/if}"><td colspan="{if isset($selectable) && $selectable}{count($fields)+1}{else}{count($fields)}{/if}">{$empty_message}</td></tr>{/if}
+                {if isset($draw_empty) && $draw_empty && is_array($translations) && array_key_exists('empty_message', $translations) && is_string($translations.empty_message)}
+                    <tr class="table-empty-row{if is_array($data) && count($data)>0} hide{/if}"><td colspan="{if isset($selectable) && $selectable}{count($fields)+1}{else}{count($fields)}{/if}">{$translations.empty_message}</td></tr>
+                {/if}
                 {foreach from=$data item=row}
                     <tr{if is_string($field_id) && array_key_exists($field_id, $row)} data-id="{$row[$field_id]}"{/if}{if (isset($edit_button) && $edit_button==='line') || (isset($pager) && $pager && isset($size) && $size<$row@iteration)} class="{if isset($edit_button) && $edit_button==='line'}btn-edit-line{/if}{if isset($pager) && $pager && isset($size) && $size<$row@iteration} hide{/if}"{/if}>
                         {if $selectable}<th class="col-selectable" data-toggle="table-selectable"><input type="checkbox" value="T"></th>{/if}
@@ -211,21 +213,22 @@
                                             {assign var=content value=$row[$kfield]}
                                         {/if}
                                         {if $img_url}<span{if $img_class} class="{$img_class}"{/if}><img src="{$img_url}"></span><span class="text">{/if}{$content}{if $img_class}</span>{/if}
-                                    {elseif array_key_exists('translation', $row) && is_array($row.translation) && array_key_exists($kfield, $row.translation)}
-                                        {foreach from=$row.translations item=translation}
-                                            {if array_key_exists($translation.language_id, $nb_site.languages)}
-                                                {assign var=language value=$nb_site.languages[$translation.language_id]}
-                                                <span class="flag" lang="{$language.default_country_code}">
+                                    {elseif isset($languages) && is_array($languages) && array_key_exists('translation', $row) && is_array($row.translation) && array_key_exists($kfield, $row.translation)}
+                                        {foreach from=$languages key=lang_id item=language}
+                                            <span lang="{$language.default_country_code}">
+                                                <span class="flag">
                                                     {if $language.type==='C' && strlen($language.flag_url)>0}
                                                         <img src="{$language.flag_url}">
                                                     {else}
                                                         {$language.default_country_code}
                                                     {/if}
                                                 </span>
-                                                <span class="translation" lang="{$language.default_country_code}">{$translation[$kfield]}</span>{if !$translation@last}<br>{/if}
-                                            {else}
-                                                {$language.default_country_code}
-                                            {/if}
+                                                {if array_key_exists($lang_id, $row.translations)}
+                                                    <span class="translation">{$row.translations[$lang_id][$kfield]}</span>{if !$language@last}<br>{/if}
+                                                {else}
+                                                    <span class="translation label label-danger">{if is_array($translations) && array_key_exists('translation_not_available', $translations) && strlen($translations.translation_not_available)>0}{$translations.translation_not_available}{else}Translation not available{/if}</span>
+                                                {/if}
+                                            </span>
                                         {/foreach}
                                     {/if}
                                 {/strip}

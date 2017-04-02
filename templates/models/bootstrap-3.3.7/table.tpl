@@ -172,7 +172,27 @@
                             {if array_key_exists('id', $field) && $field.id===true}
                                 {assign var=field_id value=$kfield}
                             {/if}
-                            <th data-name="{$kfield}"{if $ordered} data-order="{$field.order}"{/if}>{$field.title}{if $ordered}<button class="btn btn-xs btn-order pull-right"><i class="fa fa-sort"></i></button>{/if}</th>
+                            {if array_key_exists('align', $field)}
+                                {assign var=align value=$field.align}
+                            {else}
+                                {assign var=align value=false}
+                            {/if}
+                            {if array_key_exists('lookup', $field)}
+                                {capture assign=data_lookup}{strip}
+                                    {ldelim}
+                                        {foreach from=$field.lookup key=lkey item=litem}
+                                            {if is_scalar($litem)}
+                                                "{$lkey}": {if is_string($litem)}"{$litem}"{else}{$litem}{/if}
+                                            {else}
+                                            {/if}
+                                            {if !$litem@last},{/if}
+                                        {/foreach}
+                                    {rdelim}
+                                {/strip}{/capture}
+                            {else}
+                                {assign var=data_lookup value=false}
+                            {/if}
+                            <th data-name="{$kfield}"{if $align} data-align="{if $field.align==='right'}text-right{elseif $field.align==='center'}text-center{/if}"{/if}{if $ordered} data-order="{$field.order}"{/if}{if is_string($data_lookup) && strlen($data_lookup)>0} data-lookup="{$data_lookup|escape:html}"{/if}>{$field.title}{if $ordered}<button class="btn btn-xs btn-order pull-right"><i class="fa fa-sort"></i></button>{/if}</th>
                         {/foreach}
                         {if isset($edit_button) && $edit_button==='button'}<th width="*"></th>{/if}
                     </tr>
@@ -180,13 +200,13 @@
             {/if}
             <tbody>
                 {if isset($draw_empty) && $draw_empty && is_array($translations) && array_key_exists('empty_message', $translations) && is_string($translations.empty_message)}
-                    <tr class="table-empty-row{if is_array($data) && count($data)>0} hide{/if}"><td colspan="{if isset($selectable) && $selectable}{count($fields)+1}{else}{count($fields)}{/if}">{$translations.empty_message}</td></tr>
+                    <tr class="table-empty-row{if is_array($data) && count($data)>0} hide{/if}" data-type="empty"><td colspan="{if isset($selectable) && $selectable}{count($fields)+1}{else}{count($fields)}{/if}">{$translations.empty_message}</td></tr>
                 {/if}
                 {foreach from=$data item=row}
-                    <tr{if is_string($field_id) && array_key_exists($field_id, $row)} data-id="{$row[$field_id]}"{/if}{if (isset($edit_button) && $edit_button==='line') || (isset($pager) && $pager && isset($size) && $size<$row@iteration)} class="{if isset($edit_button) && $edit_button==='line'}btn-edit-line{/if}{if isset($pager) && $pager && isset($size) && $size<$row@iteration} hide{/if}"{/if}>
-                        {if $selectable}<th class="col-selectable" data-toggle="table-selectable"><input type="checkbox" value="T"></th>{/if}
+                    <tr data-type="row"{if is_string($field_id) && array_key_exists($field_id, $row)} data-id="{$row[$field_id]}"{/if}{if (isset($edit_button) && $edit_button==='line') || (isset($pager) && $pager && isset($size) && $size<$row@iteration)} class="{if isset($edit_button) && $edit_button==='line'}btn-edit-line{/if}{if isset($pager) && $pager && isset($size) && $size<$row@iteration} hide{/if}"{/if}>
+                        {if $selectable}<td class="col-selectable" data-toggle="table-selectable"><input type="checkbox" value="T"></td>{/if}
                         {foreach from=$fields key=kfield item=meta}
-                            <td data-name="{$kfield}"{if array_key_exists('align', $meta)} class="{if $meta.align==='right'}text-right{elseif $meta.align==='center'}center{/if}"{/if}>
+                            <td data-name="{$kfield}"{if array_key_exists('align', $meta)} class="{if $meta.align==='right'}text-right{elseif $meta.align==='center'}text-center{/if}"{/if}>
                                 {strip}
                                     {if array_key_exists($kfield, $row)}
                                         {assign var=img_url value=false}
@@ -212,7 +232,7 @@
                                         {else}
                                             {assign var=content value=$row[$kfield]}
                                         {/if}
-                                        {if $img_url}<span{if $img_class} class="{$img_class}"{/if}><img src="{$img_url}"></span><span class="text">{/if}{$content}{if $img_class}</span>{/if}
+                                        {if $img_url}<span{if $img_class} class="{$img_class}"{/if}><img src="{$img_url}"></span>{/if}<span class="text">{$content}</span>
                                     {elseif isset($languages) && is_array($languages) && array_key_exists('translation', $row) && is_array($row.translation) && array_key_exists($kfield, $row.translation)}
                                         {foreach from=$languages key=lang_id item=language}
                                             <span lang="{$language.default_country_code}">

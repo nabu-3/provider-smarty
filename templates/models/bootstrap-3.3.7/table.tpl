@@ -163,7 +163,7 @@
                 <thead>
                     <tr>
                         {if $selectable}<th class="col-selectable" data-toggle="table-selectable"><input type="checkbox"></th>{/if}
-                        {foreach from=$fields key=kfield item=field}
+                        {foreach from=$fields key=kfield item=field}{strip}
                             {if array_key_exists('order', $field)}
                                 {assign var=ordered value=$field.order}
                             {else}
@@ -192,8 +192,13 @@
                             {else}
                                 {assign var=data_lookup value=false}
                             {/if}
-                            <th data-name="{$kfield}"{if $align} data-align="{if $field.align==='right'}text-right{elseif $field.align==='center'}text-center{/if}"{/if}{if $ordered} data-order="{$field.order}"{/if}{if is_string($data_lookup) && strlen($data_lookup)>0} data-lookup="{$data_lookup|escape:html}"{/if}>{$field.title}{if $ordered}<button class="btn btn-xs btn-order pull-right"><i class="fa fa-sort"></i></button>{/if}</th>
-                        {/foreach}
+                            <th data-name="{$kfield}"
+                                {if array_key_exists('id', $field) && $field.id} data-is-id="true"{/if}
+                                {if $align} data-align="{if $field.align==='right'}text-right{elseif $field.align==='center'}text-center{/if}"{/if}
+                                {if $ordered} data-order="{$field.order}"{/if}
+                                {if is_string($data_lookup) && strlen($data_lookup)>0} data-lookup="{$data_lookup|escape:html}"{/if}
+                            >{$field.title}{if $ordered}<button class="btn btn-xs btn-order pull-right"><i class="fa fa-sort"></i></button>{/if}</th>
+                        {/strip}{/foreach}
                         {if isset($edit_button) && $edit_button==='button'}<th width="*"></th>{/if}
                     </tr>
                 </thead>

@@ -3,7 +3,7 @@
 {else}
     {assign var=nav_collapsable value=false scope=parent}
 {/if}
-<nav class="navbar{if isset($inverse) && $inverse} navbar-inverse{/if}{if isset($fixed)} navbar-fixed-{$fixed}{/if}">
+<nav class="navbar{if isset($inverse) && $inverse} navbar-inverse{/if}{if isset($fixed)} navbar-fixed-{$fixed}{/if}{if isset($default)} navbar-default{/if}">
     <div class="{if isset($container) && $container==='fluid'}container-fluid{else}container{/if}">
         {if isset($header) && $header}
             <div class="navbar-header">

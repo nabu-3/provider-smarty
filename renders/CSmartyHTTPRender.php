@@ -494,7 +494,7 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
         $nb_user = $this->nb_application->getUser();
         $user_logged = ($nb_user !== null);
         $nb_role = $this->nb_application->getRole();
-        $nb_user_role = $this->nb_application->getSecurityManager()->getSiteUser();
+        $nb_site_user = $this->nb_application->getSecurityManager()->getSiteUser();
         $nb_commerce = $nb_site->getCommerce();
 
         $this->setCacheStorage($cache_storage);
@@ -560,7 +560,7 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
                 }
                  */
 
-                $this->smartyAssign('nb_user_role', $nb_user_role);
+                $this->smartyAssign('nb_site_user', $nb_site_user);
 
                 if ($nb_commerce !== null) {
                     $this->smartyAssign(

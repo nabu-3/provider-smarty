@@ -23,7 +23,7 @@ use nabu\data\CNabuDataObjectList;
 /**
  * Class to manage a Smarty model to speed up the creation of templates based on layout and style standards like
  * Bootstrap.
- * @author Rafael Gutierrez <rgutierrez@wiscot.com>
+ * @author Rafael Gutierrez <rgutierrez@nabu-3.com>
  * @since 0.0.1
  * @version 0.0.4
  * @package \providers\smarty

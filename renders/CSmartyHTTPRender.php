@@ -39,7 +39,7 @@ require_once SMARTY_PROVIDER_PATH . '/plugins/compiler.nabu_exists.php';
 
 /**
  * Class to dump HTML rendered with Smarty as HTTP response.
- * @author Rafael Gutierrez <rgutierrez@wiscot.com>
+ * @author Rafael Gutierrez <rgutierrez@nabu-3.com>
  * @since 0.0.1
  * @version 0.0.6
  * @package \nabu\http\renders

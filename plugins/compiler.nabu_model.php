@@ -24,7 +24,7 @@ use providers\smarty\smarty\builders\CSmartyNabuModelCompiler;
 
 /**
  * This function is a wrapper to call CSmartyNabuModelCompiler that implements all functionalities.
- * @author Rafael Gutierrez <rgutierrez@wiscot.com>
+ * @author Rafael Gutierrez <rgutierrez@nabu-3.com>
  * @since 0.0.1
  * @version 0.0.4
  */

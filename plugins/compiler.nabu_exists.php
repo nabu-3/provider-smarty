@@ -22,7 +22,7 @@
  * behaviors are not possible to make with public Smarty Plugins engine.
  * For that, is compounded of a set of classes Smarty_Internal_Compile_Nabu_Exists, Smarty_Internal_Compile_nabu_Exists_Else
  * and Smarty_Internal_Compile_NabuExistsclose.
- * @author Rafael Gutierrez <rgutierrez@wiscot.com>
+ * @author Rafael Gutierrez <rgutierrez@nabu-3.com>
  * @since 0.0.1
  * @version 0.0.4
  */

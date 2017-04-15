@@ -24,7 +24,7 @@ use providers\smarty\smarty\builders\base\CSmartyAbstractCompiler;
 /**
  * This class is a partial implementation of Smarty compiler plugins that render a fragment of HTML
  * based on a modelized template stored in the Smarty Model libraries or in a custom folder.
- * @author Rafael Gutierrez <rgutierrez@wiscot.com>
+ * @author Rafael Gutierrez <rgutierrez@nabu-3.com>
  * @since 0.0.1
  * @version 0.0.4
  * @package \providers\smarty\builders\base

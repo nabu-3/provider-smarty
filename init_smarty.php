@@ -20,7 +20,7 @@
 use providers\smarty\smarty\CSmartyManager;
 
 /**
- * @author Rafael Gutierrez <rgutierrez@wiscot.com>
+ * @author Rafael Gutierrez <rgutierrez@nabu-3.com>
  * @since 0.0.1
  * @version 0.0.4
  * @package \providers\smarty

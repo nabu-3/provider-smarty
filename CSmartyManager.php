@@ -26,7 +26,7 @@ use nabu\provider\base\CNabuProviderModuleManagerAdapter;
 
 /**
  * Class to manage Smarty library
- * @author Rafael Gutierrez <rgutierrez@wiscot.com>
+ * @author Rafael Gutierrez <rgutierrez@nabu-3.com>
  * @since 0.0.1
  * @version 0.0.6
  * @package \providers\smarty\smarty

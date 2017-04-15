@@ -21,7 +21,7 @@ namespace providers\smarty\smarty\builders\interfaces;
 
 /**
  * Interface to implement different Smarty Renders to create ad-hoc plugins of Smarty.
- * @author Rafael Gutierrez <rgutierrez@wiscot.com>
+ * @author Rafael Gutierrez <rgutierrez@nabu-3.com>
  * @since 0.0.1
  * @version 0.0.4
  * @package \providers\smarty\smarty\builders\interfaces

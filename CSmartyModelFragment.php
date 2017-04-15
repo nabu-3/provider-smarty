@@ -23,7 +23,7 @@ use nabu\data\CNabuDataObject;
 
 /**
  * Class to manage a Smarty model fragment.
- * @author Rafael Gutierrez <rgutierrez@wiscot.com>
+ * @author Rafael Gutierrez <rgutierrez@nabu-3.com>
  * @since 0.0.1
  * @version 0.0.4
  * @package \providers\smarty\smarty

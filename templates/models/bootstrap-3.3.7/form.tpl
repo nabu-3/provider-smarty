@@ -33,6 +33,7 @@
      {if isset($method) && ($method==='get' || $method==='post')} method="{$method}"{/if}
      {if isset($action) && is_string($action) && strlen($action)>0} action="{$action}"{/if}
      {if isset($action_template) && is_string($action_template) && strlen($action_template)>0} data-action-template="{$action_template}"{/if}
+     {if isset($action_template_field) && is_string($action_template_field) && strlen($action_template_field)>0} data-action-template-field="{$action_template_field}"{/if}
      {if isset($charset) && is_string($charset) && strlen($charset)>0} accept-charset="{$charset}"{/if}
      {if isset($enctype) && is_string($enctype) && strlen($enctype)>0} enctype="{$enctype}" data-enctype="{$enctype}"{/if}
      {if isset($target) && is_string($target) && strlen($target)>0} target="{$target}"{/if}

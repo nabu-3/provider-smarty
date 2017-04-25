@@ -42,7 +42,7 @@
                             {/if}
                         {/if}
                         <a class="navbar-brand"
-                           href="{if isset($brand.final_url)}{$brand.final_url}{else}#{/if}"
+                           href="{if isset($brand.translation.final_url)}{$brand.translation.final_url}{else}#{/if}"
                            {if $brand_title} title="{$brand_title|escape:html}"{/if}
                         >
                             {if $brand_image}

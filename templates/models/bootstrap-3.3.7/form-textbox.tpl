@@ -199,7 +199,7 @@
                                    {if isset($maxlength) && is_numeric($maxlength)} maxlength="{$maxlength}"{/if}
                                    {if isset($mandatory) && $mandatory} data-form-mandatory="yes"{/if}
                                    {if isset($rule)} data-form-rule="{$rule}"{/if}
-                            >
+                                   {if isset($rule_param)} data-form-rule-param="{$rule_param}"{/if}
                             <span class="input-group-addon">{if array_key_exists('flag_url', $translation) && strlen($translation.flag_url)>0}<img class="flag" src="{$translation.flag_url}" alt="{$translation.default_country_code}" title="{$translation.name}">{else}<i class="fa fa-flag"></i>{$translation.default_country_code}{/if}</span>
                         </div>
                     {/foreach}
@@ -215,6 +215,7 @@
                            {if isset($maxlength) && is_numeric($maxlength)} maxlength="{$maxlength}"{/if}
                            {if isset($mandatory) && $mandatory} data-form-mandatory="yes"{/if}
                            {if isset($rule)} data-form-rule="{$rule}"{/if}
+                           {if isset($rule_param)} data-form-rule-param="{$rule_param}"{/if}
                     >
                {/if}
             {/if}

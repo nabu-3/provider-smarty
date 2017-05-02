@@ -1,1 +1,9 @@
-<div class="btn-toolbar{if isset($class)} {$class}{/if}" role="toolbar"{if isset($aria_label) && is_string($aria_label)} aria-label="{$aria_label|escape:"html"}"{/if}>
+{strip}
+    {if isset($class) && strlen($class) > 0}
+        {assign var=class value="btn-toolbar {$class}"}
+    {else}
+        {assign var=class value="btn-toolbar"}
+    {/if}
+    {assign var=role value=toolbar}
+    <div {include file="general-attrs.tpl"} {include file="aria-attrs.tpl"}>
+{/strip}

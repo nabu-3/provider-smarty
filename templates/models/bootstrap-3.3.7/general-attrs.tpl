@@ -13,4 +13,5 @@
     {if isset($tabindex) && is_string($tabindex) && strlen($tabindex)>0} tabindex="{$tabindex}"{/if}
     {if isset($title) && is_string($title) && strlen($title)>0} title="{$title}"{/if}
     {if isset($translate) && is_string($translate) && strlen($translate)>0} translate="{$translate}"{/if}
+    {if isset($disabled) && $disabled===true} disabled{/if}
 {/strip}

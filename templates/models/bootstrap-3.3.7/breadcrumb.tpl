@@ -12,7 +12,14 @@
     <ol class="breadcrumb{if isset($class) && is_string($class)} {$class}{/if}">{strip}
         {assign var=parent_sitemap value=null}
         {while $root_sitemap!==null && $root_sitemap.breadcrumb}
-            <li{if $root_sitemap.current} class="active"{/if}>
+            {assign var=next_sitemap value=null}
+            {foreach from=$root_sitemap.childs item=child_map}
+                {if $child_map.breadcrumb}
+                    {assign var=next_sitemap value=$child_map}
+                    {break}
+                {/if}
+            {/foreach}
+            <li{if $root_sitemap.current || ($root_sitemap.breadcrumb && ($next_sitemap===null || $next_sitemap.visible==='F'))} class="active"{/if}>
                 {if isset($parts) && array_key_exists($root_sitemap.key, $parts) && is_array($parts[$root_sitemap.key]) && array_key_exists('lookup', $parts[$root_sitemap.key])}
                     {if count($parts[$root_sitemap.key].lookup) > 1}
                         <div class="dropdown">
@@ -81,7 +88,7 @@
             </li>
             {assign var=next_sitemap value=null}
             {foreach from=$root_sitemap.childs item=child_map}
-                {if $child_map.breadcrumb}
+                {if $child_map.breadcrumb && $child_map.visible==='T'}
                     {assign var=next_sitemap value=$child_map}
                     {assign var=parent_sitemap value=$root_sitemap.childs}
                     {break}

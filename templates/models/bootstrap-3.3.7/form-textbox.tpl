@@ -158,6 +158,7 @@
                                       {if $placeholder} placeholder="{$placeholder}"{/if}
                                       {if isset($autofocus)} autofocus{/if}
                                       {if isset($rows) && is_numeric($rows)} rows="{$rows}"{/if}
+                                      {if isset($disabled) && $disabled} disabled{/if}
                                       {include file="form-field-attrs.tpl"}
                             >{/strip}{if is_string($value)}{$value|escape:"html"}{elseif is_array($value)}{$value|json_encode:128}{/if}{strip}</textarea>
                             <span class="input-group-addon">{if array_key_exists('flag_url', $translation) && strlen($translation.flag_url)>0}<img class="flag" src="{$translation.flag_url}" alt="{$translation.default_country_code}" title="{$translation.name}">{else}<i class="fa fa-flag"></i>{$translation.default_country_code}{/if}</span>
@@ -172,6 +173,7 @@
                               {if $placeholder} placeholder="{$placeholder}"{/if}
                               {if isset($autofocus)} autofocus{/if}
                               {if isset($rows) && is_numeric($rows)} rows="{$rows}"{/if}
+                              {if isset($disabled) && $disabled} disabled{/if}
                               {include file="form-field-attrs.tpl"}
                     >{/strip}{if is_string($value)}{$value|escape:"html"}{elseif is_array($value)}{$value|json_encode:128}{/if}{strip}</textarea>
                 {/if}
@@ -204,6 +206,7 @@
                                    {if isset($mandatory) && $mandatory} data-form-mandatory="yes"{/if}
                                    {if isset($rule)} data-form-rule="{$rule}"{/if}
                                    {if isset($rule_param)} data-form-rule-param="{$rule_param}"{/if}
+                                   {if isset($disabled) && $disabled} disabled{/if}
                                    {include file="form-field-attrs.tpl"}
                             ><span class="input-group-addon">{if array_key_exists('flag_url', $translation) && strlen($translation.flag_url)>0}<img class="flag" src="{$translation.flag_url}" alt="{$translation.default_country_code}" title="{$translation.name}">{else}<i class="fa fa-flag"></i>{$translation.default_country_code}{/if}</span>
                         </div>
@@ -221,6 +224,7 @@
                            {if isset($mandatory) && $mandatory} data-form-mandatory="yes"{/if}
                            {if isset($rule)} data-form-rule="{$rule}"{/if}
                            {if isset($rule_param)} data-form-rule-param="{$rule_param}"{/if}
+                           {if isset($disabled) && $disabled} disabled{/if}
                            {include file="form-field-attrs.tpl"}
                     >
                {/if}

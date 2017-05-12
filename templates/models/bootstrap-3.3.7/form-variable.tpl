@@ -1,4 +1,8 @@
-<!-- {$from|print_r:true} -->
-{if isset($from) && ((is_array($from) && isset($field) && is_string($field) && array_key_exists($field, $from)) || is_string($from))}
-<input type="hidden"{if isset($name)} name="{$name}"{/if} value="{if is_array($from)}{$from[$field]|escape:html}{else}{$from|escape:html}{/if}">
+{if isset($from)}
+    {if is_array($from) && isset($field) && is_string($field) && array_key_exists($field, $from)}
+        {assign var=value value=$from[$field]}
+    {elseif is_string($from)}
+        {assign var=value value=$from}
+    {/if}
 {/if}
+<input type="hidden"{if isset($name)} name="{$name}"{/if}{if isset($value)} value="{$value|escape:html}"{/if}>

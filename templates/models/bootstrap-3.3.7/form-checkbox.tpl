@@ -31,7 +31,7 @@
             {assign var=value value=$from}
         {/if}
     {/if}
-    <div class="form-group">
+    <div class="form-group{if isset($class) && strlen($class)>0} {$class}{/if}">
         {if $variant===horizontal}<div class="{$label_class|trim}">{/if}
         <div class="checkbox">
             <label>

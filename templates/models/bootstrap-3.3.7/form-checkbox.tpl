@@ -38,7 +38,7 @@
         <div class="checkbox">
             <label>
                 <input type="checkbox"
-                       {if is_string($name) && strlen($name)>0} name="{$name}"{/if}
+                       {if is_string($name) && strlen($name)>0} name="{$name}{if isset($index)}[{$index|trim}]{/if}"{/if}
                        {if isset($check)} value="{$check|escape:"html"}"{if $value===$check} checked{/if}{/if}
                        {if isset($uncheck)} data-value-unchecked="{$uncheck|escape:"html"}"{/if}
                        {if isset($mandatory)} data-form-mandatory="{$mandatory}"{/if}

@@ -23,7 +23,9 @@
             {assign var=label_class value="col-sm-4 col-sm-8"}
         {/if}
     {/if}
-    {assign var=value value=false}
+    {if !isset($value)}
+        {assign var=value value=false}
+    {/if}
     {if isset($from) && $from!==null}
         {if is_array($from) && is_string($field) && array_key_exists($field, $from)}
             {assign var=value value=$from[$field]}

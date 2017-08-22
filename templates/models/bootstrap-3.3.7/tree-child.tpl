@@ -8,14 +8,14 @@
                 {assign var=childs value=false}
             {/if}
             {strip}
-                <li{if isset($field_id) && array_key_exists($field_id, $li)} data-id="{$li[$field_id]}"{/if}
-                   {if (isset($edit_button) && $edit_button==='line') || $childs}class="{if $childs}expanded{/if}{if (isset($edit_button) && $edit_button==='line')} btn-edit-line{/if}"{/if}
-                   {if isset($draggable) && $draggable===true} data-toggle="drag-item" data-drop-ids="tree-child" draggable="true"{/if}
+                <li{if isset($draggable) && $draggable===true} data-toggle="drag-item" data-drop-ids="tree-child" draggable="true"{/if}
+                   {if $childs} class="expanded"{/if}
                 >
-                    <div class="tree-item">
-                        <div class="btn-toolbar">
+                    <div class="tree-item{if (isset($edit_button) && $edit_button==='line')} btn-edit-line{/if}"
+                         {if isset($field_id) && array_key_exists($field_id, $li)} data-id="{$li[$field_id]}"{/if}
+                    >
+                        <div class="tree-item-toolbar">
                             {if $childs}<button class="btn btn-flat btn-expand"><i class="fa fa-minus-square-o"></i><i class="fa fa-plus-square-o"></i></button>{/if}
-                            <button class="btn btn-flat btn-edit"><i class="fa fa-pencil"></i></button>
                         </div>
                         {assign var=final_content value='&lt;Nonamed&gt;'}
                         {if isset($template) && strlen($template)>0}
@@ -25,7 +25,8 @@
                         {elseif array_key_exists('translation', $li) && is_array($li.translation) && array_key_exists($field_name, $li.translation)}
                             {assign var=final_content value=$li.translation[$field_name]}
                         {/if}
-                        {$final_content}
+                        <div class="tree-item-content">{$final_content}</div>
+                        <div class="tree-item-flags"></div>
                     </div>
                     {if $childs}
                         {include file="tree-child.tpl" data=$childs}

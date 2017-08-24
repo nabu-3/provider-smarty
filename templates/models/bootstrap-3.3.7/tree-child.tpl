@@ -8,7 +8,7 @@
                 {assign var=childs value=false}
             {/if}
             {strip}
-                <li{if isset($draggable) && $draggable===true} data-toggle="drag-item" data-drop-ids="tree-child" draggable="true"{/if}
+                <li{if isset($draggable) && $draggable===true} data-toggle="drag-item" data-drop-ids="tree-child"{/if}
                    {if $childs} class="expanded"{/if}
                 >
                     <div class="tree-item{if (isset($edit_button) && $edit_button==='line')} btn-edit-line{/if}"

@@ -111,8 +111,10 @@
             {/if}
         {/if}
 
-        <div{if isset($languages) && is_array($languages)} data-toggle="toggable-lang"{/if} class="tree{if isset($bordered)} tree-bordered{/if}{if isset($hover)} tree-hover{/if}{if isset($scrolled)} tree-scrolled{/if}">
-            {include file="tree-child.tpl" data=$data}
+        <div class="tree{if isset($bordered)} tree-bordered{/if}{if isset($hover)} tree-hover{/if}{if isset($scrolled)} tree-scrolled{/if}" data-toggle="nabu-drag-and-drop">
+            <div class="tree-inner"{if isset($languages) && is_array($languages)} data-toggle="toggable-lang"{/if}>
+                {include file="tree-child.tpl" data=$data}
+            </div>
         </div>
     </div>
 {/if}

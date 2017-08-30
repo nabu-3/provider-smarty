@@ -9,12 +9,11 @@
             {/if}
             {strip}
                 <li{if isset($draggable) && $draggable===true} data-toggle="drag-item" data-drop-ids="tree-child" draggable="true"{/if}
-                   class="drag-itemp{if $childs} expanded{/if}"
+                   {if isset($field_id) && array_key_exists($field_id, $li)} data-id="{$li[$field_id]}"{/if}
+                   class="tree-item drag-item{if $childs} expanded{/if}"
                 >
-                    <div class="tree-item drag-caret{if (isset($edit_button) && $edit_button==='line')} btn-edit-line{/if}"
-                         {if isset($field_id) && array_key_exists($field_id, $li)} data-id="{$li[$field_id]}"{/if}
-                    >
-                        <div class="tree-item-toolbar">
+                    <div class="tree-item-caret{if isset($draggable) && $draggable===true} drag-caret{/if}{if (isset($edit_button) && $edit_button==='line')} btn-edit-line{/if}">
+                        <div class="tree-item-caret-toolbar">
                             {if $childs}<button class="btn btn-flat btn-expand"><i class="fa fa-minus-square-o"></i><i class="fa fa-plus-square-o"></i></button>{/if}
                         </div>
                         {assign var=final_content value='&lt;Nonamed&gt;'}
@@ -25,8 +24,8 @@
                         {elseif array_key_exists('translation', $li) && is_array($li.translation) && array_key_exists($field_name, $li.translation)}
                             {assign var=final_content value=$li.translation[$field_name]}
                         {/if}
-                        <div class="tree-item-content">{$final_content}</div>
-                        <div class="tree-item-flags"></div>
+                        <div class="tree-item-caret-content">{$final_content}</div>
+                        <div class="tree-item-caret-flags"></div>
                     </div>
                     {if $childs}
                         {include file="tree-child.tpl" data=$childs}

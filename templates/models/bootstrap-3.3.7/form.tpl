@@ -35,8 +35,7 @@
       {if isset($name) && is_string($name) && strlen($name)>0} name="{$name}"{/if}
       {if $use_ajax}
           {if isset($method) && ($method==='get' || $method==='put' || $method==='post' || $method==='delete')} data-ajax-method="{$method}"{/if}
-      {elseif isset($method) && ($method==='get' || $method==='post')}
-          method="{$method}"
+      {elseif isset($method) && ($method==='get' || $method==='post')} method="{$method}"
       {/if}
       {if isset($action) && is_string($action) && strlen($action)>0} action="{$action}"{/if}
       {if isset($action_template) && is_string($action_template) && strlen($action_template)>0} data-action-template="{$action_template}"{/if}

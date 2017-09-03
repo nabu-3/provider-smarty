@@ -8,9 +8,9 @@
                 {assign var=childs value=false}
             {/if}
             {strip}
-                <li{if isset($draggable) && $draggable===true} data-toggle="drag-item" data-drop-ids="tree-child" draggable="true"{/if}
-                   {if isset($field_id) && array_key_exists($field_id, $li)} data-id="{$li[$field_id]}"{/if}
-                   class="tree-item drag-item{if $childs} expanded{/if}"
+                <li class="tree-item drag-item{if $childs} expanded{/if}"
+                    {if isset($draggable) && $draggable===true} data-toggle="drag-item" data-drop-ids="tree-child" draggable="true"{/if}
+                    {if isset($field_id) && array_key_exists($field_id, $li)} data-id="{$li[$field_id]}"{/if}
                 >
                     <div class="tree-item-caret{if isset($draggable) && $draggable===true} drag-caret{/if}{if (isset($edit_button) && $edit_button==='line')} btn-edit-line{/if}">
                         <div class="tree-item-caret-toolbar">

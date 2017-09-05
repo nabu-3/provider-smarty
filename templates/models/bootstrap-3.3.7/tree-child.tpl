@@ -1,6 +1,6 @@
 {nabu_model model="bootstrap-3.3.7"}
-{if is_array($data) && count($data) > 0}
-    <ul class="tree-level drop-container"{if isset($draggable) && $draggable===true} data-toggle="drop-container" data-drop-id="tree-child"{/if}>
+<ul class="tree-level drop-container"{if isset($draggable) && $draggable===true} data-toggle="drop-container" data-drop-id="tree-child"{/if}>
+    {if is_array($data) && count($data) > 0}
         {foreach from=$data item=li}
             {if isset($field_childs) && array_key_exists($field_childs, $li) && is_array($li[$field_childs]) && count($li[$field_childs]) > 0}
                 {assign var=childs value=$li[$field_childs]}
@@ -33,5 +33,5 @@
                 </li>
             {/strip}
         {/foreach}
-    </ul>
-{/if}
+    {/if}
+</ul>

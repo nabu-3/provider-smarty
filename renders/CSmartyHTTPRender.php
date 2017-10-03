@@ -419,12 +419,14 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
      * an internal part to prepare before execute the display
      * @param string $display_file Full file name of smarty template to display
      * @param string $content_file Full file name of smarty template to fetch before display
+     * @param string $output_type
+     * @param string $filename
      * @return bool Returns true if smarty display is executed and otherwise false
      */
     public function display($display_file, $content_file = null, $output_type = 'HTML', $filename = null)
     {
         if ($this->isSmartyInitialized()) {
-            if ($content_file !== null) {
+            if ($content_file !== null && strlen($content_file) > 0) {
                 $content = $this->smarty->fetch('content/'.$content_file);
                 $this->smarty->assign('content', $content);
             }

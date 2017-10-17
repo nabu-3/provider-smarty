@@ -152,7 +152,7 @@
                         <div class="input-group" lang="{$translation.default_country_code}">
                             <textarea class="form-control"
                                       {if isset($autocomplete)} autocomplete="{if $autocomplete===true}on{else}off{/if}"{/if}
-                                      {if isset($id)} id="{$id}"{/if}
+                                      {if isset($id)} id="{$id}{if isset($index) && is_numeric($index)}_{$index}{/if}"{/if}
                                       {if $name} name="{$name}{if isset($index) && is_numeric($index)}[{$index}]{/if}"{/if}
                                       {if $addons && isset($addon_left) && ($addon_left==='radiobox' || $addon_left==='checkbox') && isset($addon_left_check) && $value_left!==$addon_left_check} disabled{/if}
                                       {if $placeholder} placeholder="{$placeholder}"{/if}
@@ -170,7 +170,7 @@
                 {else}
                     <textarea class="form-control"
                               {if isset($autocomplete)} autocomplete="{if $autocomplete===true}on{else}off{/if}"{/if}
-                              {if isset($id)} id="{$id}"{/if}
+                              {if isset($id)} id="{$id}{if isset($index) && is_numeric($index)}_{$index}{/if}"{/if}
                               {if $name} name="{$name}{if isset($index) && is_numeric($index)}[{$index}]{/if}"{/if}
                               {if $addons && isset($addon_left) && ($addon_left==='radiobox' || $addon_left==='checkbox') && isset($addon_left_check) && $value_left!==$addon_left_check} disabled{/if}
                               {if $placeholder} placeholder="{$placeholder}"{/if}

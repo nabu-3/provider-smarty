@@ -5,4 +5,4 @@
         {assign var=value value=$from}
     {/if}
 {/if}
-<input type="hidden"{if isset($name)} name="{$name}"{/if}{if isset($value)} value="{$value|escape:html}"{/if}>
+<input type="hidden"{if isset($id)} id="{$id}"{/if}{if isset($name)} name="{$name}"{/if}{if isset($value)} value="{$value|escape:html}"{/if}>

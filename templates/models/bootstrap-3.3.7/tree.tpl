@@ -1,14 +1,12 @@
 {nabu_model model="bootstrap-3.3.7"}
+{assign var=toolbar value=false}
+{assign var=translations value=false}
 {if isset($metadata) && is_array($metadata)}
     {if array_key_exists('toolbar', $metadata) && is_array($metadata.toolbar)}
         {assign var=toolbar value=$metadata.toolbar}
-    {else}
-        {assign var=toolbar value=false}
     {/if}
     {if array_key_exists('translations', $metadata) && is_array($metadata.translations)}
         {assign var=translations value=$metadata.translations}
-    {else}
-        {assign var=translations value=false}
     {/if}
 {/if}
 {if !isset($selectable)}

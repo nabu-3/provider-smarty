@@ -110,6 +110,9 @@
                 </button>
                 {if $name}<input type="hidden" name="{$name}" value="{$value}">{/if}
                 <ul class="dropdown-menu"{if isset($id)} aria-labelledby="{$id}"{/if}>
+                    {if isset($options_default_name) && is_string($options_default_name) && strlen($options_default_name)>0}
+                        <li{if isset($options_default_id) && is_string($options_default_id)} data-id="{$options_default_id}"{/if}{if !$value} class="active"{/if}><a href="#">{$options_default_name}</a></li>
+                    {/if}
                     {foreach from=$options key=kopt item=option}
                         {if isset($options_id) && array_key_exists($options_id, $option)}
                             {assign var=op_id value=$option[$options_id]}

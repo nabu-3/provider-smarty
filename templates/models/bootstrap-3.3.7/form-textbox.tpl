@@ -202,7 +202,7 @@
                         <div class="input-group" lang="{$translation.default_country_code}">
                             <input class="form-control"
                                    {if isset($autocomplete)} autocomplete="{if $autocomplete===true}on{else}off{/if}"{/if} type="{$type}"
-                                   {if isset($id)} id="{$id}{if isset($index) && is_numeric($index)}_{$index}{/if}"{/if}
+                                   {if isset($id)} id="{$id}{if isset($index) && is_numeric($index)}_{$index}{/if}"{if isset($datalist) && is_array($datalist) && count($datalist)>0} list="{$id}{if isset($index) && is_numeric($index)}_{$index}{/if}__list"{/if}{/if}
                                    {if $name} name="{$name}{if isset($index) && is_numeric($index)}[{$index}]{/if}"{/if}
                                    {if $addons && isset($addon_left) && ($addon_left==='radiobox' || $addon_left==='checkbox') && isset($addon_left_check) && $value_left!==$addon_left_check} disabled{/if}
                                    {if $placeholder} placeholder="{$placeholder}"{/if}
@@ -220,7 +220,7 @@
                 {else}
                     <input class="form-control"
                            {if isset($autocomplete)} autocomplete="{if $autocomplete===true}on{else}off{/if}"{/if} type="{$type}"
-                           {if isset($id)} id="{$id}{if isset($index) && is_numeric($index)}_{$index}{/if}"{/if}
+                           {if isset($id)} id="{$id}{if isset($index) && is_numeric($index)}_{$index}{/if}"{if isset($datalist) && is_array($datalist) && count($datalist)>0} list="{$id}{if isset($index) && is_numeric($index)}_{$index}{/if}__list"{/if}{/if}
                            {if $name} name="{$name}{if isset($index) && is_numeric($index)}[{$index}]{/if}"{/if}
                            {if $addons && isset($addon_left) && ($addon_left==='radiobox' || $addon_left==='checkbox') && isset($addon_left_check) && $value_left!==$addon_left_check} disabled{/if}
                            {if $placeholder} placeholder="{$placeholder}"{/if}
@@ -233,6 +233,13 @@
                            {if isset($disabled) && $disabled} disabled{/if}
                            {include file="form-field-attrs.tpl"}
                     >
+               {/if}
+               {if isset($id) && isset($datalist) && is_array($datalist) && count($datalist)>0}
+                   <datalist id="{$id}{if isset($index) && is_numeric($index)}_{$index}{/if}__list">
+                       {foreach from=$datalist item=value}
+                           <option value="{$value}">
+                       {/foreach}
+                   </datalist>
                {/if}
             {/if}
             {if $addons}</div>{/if}

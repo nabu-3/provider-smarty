@@ -60,6 +60,8 @@
         {elseif is_string($from)}
             {assign var=value value=$from}
         {/if}
+    {elseif isset($options_default_id) && is_string($options_default_id)}
+        {assign var=value value=$options_default_id}
     {/if}
     {if isset($addon_left) || isset($addon_right)}
         {assign var=addons value=true}

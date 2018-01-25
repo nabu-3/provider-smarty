@@ -60,13 +60,14 @@
         {assign var=editor_mode value=page}
     {/if}
 {/if}
-{if isset($data) || isset($draw_empty) && $draw_empty}
+{if isset($data) || (isset($draw_empty) && $draw_empty)}
     {strip}<div{if isset($id) && strlen($id)>0} id="{$id}"{/if} class="table-container" data-toggle="nabu-table"
             {if isset($pager) && $pager} data-table-pager="true"{if isset($size)} data-table-size="{$size}"{/if}{/if}
             {if is_string($api_url)} data-api="{$api_url}"{/if}
             {if is_string($editor_url)} data-editor="{$editor_url}" data-editor-mode="{$editor_mode}"
                 {if $editor_mode==="ajax" && isset($editor_container) && strlen($editor_container)>0} data-editor-container="{$editor_container}"{/if}
             {/if}
+            {if isset($editor_create_reload) && $editor_create_reload} data-editor-create-reload="true"{/if}
             {if isset($edit_button)} data-edit-button="{$edit_button}"{/if}
     >{/strip}
         {if $toolbar}
@@ -164,6 +165,12 @@
                     <tr>
                         {if $selectable}<th class="col-selectable" data-toggle="table-selectable"><input type="checkbox"></th>{/if}
                         {foreach from=$fields key=kfield item=field}{strip}
+                            {if array_key_exists('field', $field) && is_string($field.field) && strlen($field.field)>0}
+                                {assign var=kalias value=$kfield}
+                                {assign var=kfield value=$field.field}
+                            {else}
+                                {assign var=kalias value=false}
+                            {/if}
                             {if array_key_exists('order', $field)}
                                 {assign var=ordered value=$field.order}
                             {else}
@@ -183,7 +190,29 @@
                                         {foreach from=$field.lookup key=lkey item=litem}
                                             {if is_scalar($litem)}
                                                 "{$lkey}": {if is_string($litem)}"{$litem}"{else}{$litem}{/if}
+                                            {elseif is_array($litem)}
+                                                {if array_key_exists('lookup_field_name', $field) && is_string($field.lookup_field_name) && strlen($field.lookup_field_name)>0}
+                                                    {assign var=lookup_field_name value=$field['lookup_field_name']}
+                                                    {if array_key_exists($lookup_field_name, $litem)}
+                                                        {if is_scalar($litem[$lookup_field_name])}
+                                                            "{$lkey}": {if is_string($litem[$lookup_field_name])}"{$litem[$lookup_field_name]}"{else}{$litem[$lookup_field_name]}{/if}
+                                                        {elseif $litem[$lookup_field_name]===null}
+                                                            "{$lkey}": null
+                                                        {/if}
+                                                    {elseif array_key_exists('translation', $litem) && is_array($litem.translation) && array_key_exists($lookup_field_name, $litem.translation)}
+                                                        {if is_scalar($litem.translation[$lookup_field_name])}
+                                                            "{$lkey}": {if is_string($litem.translation[$lookup_field_name])}"{$litem.translation[$lookup_field_name]}"{else}{$litem.translation[$lookup_field_name]}{/if}
+                                                        {elseif $litem.translation[$lookup_field_name]===null}
+                                                            "{$lkey}": null
+                                                        {/if}
+                                                    {else}
+                                                        "nofield": ""
+                                                    {/if}
+                                                {else}
+                                                    "nofield_name": ""
+                                                {/if}
                                             {else}
+                                                "crash": ""
                                             {/if}
                                             {if !$litem@last},{/if}
                                         {/foreach}
@@ -193,6 +222,7 @@
                                 {assign var=data_lookup value=false}
                             {/if}
                             <th data-name="{$kfield}"
+                                {if isset($kalias) && is_string($kalias)} data-alias="{$kalias}"{/if}
                                 {if array_key_exists('id', $field) && $field.id} data-is-id="true"{/if}
                                 {if $align} data-align="{if $field.align==='right'}text-right{elseif $field.align==='center'}text-center{/if}"{/if}
                                 {if $ordered} data-order="{$field.order}"{/if}
@@ -211,6 +241,9 @@
                     <tr data-type="row"{if is_string($field_id) && array_key_exists($field_id, $row)} data-id="{$row[$field_id]}"{/if}{if (isset($edit_button) && $edit_button==='line') || (isset($pager) && $pager && isset($size) && $size<$row@iteration)} class="{if isset($edit_button) && $edit_button==='line'}btn-edit-line{/if}{if isset($pager) && $pager && isset($size) && $size<$row@iteration} hide{/if}"{/if}>
                         {if $selectable}<td class="col-selectable" data-toggle="table-selectable"><input type="checkbox" value="T"></td>{/if}
                         {foreach from=$fields key=kfield item=meta}
+                            {if array_key_exists('field', $meta) && is_string($meta.field) && strlen($meta.field)>0}
+                                {assign var=kfield value=$meta.field}
+                            {/if}
                             <td data-name="{$kfield}"{if array_key_exists('align', $meta)} class="{if $meta.align==='right'}text-right{elseif $meta.align==='center'}text-center{/if}"{/if}>
                                 {strip}
                                     {if array_key_exists($kfield, $row)}
@@ -221,8 +254,12 @@
                                             {assign var=content value='<label class="label label-danger">Invalid lookup value</label>'}
                                             {if is_array($meta.lookup) && array_key_exists($kid, $meta.lookup)}
                                                 {if is_array($meta.lookup[$kid])}
-                                                    {if array_key_exists('lookup_field_name', $meta) && is_string($meta.lookup_field_name) && array_key_exists($meta.lookup_field_name, $meta.lookup[$kid])}
-                                                        {assign var=content value=$meta.lookup[$kid][$meta.lookup_field_name]}
+                                                    {if array_key_exists('lookup_field_name', $meta) && is_string($meta.lookup_field_name) && strlen($meta.lookup_field_name)>0}
+                                                        {if array_key_exists($meta.lookup_field_name, $meta.lookup[$kid])}
+                                                            {assign var=content value=$meta.lookup[$kid][$meta.lookup_field_name]}
+                                                        {elseif array_key_exists('translation', $meta.lookup[$kid]) && is_array($meta.lookup[$kid].translation) && array_key_exists($meta.lookup_field_name, $meta.lookup[$kid].translation)}
+                                                            {assign var=content value=$meta.lookup[$kid].translation[$meta.lookup_field_name]}
+                                                        {/if}
                                                     {/if}
                                                     {if array_key_exists('lookup_field_image', $meta) && is_string($meta.lookup_field_image) && array_key_exists($meta.lookup_field_image, $meta.lookup[$kid])}
                                                         {assign var=img_url value=$meta.lookup[$kid][$meta.lookup_field_image]}

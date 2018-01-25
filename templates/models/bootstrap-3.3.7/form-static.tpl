@@ -46,6 +46,28 @@
 <div class="form-group{if isset($class)} {$class}{/if}">
     {if is_string($label)}<label{if isset($id)} for="{$id}"{/if}{if strlen($label_class)>0} class="{$label_class|trim}"{/if}>{$label}</label>{/if}
     {if $variant===horizontal}<div{if strlen($div_class)>0} class="{$div_class}"{/if}>{/if}
-        <p class="form-control-static">{$value}</p>
+        {if isset($multilang) && is_array($multilang)}
+            {foreach from=$multilang key=index item=translation}
+                {assign var=value value=false}
+                {if isset($from) && $from!==null}
+                    {if is_array($from)}
+                        {if is_string($field)}
+                            {if array_key_exists('translations', $from) &&
+                                is_array($from.translations) &&
+                                array_key_exists($translation.id, $from.translations) &&
+                                array_key_exists($field, $from.translations[$translation.id])}
+                                {assign var=value value=$from.translations[$translation.id][$field]}
+                            {/if}
+                        {/if}
+                    {/if}
+                {/if}
+                <div class="input-group" lang="{$translation.default_country_code}">
+                    <p class="form-control-static">{$value}</p>
+                    <span class="input-group-addon">{if array_key_exists('flag_url', $translation) && strlen($translation.flag_url)>0}<img class="flag" src="{$translation.flag_url}" alt="{$translation.default_country_code}" title="{$translation.name}">{else}<i class="fa fa-flag"></i>{$translation.default_country_code}{/if}</span>
+                </div>
+            {/foreach}
+        {else}
+            <p class="form-control-static">{$value}</p>
+        {/if}
     {if $variant===horizontal}</div>{/if}
 </div>

@@ -1,5 +1,5 @@
 {if isset($sitemap) && count($sitemap)>0}
-    <ul class="nav{if !isset($type) || $type===navbar} navbar-nav{elseif $type===pill} nav-pills{elseif $type===tab} nav-tabs{/if}{if isset($position) && $position===stacked} nav-stacked{/if}{if isset($justified) && $justified} nav-justified{/if}"{if isset($class) && is_string($class) && strlen($class)>0} class="{$class}"{/if}>
+    <ul class="nav{if !isset($type) || $type===navbar} navbar-nav{elseif $type===pill} nav-pills{elseif $type===tab} nav-tabs{/if}{if isset($position) && $position===stacked} nav-stacked{/if}{if isset($justified) && $justified} nav-justified{/if}{if isset($class) && is_string($class) && strlen($class)>0} {$class}{/if}">
         {foreach from=$sitemap item=node}
             {assign var=class value=''}
             {if $node.breadcrumb}{assign var=class value=active}{/if}

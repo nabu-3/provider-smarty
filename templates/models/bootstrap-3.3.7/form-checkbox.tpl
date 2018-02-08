@@ -33,21 +33,24 @@
             {assign var=value value=$from}
         {/if}
     {/if}
-    <div class="form-group{if isset($class) && strlen($class)>0} {$class}{/if}">
-        {if $variant===horizontal}<div class="{$label_class|trim}">{/if}
-        <div class="checkbox">
-            <label>
-                <input type="checkbox"
-                       {if is_string($name) && strlen($name)>0} name="{$name}{if isset($index)}[{$index|trim}]{/if}"{/if}
-                       {if isset($check)} value="{$check|escape:"html"}"{if $value===$check} checked{/if}{/if}
-                       {if isset($uncheck)} data-value-unchecked="{$uncheck|escape:"html"}"{/if}
-                       {if isset($mandatory)} data-form-mandatory="{$mandatory}"{/if}
-                       {if isset($rule)} data-form-rule="{$rule}"{/if}
-                       {if isset($rule_param)} data-form-rule-param="{$rule_param}"{/if}
-                >
-                {if isset($label) && is_string($label)}{$label}{/if}
-            </label>
-        </div>
-        {if $variant===horizontal}</div>{/if}
+
+    {if $variant===horizontal}
+        <div class="form-group{if isset($class) && strlen($class)>0} {$class}{/if}">
+            <div class="{$label_class|trim}">
+    {/if}
+    <div class="checkbox">
+        <label>
+            <input type="checkbox"
+                   {if is_string($name) && strlen($name)>0} name="{$name}{if isset($index)}[{$index|trim}]{/if}"{/if}
+                   {if isset($check)} value="{$check|escape:"html"}"{if $value===$check} checked{/if}{/if}
+                   {if isset($uncheck)} data-value-unchecked="{$uncheck|escape:"html"}"{/if}
+                   {if isset($mandatory)} data-form-mandatory="{$mandatory}"{/if}
+                   {if isset($rule)} data-form-rule="{$rule}"{/if}
+                   {if isset($rule_param)} data-form-rule-param="{$rule_param}"{/if}
+            >
+            {if isset($label) && is_string($label)}{$label}{/if}
+        </label>
     </div>
+    {if $variant===horizontal}</div></div>{/if}
+
 {/strip}

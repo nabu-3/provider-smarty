@@ -278,13 +278,15 @@
                                     {elseif isset($languages) && is_array($languages) && array_key_exists('translation', $row) && is_array($row.translation) && array_key_exists($kfield, $row.translation)}
                                         {foreach from=$languages key=lang_id item=language}
                                             <span lang="{$language.default_country_code}">
-                                                <span class="flag">
-                                                    {if $language.type==='C' && strlen($language.flag_url)>0}
-                                                        <img src="{$language.flag_url}">
-                                                    {else}
-                                                        {$language.default_country_code}
-                                                    {/if}
-                                                </span>
+                                                {if !isset($show_flag) || $show_flag === true}
+                                                    <span class="flag">
+                                                        {if $language.type==='C' && strlen($language.flag_url)>0}
+                                                            <img src="{$language.flag_url}">
+                                                        {else}
+                                                            {$language.default_country_code}
+                                                        {/if}
+                                                    </span>
+                                                {/if}
                                                 {if array_key_exists($lang_id, $row.translations)}
                                                     <span class="translation">{$row.translations[$lang_id][$kfield]}</span>{if !$language@last}<br>{/if}
                                                 {else}

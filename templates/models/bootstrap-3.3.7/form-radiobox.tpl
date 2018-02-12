@@ -34,8 +34,11 @@
         {/if}
     {/if}
     {if $variant===horizontal}<div class="form-group"><div class="{$label_class|trim}">{/if}
-        <div class="radio">
-            <label>
+        {if $variant!==inline}
+            <div class="radio"><label>
+        {else}
+            <label class="radio-inline">
+        {/if}
                 <input type="radio"
                        {if is_string($name) && strlen($name)>0} name="{$name}{if isset($index)}[{$index|trim}]{/if}"{/if}
                        {if isset($check)} value="{$check|escape:"html"}"{if $value===$check} checked{/if}{/if}
@@ -45,6 +48,10 @@
                        {include file="form-field-attrs.tpl"}
                 >
                 {if isset($label) && is_string($label)}{$label}{/if}
+        {if $variant!==inline}
+            </label></div>
+        {else}
             </label>
-        </div>
+        {/if}
     {if $variant===horizontal}</div></div>{/if}
+{/strip}

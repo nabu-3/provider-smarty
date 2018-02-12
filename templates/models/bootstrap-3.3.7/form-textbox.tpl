@@ -213,6 +213,7 @@
                                    {if isset($rule)} data-form-rule="{$rule}"{/if}
                                    {if isset($rule_param)} data-form-rule-param="{$rule_param}"{/if}
                                    {if isset($disabled) && $disabled} disabled{/if}
+                                   {if isset($type) && $type==='file' && isset($accept) && is_string($accept) && strlen($accept)>0} accept="{$accept|escape:html}"{/if}
                                    {include file="form-field-attrs.tpl"}
                             >{if !isset($show_flag) || $show_flag===true}<span class="input-group-addon">{if array_key_exists('flag_url', $translation) && strlen($translation.flag_url)>0}<img class="flag" src="{$translation.flag_url}" alt="{$translation.default_country_code}" title="{$translation.name}">{else}<i class="fa fa-flag"></i>{$translation.default_country_code}{/if}</span>{/if}
                         </div>
@@ -231,6 +232,7 @@
                            {if isset($rule)} data-form-rule="{$rule}"{/if}
                            {if isset($rule_param)} data-form-rule-param="{$rule_param}"{/if}
                            {if isset($disabled) && $disabled} disabled{/if}
+                           {if isset($type) && $type==='file' && isset($accept) && is_string($accept) && strlen($accept)>0} accept="{$accept|escape:html}"{/if}
                            {include file="form-field-attrs.tpl"}
                     >
                {/if}

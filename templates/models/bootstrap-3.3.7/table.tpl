@@ -72,7 +72,7 @@
     >{/strip}
         {if $toolbar}
             <div class="table-toolbar btn-toolbar">
-                {if isset($column_selector) && fields && count($fields)>0}
+                {if isset($column_selector) && $column_selector===true && fields && count($fields)>0}
                     {if $translations && array_key_exists('columns_button', $translations)}
                         {assign var=btn_name value=$translations.columns_button}
                     {else}

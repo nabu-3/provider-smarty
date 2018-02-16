@@ -68,7 +68,7 @@
     {else}
         {assign var=addons value=false}
     {/if}
-    <div class="form-group{if isset($class)} {$class}{/if}">
+    <div class="{if $layout==="input-group"}input-group-btn{else}form-group{/if}{if isset($class)} {$class}{/if}">
         {if is_string($label)}<label{if isset($id)} for="{$id}"{/if}{if strlen($label_class)>0} class="{$label_class|trim}"{/if}>{$label}</label>{/if}
         {if $variant===horizontal}<div{if strlen($div_class)>0} class="{$div_class}"{/if}>{/if}
         {if $addons}<div class="input-group" data-toggle="nabu-input-group">{/if}
@@ -113,7 +113,7 @@
                 {if $name}<input type="hidden" name="{$name}" value="{$value}">{/if}
                 <ul class="dropdown-menu"{if isset($id)} aria-labelledby="{$id}"{/if}>
                     {if isset($options_default_name) && is_string($options_default_name) && strlen($options_default_name)>0}
-                        <li{if isset($options_default_id) && is_string($options_default_id)} data-id="{$options_default_id}"{/if}{if !$value} class="active"{/if}><a href="#">{$options_default_name}</a></li>
+                        <li{if isset($options_default_id)} data-id="{$options_default_id}"{/if}{if !$value} class="active"{/if}><a href="#">{$options_default_name}</a></li>
                     {/if}
                     {foreach from=$options key=kopt item=option}
                         {if isset($options_id) && array_key_exists($options_id, $option)}

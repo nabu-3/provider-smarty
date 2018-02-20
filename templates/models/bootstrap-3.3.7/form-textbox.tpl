@@ -68,7 +68,7 @@
     {else}
         {assign var=addons value=false}
     {/if}
-    <div class="form-group{if isset($class)} {$class}{/if}">
+    {if !isset($layout) || $layout!== 'input-group'}<div class="form-group{if isset($class)} {$class}{/if}">{/if}
         {if is_string($label)}<label{if isset($id)} for="{$id}"{/if}{if strlen($label_class)>0} class="{$label_class|trim}"{/if}>{$label}</label>{/if}
         {if $variant===horizontal}<div{if strlen($div_class)>0} class="{$div_class}"{/if}>{/if}
             {if $addons}<div class="input-group" data-toggle="nabu-input-group">{/if}
@@ -247,5 +247,5 @@
             {if $addons}</div>{/if}
             {if $help}<p class="help-block">{$help}</p>{/if}
         {if $variant===horizontal}</div>{/if}
-    </div>
+    {if !isset($layout) || $layout!== 'input-group'}</div>{/if}
 {/strip}

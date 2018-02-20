@@ -21,6 +21,8 @@
     {if !isset($field)}{assign var=field value=false}{/if}
     {if !isset($addon_left_field)}{assign var=addon_left_field value=false}{/if}
     {if !isset($addon_right_field)}{assign var=addon_right_field value=false}{/if}
+    {if !isset($addon_left_name)}{assign var=addon_left_name value=$addon_left_field}{/if}
+    {if !isset($addon_right_name)}{assign var=addon_right_name value=$addon_right_field}{/if}
     {if !isset($name)}{assign var=name value=$field}{/if}
     {if !isset($help)}{assign var=help value=false}{/if}
     {assign var=label_class value=''}
@@ -68,7 +70,7 @@
     {else}
         {assign var=addons value=false}
     {/if}
-    <div class="{if $layout==="input-group"}input-group-btn{else}form-group{/if}{if isset($class)} {$class}{/if}">
+    <div class="{if isset($layout) && $layout==="input-group"}input-group-btn{else}form-group{/if}{if isset($class)} {$class}{/if}">
         {if is_string($label)}<label{if isset($id)} for="{$id}"{/if}{if strlen($label_class)>0} class="{$label_class|trim}"{/if}>{$label}</label>{/if}
         {if $variant===horizontal}<div{if strlen($div_class)>0} class="{$div_class}"{/if}>{/if}
         {if $addons}<div class="input-group" data-toggle="nabu-input-group">{/if}

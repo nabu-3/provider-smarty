@@ -21,6 +21,8 @@
     {if !isset($field)}{assign var=field value=false}{/if}
     {if !isset($addon_left_field)}{assign var=addon_left_field value=false}{/if}
     {if !isset($addon_right_field)}{assign var=addon_right_field value=false}{/if}
+    {if !isset($addon_left_name)}{assign var=addon_left_name value=$addon_left_field}{/if}
+    {if !isset($addon_right_name)}{assign var=addon_right_name value=$addon_right_field}{/if}
     {if !isset($name)}{assign var=name value=$field}{/if}
     {if !isset($placeholder)}{assign var=placeholder value=false}{/if}
     {if !isset($help)}{assign var=help value=false}{/if}
@@ -209,6 +211,7 @@
                                    {if is_string($value)} value="{$value|escape:"html"}"{/if}
                                    {if isset($autofocus)} autofocus{/if}
                                    {if isset($maxlength) && is_numeric($maxlength)} maxlength="{$maxlength}"{/if}
+                                   {if isset($size) && is_numeric($size)} size="{$size}"{/if}
                                    {if isset($mandatory) && $mandatory} data-form-mandatory="yes"{/if}
                                    {if isset($rule)} data-form-rule="{$rule}"{/if}
                                    {if isset($rule_param)} data-form-rule-param="{$rule_param}"{/if}
@@ -228,6 +231,7 @@
                            {if is_string($value)} value="{$value|escape:"html"}"{/if}
                            {if isset($autofocus)} autofocus{/if}
                            {if isset($maxlength) && is_numeric($maxlength)} maxlength="{$maxlength}"{/if}
+                           {if isset($size) && is_numeric($size)} size="{$size}"{/if}
                            {if isset($mandatory) && $mandatory} data-form-mandatory="yes"{/if}
                            {if isset($rule)} data-form-rule="{$rule}"{/if}
                            {if isset($rule_param)} data-form-rule-param="{$rule_param}"{/if}

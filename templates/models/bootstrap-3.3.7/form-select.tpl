@@ -105,6 +105,8 @@
                     {else}
                         {if $value && array_key_exists($value, $options) && is_string($options[$value])}
                             {assign var=final_text value=$options[$value]}
+                        {elseif isset($options_default_name) && is_string($options_default_name)}
+                            {assign var=final_text value=$options_default_name}
                         {/if}
                     {/if}
                     {$final_text}

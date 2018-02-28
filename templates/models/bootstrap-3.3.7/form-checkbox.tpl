@@ -38,8 +38,11 @@
         <div class="form-group{if isset($class) && strlen($class)>0} {$class}{/if}">
             <div class="{$label_class|trim}">
     {/if}
-    <div class="checkbox">
-        <label>
+        {if $variant!==inline}
+            <div class="checkbox"><label>
+        {else}
+            <label class="checkbox-inline">
+        {/if}
             <input type="checkbox"
                    {if is_string($name) && strlen($name)>0} name="{$name}{if isset($index)}[{$index|trim}]{/if}"{/if}
                    {if isset($check)} value="{$check|escape:"html"}"{if $value===$check} checked{/if}{/if}
@@ -49,8 +52,11 @@
                    {if isset($rule_param)} data-form-rule-param="{$rule_param}"{/if}
             >
             {if isset($label) && is_string($label)}{$label}{/if}
-        </label>
-    </div>
+        {if $variant!==inline}
+            </label></div>
+        {else}
+            </label>
+        {/if}
     {if $variant===horizontal}</div></div>{/if}
 
 {/strip}

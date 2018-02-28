@@ -127,6 +127,16 @@ function smarty_compiler_nabu_form_commandsclose($params, Smarty $smarty)
     return smarty_compiler_nabu_generic_model($params, $smarty, 'form-commandsclose');
 }
 
+function smarty_compiler_nabu_form_commands_group($params, Smarty $smarty)
+{
+    return smarty_compiler_nabu_generic_model($params, $smarty, 'form-commands-group');
+}
+
+function smarty_compiler_nabu_form_commands_groupclose($params, Smarty $smarty)
+{
+    return smarty_compiler_nabu_generic_model($params, $smarty, 'form-commands-groupclose');
+}
+
 function smarty_compiler_nabu_navbar($params, Smarty $smarty)
 {
     return smarty_compiler_nabu_generic_model($params, $smarty, 'navbar');

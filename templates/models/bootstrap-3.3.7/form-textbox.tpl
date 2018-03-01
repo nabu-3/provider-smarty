@@ -83,6 +83,10 @@
                     <span class="input-group-addon">
                         <input type="checkbox"{if isset($addon_left_name)} name="{$addon_left_name}"{/if}{if isset($addon_left_check)} value="{$addon_left_check|escape:'html'}"{if $value_left===$addon_left_check} checked{/if}{/if}>
                     </span>
+                {elseif $addon_left==='static'}
+                    {if isset($addon_left_static) && strlen($addon_left_static)>0}
+                        <span class="input-group-addon">{$addon_left_static}</span>
+                    {/if}
                 {elseif $addon_left==='dropdown' && isset($addon_left_options) && is_array($addon_left_options) && count($addon_left_options)>0}
                     <div class="input-group-btn" data-toggle="nabu-select">
                         {assign var=final_text value='&nbsp;'}
@@ -247,6 +251,13 @@
                        {/foreach}
                    </datalist>
                {/if}
+            {/if}
+            {if isset($addon_right)}
+                {if $addon_right==='static'}
+                    {if isset($addon_right_static) && strlen($addon_right_static)>0}
+                        <span class="input-group-addon">{$addon_right_static}</span>
+                    {/if}
+                {/if}
             {/if}
             {if $addons}</div>{/if}
             {if $help}<p class="help-block">{$help}</p>{/if}

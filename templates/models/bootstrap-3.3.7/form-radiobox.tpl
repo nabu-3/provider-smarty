@@ -33,13 +33,17 @@
             {assign var=value value=$from}
         {/if}
     {/if}
-    {if $variant===horizontal}<div class="form-group"><div class="{$label_class|trim}">{/if}
+    {if $variant===horizontal}
+        <div class="form-group{if isset($class) && strlen($class)>0} {$class}{/if}">
+            <div class="{$label_class|trim}">
+    {/if}
         {if $variant!==inline}
-            <div class="radio"><label>
+            <div class="radio{if $variant!==horizontal && isset($class) && strlen($class)>0} {$class}{/if}"><label>
         {else}
             <label class="radio-inline">
         {/if}
                 <input type="radio"
+                       {if $variant===inline && isset($class) && strlen($class)>0} class="{$class}"{/if}
                        {if isset($id) && strlen($id)>0} id="{$id}"{/if}
                        {if is_string($name) && strlen($name)>0} name="{$name}{if isset($index)}[{$index|trim}]{/if}"{/if}
                        {if isset($check)} value="{$check|escape:"html"}"{if $value===$check} checked{/if}{/if}

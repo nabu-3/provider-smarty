@@ -39,17 +39,19 @@
             <div class="{$label_class|trim}">
     {/if}
         {if $variant!==inline}
-            <div class="checkbox"><label>
+            <div class="checkbox{if $variant!==horizontal && isset($class) && strlen($class)>0} {$class}{/if}"><label>
         {else}
             <label class="checkbox-inline">
         {/if}
             <input type="checkbox"
+                   {if $variant===inline && isset($class) && strlen($class)>0} class="{$class}"{/if}
                    {if is_string($name) && strlen($name)>0} name="{$name}{if isset($index)}[{$index|trim}]{/if}"{/if}
                    {if isset($check)} value="{$check|escape:"html"}"{if $value===$check} checked{/if}{/if}
                    {if isset($uncheck)} data-value-unchecked="{$uncheck|escape:"html"}"{/if}
                    {if isset($mandatory)} data-form-mandatory="{$mandatory}"{/if}
                    {if isset($rule)} data-form-rule="{$rule}"{/if}
                    {if isset($rule_param)} data-form-rule-param="{$rule_param}"{/if}
+                   {include file="form-field-attrs.tpl"}
             >
             {if isset($label) && is_string($label)}{$label}{/if}
         {if $variant!==inline}

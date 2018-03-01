@@ -18,6 +18,11 @@
 {else}
     {assign var=fields value=false}
 {/if}
+{if isset($translations) && is_array($translations) && array_key_exists('invalid_lookup_value', $translations)}
+    {assign var=invalid_lookup_value value=$translations.invalid_lookup_value}
+{else}
+    {assign var=invalid_lookup_value value="<label class=\"label label-danger\">Invalid lookup value</label>"}
+{/if}
 {if !isset($selectable)}
     {assign var=selectable value=false}
 {/if}
@@ -76,7 +81,7 @@
                     {if $translations && array_key_exists('columns_button', $translations)}
                         {assign var=btn_name value=$translations.columns_button}
                     {else}
-                        {assign var=btn_nme value="Columns"}
+                        {assign var=btn_name value="Columns"}
                     {/if}
                     <div class="btn-group pull-right table-columns-selector">
                         <button type="button" class="btn btn-sm btn-columns" data-toggle="dropdown" data-apply="all" aria-haspopup="true" aria-expanded="false" title="{$btn_name}"><i class="fa fa-columns"></i></button>
@@ -251,7 +256,7 @@
                                         {assign var=img_class value=false}
                                         {if array_key_exists('lookup', $meta)}
                                             {assign var=kid value=$row[$kfield]}
-                                            {assign var=content value='<label class="label label-danger">Invalid lookup value</label>'}
+                                            {assign var=content value="{$invalid_lookup_value}"}
                                             {if is_array($meta.lookup) && array_key_exists($kid, $meta.lookup)}
                                                 {if is_array($meta.lookup[$kid])}
                                                     {if array_key_exists('lookup_field_name', $meta) && is_string($meta.lookup_field_name) && strlen($meta.lookup_field_name)>0}
@@ -273,6 +278,13 @@
                                             {/if}
                                         {else}
                                             {assign var=content value=$row[$kfield]}
+                                        {/if}
+                                        {if array_key_exists('format', $meta) && strlen($meta['format'])>0}
+                                            {if $meta['format'] === 'short_datetime' || $meta['format'] === 'middle_datetime' || $meta['format'] === 'full_datetime' ||
+                                                $meta['format'] === 'short_date' || $meta['format'] === 'middle_date' || $meta['format'] === 'full_date' ||
+                                                $meta['format'] === 'short_time' || $meta['format'] === 'full_time'}
+                                                {nabu_datetime var=content time=$content format=$meta['format']}
+                                            {/if}
                                         {/if}
                                         {if $img_url}<span{if $img_class} class="{$img_class}"{/if}><img src="{$img_url}"></span>{/if}<span class="text">{$content}</span>
                                     {elseif isset($languages) && is_array($languages) && array_key_exists('translation', $row) && is_array($row.translation) && array_key_exists($kfield, $row.translation)}
@@ -303,20 +315,5 @@
                 {/foreach}
             </tbody>
         </table>
-        {*if isset($pager) && $pager}
-            <div class="table-pager">
-                <nav aria-label="Page navigation">
-                    <ul class="pagination">
-                        <li><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
-                    </ul>
-                </nav>
-            </div>
-        {/if*}
     </div>
 {/if}

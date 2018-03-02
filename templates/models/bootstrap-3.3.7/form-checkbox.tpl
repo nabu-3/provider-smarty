@@ -20,8 +20,19 @@
         {elseif count($rel)===1}
             {assign var=label_class value="col-sm-offset-{$rel.0} col-sm-{12-$rel.1}"}
         {else}
-            {assign var=label_class value="col-sm-4 col-sm-8"}
+            {assign var=label_class value="col-sm-offset-4 col-sm-8"}
         {/if}
+    {/if}
+    {if $variant===horizontal}
+        {if count($rel)===3}
+            {assign var=label_class value="col-sm-offset-{$rel.1} col-sm-{$rel.2}"}
+        {elseif count($rel)===2}
+            {assign var=label_class value="col-sm-offset-{$rel.1} col-sm-{12-$rel.1}"}
+        {else}
+            {assign var=label_class value="col-sm-offset-4 col-sm-8"}
+        {/if}
+    {else}
+        {if $sr_only}{assign var=label_class value="{$label_class} sr-only"}{/if}
     {/if}
     {if !isset($value)}
         {assign var=value value=false}

@@ -1,12 +1,13 @@
+{strip}
 {if isset($horizontal)}
     {assign var=variant value=horizontal}
     {assign var=rel value="/:/"|preg_split:$horizontal}
 {elseif isset($inline)}
     {assign var=variant value=inline}
     {assign var=rel value=false}
-{elseif isset($form_variant)}
-    {assign var=variant value=$form_variant}
-    {assign var=rel value=$form_rel}
+{elseif isset($form_layout)}
+    {assign var=variant value=$form_layout[0]}
+    {assign var=rel value=$form_layout}
 {else}
     {assign var=variant value=vertical}
     {assign var=rel value=false}
@@ -22,11 +23,11 @@
 {assign var=label_class value=''}
 {assign var=div_class value=''}
 {if $variant===horizontal}
-    {if count($rel)===2}
-        {assign var=label_class value="col-sm-{$rel.0} control-label"}
-        {assign var=div_class value="col-sm-{$rel.1}"}
-    {elseif count($rel)===1}
-        {assign var=label_class value="col-sm-{$rel.0} control-label"}
+    {if count($rel)===3}
+        {assign var=label_class value="col-sm-{$rel.1} control-label"}
+        {assign var=div_class value="col-sm-{$rel.2}"}
+    {elseif count($rel)===2}
+        {assign var=label_class value="col-sm-{$rel.1} control-label"}
         {assign var=div_class value="col-sm-{12-$rel.1}"}
     {else}
         {assign var=label_class value="col-sm-4 control-label"}
@@ -69,5 +70,7 @@
         {else}
             <p class="form-control-static">{$value}</p>
         {/if}
+        {if $help}<p class="help-block">{$help}</p>{/if}
     {if $variant===horizontal}</div>{/if}
 </div>
+{/strip}

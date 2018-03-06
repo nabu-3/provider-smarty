@@ -32,7 +32,7 @@
             {assign var=label_class value="col-sm-offset-4 col-sm-8"}
         {/if}
     {else}
-        {if $sr_only}{assign var=label_class value="{$label_class} sr-only"}{/if}
+        {if isset($sr_only) && $sr_only}{assign var=label_class value="{$label_class} sr-only"}{/if}
     {/if}
     {if !isset($value)}
         {assign var=value value=false}

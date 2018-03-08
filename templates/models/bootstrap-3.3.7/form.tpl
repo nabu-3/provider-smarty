@@ -26,6 +26,9 @@
     {elseif $method==='ajax-post'}
         {assign var=use_ajax value=true}
         {assign var=method value='post'}
+    {elseif $method==='ajax-put'}
+        {assign var=use_ajax value=true}
+        {assign var=method value='put'}
     {elseif $method==='ajax-delete'}
         {assign var=use_ajax value=true}
         {assign var=method value='delete'}

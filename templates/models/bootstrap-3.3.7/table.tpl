@@ -285,6 +285,8 @@
                                                 $meta['format'] === 'short_time' || $meta['format'] === 'full_time'}
                                                 {nabu_datetime var=content time=$content format=$meta['format']}
                                             {/if}
+                                        {elseif array_key_exists('mask', $meta) && strlen($meta['mask'])>0}
+                                            {assign var=content value="{$meta['mask']|sprintf:$content}"}
                                         {/if}
                                         {if $img_url}<span{if $img_class} class="{$img_class}"{/if}><img src="{$img_url}"></span>{/if}<span class="text">{$content}</span>
                                     {elseif isset($languages) && is_array($languages) && array_key_exists('translation', $row) && is_array($row.translation) && array_key_exists($kfield, $row.translation)}

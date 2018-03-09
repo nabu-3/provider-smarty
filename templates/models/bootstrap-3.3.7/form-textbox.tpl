@@ -216,6 +216,7 @@
                                    {if isset($autofocus)} autofocus{/if}
                                    {if isset($min) && strlen($min)>0} min="{$min}"{/if}
                                    {if isset($max) && strlen($max)>0} max="{$max}"{/if}
+                                   {if isset($step) && strlen($step)>0} step="{$step}"{/if}
                                    {if isset($maxlength) && is_numeric($maxlength)} maxlength="{$maxlength}"{/if}
                                    {if isset($size) && is_numeric($size)} size="{$size}"{/if}
                                    {if isset($mandatory) && $mandatory} data-form-mandatory="yes"{/if}
@@ -238,6 +239,7 @@
                            {if isset($autofocus)} autofocus{/if}
                            {if isset($min) && strlen($min)>0} min="{$min}"{/if}
                            {if isset($max) && strlen($max)>0} max="{$max}"{/if}
+                           {if isset($step) && strlen($step)>0} step="{$step}"{/if}
                            {if isset($maxlength) && is_numeric($maxlength)} maxlength="{$maxlength}"{/if}
                            {if isset($size) && is_numeric($size)} size="{$size}"{/if}
                            {if isset($mandatory) && $mandatory} data-form-mandatory="yes"{/if}

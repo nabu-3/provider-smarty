@@ -52,6 +52,16 @@ function smarty_compiler_nabu_generic_model($params, Smarty $smarty, $fragment)
     }
 }
 
+function smarty_compiler_nabu_alert($params, Smarty $smarty)
+{
+    return smarty_compiler_nabu_generic_model($params, $smarty, 'alert');
+}
+
+function smarty_compiler_nabu_alertclose($params, Smarty $smarty)
+{
+    return smarty_compiler_nabu_generic_model($params, $smarty, 'alertclose');
+}
+
 function smarty_compiler_nabu_form($params, Smarty $smarty)
 {
     return smarty_compiler_nabu_generic_model($params, $smarty, 'form');

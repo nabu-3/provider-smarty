@@ -114,7 +114,7 @@
                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"{if $addons && isset($addon_left) && ($addon_left==='radiobox' || $addon_left==='checkbox') && isset($addon_left_check) && $value_left!==$addon_left_check} disabled{/if}>
                     <span class="caret"></span>
                 </button>
-                {if $name}<input type="hidden" name="{$name}" value="{$value}">{/if}
+                {if $name}<input type="hidden" name="{$name}" value="{$value}"{include file="mandatory-attrs.tpl"}>{/if}
                 <ul class="dropdown-menu"{if isset($id)} aria-labelledby="{$id}"{/if}>
                     {if isset($options_default_name) && is_string($options_default_name) && strlen($options_default_name)>0}
                         <li{if isset($options_default_id)} data-id="{$options_default_id}"{/if}{if !$value} class="active"{/if}><a href="#">{$options_default_name}</a></li>

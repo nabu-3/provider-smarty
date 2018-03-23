@@ -5,4 +5,4 @@
     {include file="aria-attrs.tpl"}
 >{/strip}
     <div class="modal-dialog{if isset($size) && strlen($size)>0} modal-{$size}{/if}" role="document">
-        <div class="modal-content">
+        <div{if isset($content_id) && is_string($content_id) && strlen($content_id)>0} id="{$content_id}"{/if} class="modal-content">

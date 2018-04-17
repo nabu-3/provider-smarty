@@ -112,22 +112,28 @@
                         {if is_array($group) && array_key_exists('buttons', $group) && count($group.buttons) > 0}
                             <div class="btn-group{if array_key_exists('align', $group) && strlen($group.align)>0} pull-{$group.align}{/if}">
                                 {foreach from=$group.buttons key=action item=button}
-                                    {if !array_key_exists('modal', $button) || strlen($button.modal) === 0}
-                                        {strip}
-                                            <button class="btn btn-sm{if array_key_exists('type', $button) && strlen($button.type)>0} btn-{$button.type}{/if}" data-action="{$action}"
-                                                    {if array_key_exists('apply', $button)} data-apply="{$button.apply}"{/if} type="button">
-                                                {if array_key_exists('icon', $button) && strlen($button.icon)>0}<i class="{$button.icon}"></i>{/if}
-                                                {if array_key_exists('name', $button) && strlen($button.name)>0}{$button.name}{/if}
-                                            </button>
-                                        {/strip}
-                                    {else}
-                                        {strip}
+                                    {strip}
+                                        {if !array_key_exists('modal', $button) || strlen($button.modal) === 0}
+                                            {if !array_key_exists('link', $button) || strlen($button.link) === 0}
+                                                <button class="btn btn-sm btn-{$button.type}" data-action="{$action}"
+                                                        {if array_key_exists('apply', $button)} data-apply="{$button.apply}"{/if} type="button">
+                                                    {if array_key_exists('icon', $button) && strlen($button.icon)>0}<i class="{$button.icon}"></i>{/if}
+                                                    {if array_key_exists('name', $button) && strlen($button.name)>0}{$button.name}{/if}
+                                                </button>
+                                            {else}
+                                                <a class="btn btn-sm btn-{$button.type}" data-action="{$action}" href="#"
+                                                   data-href="{$button.link}"{if array_key_exists('apply', $button)} data-apply="{$button.apply}"{/if}>
+                                                    {if array_key_exists('icon', $button) && strlen($button.icon)>0}<i class="{$button.icon}"></i>{/if}
+                                                    {if array_key_exists('name', $button) && strlen($button.name)>0}{$button.name}{/if}
+                                                </a>
+                                            {/if}
+                                        {else}
                                             {if !array_key_exists('type', $button)}{assign var=type value=null}{else}{assign var=type value=$button.type}{/if}
                                             {if array_key_exists('icon', $button) && strlen($button.icon)>0}{assign var=anchor value="<i class=\"{$button.icon}\"></i>"}{/if}
                                             {if array_key_exists('apply', $button) && strlen($button.apply)>0}{assign var=apply value=$button.apply}{else}{assign var=apply value=null}{/if}
                                             {nabu_open_modal mode=button type=$type size=sm target=$button.modal anchor_text=$anchor action=$action apply=$apply}
-                                        {/strip}
-                                    {/if}
+                                        {/if}
+                                    {/strip}
                                 {/foreach}
                             </div>
                         {/if}

@@ -14,10 +14,6 @@
         data-target="{if isset($target)}#{$target}{else}#modal_dialog{/if}"
         {if isset($action) && strlen($action)>0} data-action="{$action}"{/if}
         {if isset($apply) && strlen($apply)>0} data-apply="{$apply}"{/if}
-<<<<<<< HEAD
         {if isset($disable) && $disable===true} disabled{/if}
-=======
-        {if isset($disabled) && $disabled===true} disabled{/if}
->>>>>>> e3fdff8ff925b50c1201224796b3261ed9d2faef
        >{$anchor_text}</button>
 {/strip}

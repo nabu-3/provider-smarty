@@ -1,3 +1,4 @@
+{strip}
 {assign var=final_class value="btn btn-default"}
 {if (isset($class) && strlen($class)>0) || (isset($type) && strlen($type) > 0) || (isset($size) && strlen($size) > 0)}
     {if isset($class) && strlen($class)>0}
@@ -9,4 +10,10 @@
         {assign var=final_class value="{$final_class} btn-{$size}"}
     {/if}
 {/if}
-<button type="button" class="{$final_class}" data-toggle="modal" data-target="{if isset($target)}#{$target}{else}#modal_dialog{/if}"{if isset($action) && strlen($action)>0} data-action="{$action}"{/if}{if isset($apply) && strlen($apply)>0} data-apply="{$apply}"{/if}>{$anchor_text}</button>
+<button type="button" class="{$final_class}" data-toggle="modal"
+        data-target="{if isset($target)}#{$target}{else}#modal_dialog{/if}"
+        {if isset($action) && strlen($action)>0} data-action="{$action}"{/if}
+        {if isset($apply) && strlen($apply)>0} data-apply="{$apply}"{/if}
+        {if isset($disabled) && $disabled===true} disabled{/if}
+       >{$anchor_text}</button>
+{/strip}

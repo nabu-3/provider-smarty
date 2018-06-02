@@ -50,6 +50,12 @@ class CSmartyNabuRawAssignBlock extends CSmartyAbstractBlock
             // take each token in turn...
             $level = 0;
             $items = 0;
+            $list = array(
+                null,
+                array(),
+                array()
+            );
+
             foreach ($src as $_token) {
                 $token = trim($_token);
                 $last_char = substr($token, strlen($token) - 1, 1);
@@ -72,9 +78,11 @@ class CSmartyNabuRawAssignBlock extends CSmartyAbstractBlock
                     case ':':
                         if ($level == 0) {
                             if ($items > 0) {
-                                $msg .= ';';
+                                $list[1][] = $msg . ';';
+                                $msg = '';
                             }
                             $msg .= "$" . substr($token, 0, strlen($token) - 1) . "=";
+                            $list[2][] = substr($token, 0, strlen($token) - 1);
                         } else {
                             if ($items > 0) {
                                 $msg .= ',';
@@ -103,7 +111,9 @@ class CSmartyNabuRawAssignBlock extends CSmartyAbstractBlock
                 }
             }
             $msg .= ';';
-            $cnt = preg_match_all('/(\$(\w+)\s*=\s*(.*?;))/', $msg, $list);
+            if (strlen($msg) > 0) {
+                $list[1][] = $msg .= ';';
+            }
             $cnt = count($list[1]);
             if ($cnt > 0) {
                 for ($i = 0; $i < $cnt; $i++) {

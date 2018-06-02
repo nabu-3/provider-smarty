@@ -285,13 +285,38 @@
                                         {else}
                                             {assign var=content value=$row[$kfield]}
                                         {/if}
-                                        {if array_key_exists('format', $meta) && strlen($meta['format'])>0}
-                                            {if $meta['format'] === 'short_datetime' || $meta['format'] === 'middle_datetime' || $meta['format'] === 'full_datetime' ||
-                                                $meta['format'] === 'short_date' || $meta['format'] === 'middle_date' || $meta['format'] === 'full_date' ||
-                                                $meta['format'] === 'short_time' || $meta['format'] === 'full_time'}
-                                                {nabu_datetime var=content time=$content format=$meta['format']}
+                                        {if array_key_exists('format', $meta) && strlen($meta.format)>0}
+                                            {if $meta.format === 'short_datetime' || $meta.format === 'middle_datetime' || $meta.format === 'full_datetime' ||
+                                                $meta.format === 'short_date' || $meta.format === 'middle_date' || $meta.format === 'full_date' ||
+                                                $meta.format === 'short_time' || $meta.format === 'full_time'}
+                                                {nabu_datetime var=content time=$content format=$meta.format}
+                                            {elseif $meta.format === 'number'}
+                                                {if is_numeric($content)}
+                                                    {if array_key_exists('decimals', $meta) && is_numeric($meta.decimals)}
+                                                        {assign var=decimals value=$meta.decimals}
+                                                    {else}
+                                                        {assign var=decimals value=0}
+                                                    {/if}
+                                                    {if array_key_exists('thousand_separator', $meta) && is_string($meta.thousand_separator)}
+                                                        {assign var=thousand_separator value=$meta.thousand_separator}
+                                                    {else}
+                                                        {assign var=thousand_separator value='.'}
+                                                    {/if}
+                                                    {if array_key_exists('comma_separator', $meta) && is_string($meta.comma_separator)}
+                                                        {assign var=comma_separator value=$meta.comma_separator}
+                                                    {else}
+                                                        {if $thousand_separator===','}
+                                                            {assign var=comma_separator value='.'}
+                                                        {else}
+                                                            {assign var=comma_separator value=','}
+                                                        {/if}
+                                                    {/if}
+                                                    {assign var=content value="{$content|number_format:$decimals:$comma_separator:$thousand_separator}"}
+                                                {/if}
                                             {/if}
-                                        {elseif array_key_exists('mask', $meta) && strlen($meta['mask'])>0}
+                                        {/if}
+
+                                        {if array_key_exists('mask', $meta) && strlen($meta['mask'])>0}
                                             {assign var=content value="{$meta['mask']|sprintf:$content}"}
                                         {/if}
                                         {if $img_url}<span{if $img_class} class="{$img_class}"{/if}><img src="{$img_url}"></span>{/if}<span class="text">{$content}</span>

@@ -65,6 +65,7 @@
         {assign var=editor_mode value=page}
     {/if}
 {/if}
+{assign var=have_tr_class value=false}
 {if isset($data) || (isset($draw_empty) && $draw_empty)}
     {strip}<div{if isset($id) && strlen($id)>0} id="{$id}"{/if} class="table-container" data-toggle="nabu-table"
             {if isset($pager) && $pager} data-table-pager="true"{if isset($size)} data-table-size="{$size}"{/if}{/if}
@@ -176,69 +177,73 @@
                     <tr>
                         {if $selectable}<th class="col-selectable" data-toggle="table-selectable"><input type="checkbox"></th>{/if}
                         {foreach from=$fields key=kfield item=field}{strip}
-                            {if array_key_exists('field', $field) && is_string($field.field) && strlen($field.field)>0}
-                                {assign var=kalias value=$kfield}
-                                {assign var=kfield value=$field.field}
-                            {else}
-                                {assign var=kalias value=false}
-                            {/if}
-                            {if array_key_exists('order', $field)}
-                                {assign var=ordered value=$field.order}
-                            {else}
-                                {assign var=ordered value=false}
-                            {/if}
-                            {if array_key_exists('id', $field) && $field.id===true}
-                                {assign var=field_id value=$kfield}
-                            {/if}
-                            {if array_key_exists('align', $field)}
-                                {assign var=align value=$field.align}
-                            {else}
-                                {assign var=align value=false}
-                            {/if}
-                            {if array_key_exists('lookup', $field)}
-                                {capture assign=data_lookup}{strip}
-                                    {ldelim}
-                                        {foreach from=$field.lookup key=lkey item=litem}
-                                            {if is_scalar($litem)}
-                                                "{$lkey}": {if is_string($litem)}"{$litem}"{else}{$litem}{/if}
-                                            {elseif is_array($litem)}
-                                                {if array_key_exists('lookup_field_name', $field) && is_string($field.lookup_field_name) && strlen($field.lookup_field_name)>0}
-                                                    {assign var=lookup_field_name value=$field['lookup_field_name']}
-                                                    {if array_key_exists($lookup_field_name, $litem)}
-                                                        {if is_scalar($litem[$lookup_field_name])}
-                                                            "{$lkey}": {if is_string($litem[$lookup_field_name])}"{$litem[$lookup_field_name]}"{else}{$litem[$lookup_field_name]}{/if}
-                                                        {elseif $litem[$lookup_field_name]===null}
-                                                            "{$lkey}": null
-                                                        {/if}
-                                                    {elseif array_key_exists('translation', $litem) && is_array($litem.translation) && array_key_exists($lookup_field_name, $litem.translation)}
-                                                        {if is_scalar($litem.translation[$lookup_field_name])}
-                                                            "{$lkey}": {if is_string($litem.translation[$lookup_field_name])}"{$litem.translation[$lookup_field_name]}"{else}{$litem.translation[$lookup_field_name]}{/if}
-                                                        {elseif $litem.translation[$lookup_field_name]===null}
-                                                            "{$lkey}": null
+                            {if !array_key_exists('is_class', $field) || strlen($field.is_class) === 0}
+                                {if array_key_exists('field', $field) && is_string($field.field) && strlen($field.field)>0}
+                                    {assign var=kalias value=$kfield}
+                                    {assign var=kfield value=$field.field}
+                                {else}
+                                    {assign var=kalias value=false}
+                                {/if}
+                                {if array_key_exists('order', $field)}
+                                    {assign var=ordered value=$field.order}
+                                {else}
+                                    {assign var=ordered value=false}
+                                {/if}
+                                {if array_key_exists('id', $field) && $field.id===true}
+                                    {assign var=field_id value=$kfield}
+                                {/if}
+                                {if array_key_exists('align', $field)}
+                                    {assign var=align value=$field.align}
+                                {else}
+                                    {assign var=align value=false}
+                                {/if}
+                                {if array_key_exists('lookup', $field)}
+                                    {capture assign=data_lookup}{strip}
+                                        {ldelim}
+                                            {foreach from=$field.lookup key=lkey item=litem}
+                                                {if is_scalar($litem)}
+                                                    "{$lkey}": {if is_string($litem)}"{$litem}"{else}{$litem}{/if}
+                                                {elseif is_array($litem)}
+                                                    {if array_key_exists('lookup_field_name', $field) && is_string($field.lookup_field_name) && strlen($field.lookup_field_name)>0}
+                                                        {assign var=lookup_field_name value=$field['lookup_field_name']}
+                                                        {if array_key_exists($lookup_field_name, $litem)}
+                                                            {if is_scalar($litem[$lookup_field_name])}
+                                                                "{$lkey}": {if is_string($litem[$lookup_field_name])}"{$litem[$lookup_field_name]}"{else}{$litem[$lookup_field_name]}{/if}
+                                                            {elseif $litem[$lookup_field_name]===null}
+                                                                "{$lkey}": null
+                                                            {/if}
+                                                        {elseif array_key_exists('translation', $litem) && is_array($litem.translation) && array_key_exists($lookup_field_name, $litem.translation)}
+                                                            {if is_scalar($litem.translation[$lookup_field_name])}
+                                                                "{$lkey}": {if is_string($litem.translation[$lookup_field_name])}"{$litem.translation[$lookup_field_name]}"{else}{$litem.translation[$lookup_field_name]}{/if}
+                                                            {elseif $litem.translation[$lookup_field_name]===null}
+                                                                "{$lkey}": null
+                                                            {/if}
+                                                        {else}
+                                                            "nofield": ""
                                                         {/if}
                                                     {else}
-                                                        "nofield": ""
+                                                        "nofield_name": ""
                                                     {/if}
                                                 {else}
-                                                    "nofield_name": ""
+                                                    "crash": ""
                                                 {/if}
-                                            {else}
-                                                "crash": ""
-                                            {/if}
-                                            {if !$litem@last},{/if}
-                                        {/foreach}
-                                    {rdelim}
-                                {/strip}{/capture}
+                                                {if !$litem@last},{/if}
+                                            {/foreach}
+                                        {rdelim}
+                                    {/strip}{/capture}
+                                {else}
+                                    {assign var=data_lookup value=false}
+                                {/if}
+                                <th data-name="{$kfield}"
+                                    {if isset($kalias) && is_string($kalias)} data-alias="{$kalias}"{/if}
+                                    {if array_key_exists('id', $field) && $field.id} data-is-id="true"{/if}
+                                    {if $align} data-align="{if $field.align==='right'}text-right{elseif $field.align==='center'}text-center{/if}"{/if}
+                                    {if $ordered} data-order="{$field.order}"{/if}
+                                    {if is_string($data_lookup) && strlen($data_lookup)>0} data-lookup="{$data_lookup|escape:html}"{/if}
+                                >{$field.title}{if $ordered}<button class="btn btn-xs btn-order pull-right"><i class="fa fa-sort"></i></button>{/if}</th>
                             {else}
-                                {assign var=data_lookup value=false}
+                                {assign var=have_tr_class value=$kfield}
                             {/if}
-                            <th data-name="{$kfield}"
-                                {if isset($kalias) && is_string($kalias)} data-alias="{$kalias}"{/if}
-                                {if array_key_exists('id', $field) && $field.id} data-is-id="true"{/if}
-                                {if $align} data-align="{if $field.align==='right'}text-right{elseif $field.align==='center'}text-center{/if}"{/if}
-                                {if $ordered} data-order="{$field.order}"{/if}
-                                {if is_string($data_lookup) && strlen($data_lookup)>0} data-lookup="{$data_lookup|escape:html}"{/if}
-                            >{$field.title}{if $ordered}<button class="btn btn-xs btn-order pull-right"><i class="fa fa-sort"></i></button>{/if}</th>
                         {/strip}{/foreach}
                         {if isset($edit_button) && $edit_button==='button'}<th width="*"></th>{/if}
                     </tr>
@@ -249,99 +254,101 @@
                     <tr class="table-empty-row{if is_array($data) && count($data)>0} hide{/if}" data-type="empty"><td colspan="{if isset($selectable) && $selectable}{count($fields)+1}{else}{count($fields)}{/if}">{$translations.empty_message}</td></tr>
                 {/if}
                 {foreach from=$data item=row}
-                    <tr data-type="row"{if is_string($field_id) && array_key_exists($field_id, $row)} data-id="{$row[$field_id]}"{/if}{if (isset($edit_button) && $edit_button==='line') || (isset($pager) && $pager && isset($size) && $size<$row@iteration)} class="{if isset($edit_button) && $edit_button==='line'}btn-edit-line{/if}{if isset($pager) && $pager && isset($size) && $size<$row@iteration} hide{/if}"{/if}>
+                    <tr data-type="row"{if is_string($field_id) && array_key_exists($field_id, $row)} data-id="{$row[$field_id]}"{/if}{if (isset($edit_button) && $edit_button==='line') || (isset($pager) && $pager && isset($size) && $size<$row@iteration)} class="{if isset($edit_button) && $edit_button==='line'}btn-edit-line{/if}{if isset($pager) && $pager && isset($size) && $size<$row@iteration} hide{/if}{if is_string($have_tr_class)} {$row[$have_tr_class]}{/if}"{/if}>
                         {if $selectable}<td class="col-selectable" data-toggle="table-selectable"><input type="checkbox" value="T"></td>{/if}
                         {foreach from=$fields key=kfield item=meta}
-                            {if array_key_exists('field', $meta) && is_string($meta.field) && strlen($meta.field)>0}
-                                {assign var=kfield value=$meta.field}
-                            {/if}
-                            <td data-name="{$kfield}"{if array_key_exists('align', $meta)} class="{if $meta.align==='right'}text-right{elseif $meta.align==='center'}text-center{/if}"{/if}>
-                                {strip}
-                                    {if array_key_exists($kfield, $row)}
-                                        {assign var=img_url value=false}
-                                        {assign var=img_class value=false}
-                                        {if array_key_exists('lookup', $meta)}
-                                            {assign var=kid value=$row[$kfield]}
-                                            {assign var=content value="{$invalid_lookup_value}"}
-                                            {if is_array($meta.lookup) && array_key_exists($kid, $meta.lookup)}
-                                                {if is_array($meta.lookup[$kid])}
-                                                    {if array_key_exists('lookup_field_name', $meta) && is_string($meta.lookup_field_name) && strlen($meta.lookup_field_name)>0}
-                                                        {if array_key_exists($meta.lookup_field_name, $meta.lookup[$kid])}
-                                                            {assign var=content value=$meta.lookup[$kid][$meta.lookup_field_name]}
-                                                        {elseif array_key_exists('translation', $meta.lookup[$kid]) && is_array($meta.lookup[$kid].translation) && array_key_exists($meta.lookup_field_name, $meta.lookup[$kid].translation)}
-                                                            {assign var=content value=$meta.lookup[$kid].translation[$meta.lookup_field_name]}
+                            {if !array_key_exists('is_class', $meta) || !$meta.is_class}
+                                {if array_key_exists('field', $meta) && is_string($meta.field) && strlen($meta.field)>0}
+                                    {assign var=kfield value=$meta.field}
+                                {/if}
+                                <td data-name="{$kfield}"{if array_key_exists('align', $meta)} class="{if $meta.align==='right'}text-right{elseif $meta.align==='center'}text-center{/if}"{/if}>
+                                    {strip}
+                                        {if array_key_exists($kfield, $row)}
+                                            {assign var=img_url value=false}
+                                            {assign var=img_class value=false}
+                                            {if array_key_exists('lookup', $meta)}
+                                                {assign var=kid value=$row[$kfield]}
+                                                {assign var=content value="{$invalid_lookup_value}"}
+                                                {if is_array($meta.lookup) && array_key_exists($kid, $meta.lookup)}
+                                                    {if is_array($meta.lookup[$kid])}
+                                                        {if array_key_exists('lookup_field_name', $meta) && is_string($meta.lookup_field_name) && strlen($meta.lookup_field_name)>0}
+                                                            {if array_key_exists($meta.lookup_field_name, $meta.lookup[$kid])}
+                                                                {assign var=content value=$meta.lookup[$kid][$meta.lookup_field_name]}
+                                                            {elseif array_key_exists('translation', $meta.lookup[$kid]) && is_array($meta.lookup[$kid].translation) && array_key_exists($meta.lookup_field_name, $meta.lookup[$kid].translation)}
+                                                                {assign var=content value=$meta.lookup[$kid].translation[$meta.lookup_field_name]}
+                                                            {/if}
                                                         {/if}
+                                                        {if array_key_exists('lookup_field_image', $meta) && is_string($meta.lookup_field_image) && array_key_exists($meta.lookup_field_image, $meta.lookup[$kid])}
+                                                            {assign var=img_url value=$meta.lookup[$kid][$meta.lookup_field_image]}
+                                                        {/if}
+                                                        {if array_key_exists('lookup_field_image_class', $meta) && is_string($meta.lookup_field_image_class)}
+                                                            {assign var=img_class value=$meta.lookup_field_image_class}
+                                                        {/if}
+                                                    {elseif is_string($meta.lookup[$kid])}
+                                                        {assign var=content value=$meta.lookup[$kid]}
                                                     {/if}
-                                                    {if array_key_exists('lookup_field_image', $meta) && is_string($meta.lookup_field_image) && array_key_exists($meta.lookup_field_image, $meta.lookup[$kid])}
-                                                        {assign var=img_url value=$meta.lookup[$kid][$meta.lookup_field_image]}
-                                                    {/if}
-                                                    {if array_key_exists('lookup_field_image_class', $meta) && is_string($meta.lookup_field_image_class)}
-                                                        {assign var=img_class value=$meta.lookup_field_image_class}
-                                                    {/if}
-                                                {elseif is_string($meta.lookup[$kid])}
-                                                    {assign var=content value=$meta.lookup[$kid]}
                                                 {/if}
+                                            {else}
+                                                {assign var=content value=$row[$kfield]}
                                             {/if}
-                                        {else}
-                                            {assign var=content value=$row[$kfield]}
-                                        {/if}
-                                        {if array_key_exists('format', $meta) && strlen($meta.format)>0}
-                                            {if $meta.format === 'short_datetime' || $meta.format === 'middle_datetime' || $meta.format === 'full_datetime' ||
-                                                $meta.format === 'short_date' || $meta.format === 'middle_date' || $meta.format === 'full_date' ||
-                                                $meta.format === 'short_time' || $meta.format === 'full_time'}
-                                                {nabu_datetime var=content time=$content format=$meta.format}
-                                            {elseif $meta.format === 'number'}
-                                                {if is_numeric($content)}
-                                                    {if array_key_exists('decimals', $meta) && is_numeric($meta.decimals)}
-                                                        {assign var=decimals value=$meta.decimals}
-                                                    {else}
-                                                        {assign var=decimals value=0}
-                                                    {/if}
-                                                    {if array_key_exists('thousand_separator', $meta) && is_string($meta.thousand_separator)}
-                                                        {assign var=thousand_separator value=$meta.thousand_separator}
-                                                    {else}
-                                                        {assign var=thousand_separator value='.'}
-                                                    {/if}
-                                                    {if array_key_exists('comma_separator', $meta) && is_string($meta.comma_separator)}
-                                                        {assign var=comma_separator value=$meta.comma_separator}
-                                                    {else}
-                                                        {if $thousand_separator===','}
-                                                            {assign var=comma_separator value='.'}
+                                            {if array_key_exists('format', $meta) && strlen($meta.format)>0}
+                                                {if $meta.format === 'short_datetime' || $meta.format === 'middle_datetime' || $meta.format === 'full_datetime' ||
+                                                    $meta.format === 'short_date' || $meta.format === 'middle_date' || $meta.format === 'full_date' ||
+                                                    $meta.format === 'short_time' || $meta.format === 'full_time'}
+                                                    {nabu_datetime var=content time=$content format=$meta.format}
+                                                {elseif $meta.format === 'number'}
+                                                    {if is_numeric($content)}
+                                                        {if array_key_exists('decimals', $meta) && is_numeric($meta.decimals)}
+                                                            {assign var=decimals value=$meta.decimals}
                                                         {else}
-                                                            {assign var=comma_separator value=','}
+                                                            {assign var=decimals value=0}
                                                         {/if}
+                                                        {if array_key_exists('thousand_separator', $meta) && is_string($meta.thousand_separator)}
+                                                            {assign var=thousand_separator value=$meta.thousand_separator}
+                                                        {else}
+                                                            {assign var=thousand_separator value='.'}
+                                                        {/if}
+                                                        {if array_key_exists('comma_separator', $meta) && is_string($meta.comma_separator)}
+                                                            {assign var=comma_separator value=$meta.comma_separator}
+                                                        {else}
+                                                            {if $thousand_separator===','}
+                                                                {assign var=comma_separator value='.'}
+                                                            {else}
+                                                                {assign var=comma_separator value=','}
+                                                            {/if}
+                                                        {/if}
+                                                        {assign var=content value="{$content|number_format:$decimals:$comma_separator:$thousand_separator}"}
                                                     {/if}
-                                                    {assign var=content value="{$content|number_format:$decimals:$comma_separator:$thousand_separator}"}
                                                 {/if}
                                             {/if}
-                                        {/if}
 
-                                        {if array_key_exists('mask', $meta) && strlen($meta['mask'])>0}
-                                            {assign var=content value="{$meta['mask']|sprintf:$content}"}
+                                            {if array_key_exists('mask', $meta) && strlen($meta['mask'])>0}
+                                                {assign var=content value="{$meta['mask']|sprintf:$content}"}
+                                            {/if}
+                                            {if $img_url}<span{if $img_class} class="{$img_class}"{/if}><img src="{$img_url}"></span>{/if}<span class="text">{$content}</span>
+                                        {elseif isset($languages) && is_array($languages) && array_key_exists('translation', $row) && is_array($row.translation) && array_key_exists($kfield, $row.translation)}
+                                            {foreach from=$languages key=lang_id item=language}
+                                                <span lang="{$language.default_country_code}">
+                                                    {if !isset($show_flag) || $show_flag === true}
+                                                        <span class="flag">
+                                                            {if $language.type==='C' && strlen($language.flag_url)>0}
+                                                                <img src="{$language.flag_url}">
+                                                            {else}
+                                                                {$language.default_country_code}
+                                                            {/if}
+                                                        </span>
+                                                    {/if}
+                                                    {if array_key_exists($lang_id, $row.translations)}
+                                                        <span class="translation">{$row.translations[$lang_id][$kfield]}</span>{if !$language@last}<br>{/if}
+                                                    {else}
+                                                        <span class="translation label label-danger">{if is_array($translations) && array_key_exists('translation_not_available', $translations) && strlen($translations.translation_not_available)>0}{$translations.translation_not_available}{else}Translation not available{/if}</span>
+                                                    {/if}
+                                                </span>
+                                            {/foreach}
                                         {/if}
-                                        {if $img_url}<span{if $img_class} class="{$img_class}"{/if}><img src="{$img_url}"></span>{/if}<span class="text">{$content}</span>
-                                    {elseif isset($languages) && is_array($languages) && array_key_exists('translation', $row) && is_array($row.translation) && array_key_exists($kfield, $row.translation)}
-                                        {foreach from=$languages key=lang_id item=language}
-                                            <span lang="{$language.default_country_code}">
-                                                {if !isset($show_flag) || $show_flag === true}
-                                                    <span class="flag">
-                                                        {if $language.type==='C' && strlen($language.flag_url)>0}
-                                                            <img src="{$language.flag_url}">
-                                                        {else}
-                                                            {$language.default_country_code}
-                                                        {/if}
-                                                    </span>
-                                                {/if}
-                                                {if array_key_exists($lang_id, $row.translations)}
-                                                    <span class="translation">{$row.translations[$lang_id][$kfield]}</span>{if !$language@last}<br>{/if}
-                                                {else}
-                                                    <span class="translation label label-danger">{if is_array($translations) && array_key_exists('translation_not_available', $translations) && strlen($translations.translation_not_available)>0}{$translations.translation_not_available}{else}Translation not available{/if}</span>
-                                                {/if}
-                                            </span>
-                                        {/foreach}
-                                    {/if}
-                                {/strip}
-                            </td>
+                                    {/strip}
+                                </td>
+                            {/if}
                         {/foreach}
                         {if isset($edit_button) && $edit_button==='button'}<td><div class="btn-group" role="group"><button class="btn btn-editor btn-xs"><i class="fa fa-edit"></i></div></td>{/if}
                     </tr>

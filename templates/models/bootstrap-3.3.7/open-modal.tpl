@@ -10,8 +10,7 @@
         {assign var=final_class value="{$final_class} btn-{$size}"}
     {/if}
 {/if}
-<button type="button" class="{$final_class}" data-toggle="modal"
-        data-target="{if isset($target)}#{$target}{else}#modal_dialog{/if}"
+<button type="button" class="{$final_class}" data-toggle="modal" data-target="{if isset($target)}#{$target}{else}#modal_dialog{/if}"
         {if isset($action) && strlen($action)>0} data-action="{$action}"{/if}
         {if isset($apply) && strlen($apply)>0} data-apply="{$apply}"{/if}
         {if isset($disable) && $disable===true} disabled{/if}

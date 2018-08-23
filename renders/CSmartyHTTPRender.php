@@ -43,7 +43,7 @@ require_once SMARTY_PROVIDER_PATH . '/plugins/compiler.nabu_role.php';
  * @author Rafael Gutierrez <rgutierrez@nabu-3.com>
  * @since 0.0.1
  * @version 0.0.6
- * @package \nabu\http\renders
+ * @package providers\smarty\smarty\renders
  */
 class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
 {

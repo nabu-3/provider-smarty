@@ -19,6 +19,7 @@
  */
 
 namespace providers\smarty\smarty\renders;
+
 use Smarty;
 use nabu\cache\interfaces\INabuCacheable;
 use nabu\cache\interfaces\INabuCacheStorage;
@@ -33,7 +34,7 @@ use nabu\db\CNabuDBObject;
 use nabu\http\app\base\CNabuHTTPApplication;
 use nabu\http\interfaces\INabuHTTPResponseRender;
 use nabu\http\renders\base\CNabuHTTPResponseRenderAdapter;
-use prividers\smarty\smarty\CSmartyManager;
+use providers\smarty\smarty\CSmartyManager;
 
 require_once SMARTY_PROVIDER_PATH . '/plugins/compiler.nabu_exists.php';
 require_once SMARTY_PROVIDER_PATH . '/plugins/compiler.nabu_role.php';
@@ -56,8 +57,7 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
 
     public function __construct(
         CNabuHTTPApplication $nb_application,
-        INabuHTTPResponseRender $main_render = null/*,
-        $params = false*/
+        INabuHTTPResponseRender $main_render = null
     ) {
         parent::__construct($nb_application, $main_render);
 
@@ -94,7 +94,9 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
                 : $base . $nb_site->getSmartyTemplatePath()
             );
             */
-            $this->smarty->setTemplateDir($vhosts_path . NABU_SRC_FOLDER . SMARTY_BASE_FOLDER . SMARTY_TEMPLATES_FOLDER);
+            $this->smarty->setTemplateDir(
+                $vhosts_path . NABU_SRC_FOLDER . SMARTY_BASE_FOLDER . SMARTY_TEMPLATES_FOLDER
+            );
             /*
             $this->smarty->setCompileDir(
                 (is_array($params) && array_key_exists('compiles', $params))
@@ -136,7 +138,9 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
             );
             */
             $this->smarty->setErrorReporting($nb_site->getSmartyErrorReporting());
-            $this->smarty->setDebugTemplate($this->nb_smarty_manager->getTemplatesPath() . DIRECTORY_SEPARATOR . 'debug.tpl');
+            $this->smarty->setDebugTemplate(
+                $this->nb_smarty_manager->getTemplatesPath() . DIRECTORY_SEPARATOR . 'debug.tpl'
+            );
             $this->smarty->setCaching(false);
         } else {
             return false;
@@ -173,9 +177,9 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
             } else {
                 $converted = self::anidateConversion($value->getTreeData($nb_language), $nb_language);
             }
-        } else if (is_array($value)) {
+        } elseif (is_array($value)) {
             $converted = self::anidateConversion($value, $nb_language);
-        } else if (is_object ($value)) {
+        } elseif (is_object ($value)) {
             throw new ENabuCoreException(
                 ENabuCoreException::ERROR_OBJECT_NOT_EXPECTED,
                 array(print_r($value, true))
@@ -200,9 +204,9 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
                     } else {
                         $list[$key] = self::anidateConversion($row->getTreeData($nb_language), $nb_language);
                     }
-                } else if (is_array($row)) {
+                } elseif (is_array($row)) {
                     $list[$key] = self::anidateConversion($row, $nb_language);
-                } else if (is_object($row)) {
+                } elseif (is_object($row)) {
                     throw new ENabuCoreException(
                         ENabuCoreException::ERROR_OBJECT_NOT_EXPECTED,
                         array(print_r($row, true))
@@ -212,18 +216,18 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
                 }
             }
             return $list;
-        } else if ($array instanceof CNabuDataObject) {
+        } elseif ($array instanceof CNabuDataObject) {
             if ($nb_language == null) {
                 return self::anidateConversion($array->getTreeData());
             } else {
                 return self::anidateConversion($array->getTreeData($nb_language), $nb_language);
             }
-        }else if (is_object($array)) {
+        }elseif (is_object($array)) {
             throw new ENabuCoreException(
                 ENabuCoreException::ERROR_OBJECT_NOT_EXPECTED,
                 array(print_r($array, true))
             );
-        } else if ($array != null) {
+        } elseif ($array != null) {
             return array($array);
         }
 
@@ -232,23 +236,30 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
     */
 
     /**
-     * Assigns the $value to an $name smarty variable without convert their content
-     * @param string $name Name of smarty variable
-     * @param mixed $value Value to put into smarty variable
-     * @return bool  If success return true, otherwise false
+     * Assigns the $value to an $name smarty variable without convert their content.
+     * @param string $name Name of smarty variable.
+     * @param mixed $value Value to put into smarty variable.
+     * @param string|null $cache_key Key to locate the cache of this value.
+     * @param bool $cache_update If true forces to update the cache.
+     * @param bool $prevent_callable If true prevents that callable values won't be invoqued.
+     * @return bool  If success return true, otherwise false.
      */
-    public function smartyBypassAssign($name, $value, $cache_key = false, $cache_update = false)
-    {
+    public function smartyBypassAssign(
+        string $name,
+        $value,
+        string $cache_key = null,
+        bool $cache_update = false,
+        bool $prevent_callable = false
+    ) {
         if ($this->isSmartyInitialized()) {
-
-            $is_cacheable = ($this->cache_storage instanceof INabuCacheStorage && $cache_key);
+            $is_cacheable = ($this->cache_storage instanceof INabuCacheStorage && is_string($cache_key));
             if ($is_cacheable) {
                 $container = $this->cache_storage->getContainer($cache_key);
                 if ($container !== null) {
                     $this->smarty->assign($name, $container->getData());
                     return true;
                 } else {
-                    $container = $this->cache_storage->createContainer($cache_key, $value);
+                    $container = $this->cache_storage->createContainer($cache_key, $value, $prevent_callable);
                     $cache_update = true;
                 }
                 $final_value = $container->getData();
@@ -267,7 +278,7 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
                     $container->setData($final_value);
                     $container->update();
                 } else {
-                    $container = $this->cache_storage->createContainer($cache_key, $final_value);
+                    $container = $this->cache_storage->createContainer($cache_key, $final_value, $prevent_callable);
                     $container->update();
                 }
             }
@@ -283,24 +294,31 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
      * @param string $name Name of smarty variable
      * @param mixed $value Value to put into smarty variable
      * @param mixed $nb_language Language to extract smarty array
+     * @param string|null $cache_key Key to locate the cache of this value.
+     * @param bool $prevent_callable If true prevents that callable values won't be invoqued.
      * @return bool If success return true, otherwise false
      */
-    public function smartyAssign($name, $value, $nb_language = null, $cache_key = false)
-    {
+    public function smartyAssign(
+        string $name,
+        $value,
+        $nb_language = null,
+        string $cache_key = null,
+        bool $prevent_callable = false
+    ) {
         if ($this->isSmartyInitialized()) {
             $cache_update = false;
-            if ($this->cache_storage instanceof INabuCacheStorage && $cache_key) {
+            if ($this->cache_storage instanceof INabuCacheStorage && is_string($cache_key)) {
                 $container = $this->cache_storage->getContainer($cache_key);
                 if ($container !== null) {
-                    $this->smartyBypassAssign($name, $container->getData());
+                    $this->smartyBypassAssign($name, $container->getData(), $prevent_callable);
                     return true;
                 } else {
-                    $container = $this->cache_storage->createContainer($cache_key, $value);
+                    $container = $this->cache_storage->createContainer($cache_key, $value, $prevent_callable);
                     $cache_update = true;
                 }
                 $final_value = $container->getData();
             } else {
-                if (is_callable($value)) {
+                if (!$prevent_callable && is_callable($value)) {
                     $final_value = $value();
                 } else {
                     $final_value = $value;
@@ -312,39 +330,52 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
                 if ($nb_language ===  null) {
                     $this->smartyBypassAssign(
                         $name,
-                        $this->anidateSmartyConversion($final_value->getTreeData()),
+                        $this->anidateSmartyConversion($final_value->getTreeData(), $prevent_callable),
                         $cache_key,
-                        $cache_update
+                        $cache_update,
+                        $prevent_callable
                     );
                     return true;
                 } else {
                     $this->smartyBypassAssign(
                         $name,
-                        $this->anidateSmartyConversion($final_value->getTreeData($nb_language), $nb_language),
+                        $this->anidateSmartyConversion(
+                            $final_value->getTreeData($nb_language),
+                            $nb_language,
+                            $prevent_callable
+                        ),
                         $cache_key,
-                        $cache_update
+                        $cache_update,
+                        $prevent_callable
                     );
                     return true;
                 }
             } elseif ($final_value instanceof CNabuDataObjectList) {
-                return $this->smartyAssign($name, $final_value->getItems(), $nb_language, $cache_key);
+                return $this->smartyAssign(
+                    $name,
+                    $final_value->getItems(),
+                    $nb_language,
+                    $cache_key,
+                    $prevent_callable
+                );
             } elseif ($final_value instanceof CNabuDataObjectListIndex) {
-                return $this->smartyAssign($name, $final_value->getKeys(), $nb_language, $cache_key);
-            } else if (is_array($final_value)) {
+                return $this->smartyAssign($name, $final_value->getKeys(), $nb_language, $cache_key, $prevent_callable);
+            } elseif (is_array($final_value)) {
                 $this->smartyBypassAssign(
                     $name,
                     $this->anidateSmartyConversion($final_value, $nb_language),
                     $cache_key,
-                    $cache_update
+                    $cache_update,
+                    $prevent_callable
                 );
                 return true;
-            } else if (is_object($final_value)) {
+            } elseif (is_object($final_value)) {
                 throw new ENabuCoreException(
                     ENabuCoreException::ERROR_OBJECT_NOT_EXPECTED,
                     array(print_r($final_value, true))
                 );
             } else {
-                $this->smartyBypassAssign($name, $final_value, $cache_key, $cache_update);
+                $this->smartyBypassAssign($name, $final_value, $cache_key, $cache_update, $prevent_callable);
                 return true;
             }
         } else {
@@ -357,32 +388,48 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
         return false;
     }
 
-    private function anidateSmartyConversion($array, $nb_language = null)
+    private function anidateSmartyConversion($array, $nb_language = null, bool $prevent_callable = false)
     {
         if ($array != null && is_array($array)) {
             $list = array();
-            foreach ($array as $key=>$row) {
+            foreach ($array as $key => $row) {
                 if ($row instanceof CNabuDataObject) {
                     if ($nb_language == null) {
                         if ($row instanceof CNabuDBObject) {
-                            $list[$key] = $this->anidateSmartyConversion($row->getTreeData());
+                            $list[$key] = $this->anidateSmartyConversion($row->getTreeData(), null, $prevent_callable);
                         } else {
-                            $list[$key] = $this->anidateSmartyConversion($row->getTreeData(null, true));
+                            $list[$key] = $this->anidateSmartyConversion(
+                                $row->getTreeData(null, true),
+                                null,
+                                $prevent_callable
+                            );
                         }
                     } else {
                         if ($row instanceof CNabuDBObject) {
-                            $list[$key] = $this->anidateSmartyConversion($row->getTreeData($nb_language), $nb_language);
+                            $list[$key] = $this->anidateSmartyConversion(
+                                $row->getTreeData($nb_language),
+                                $nb_language,
+                                $prevent_callable
+                            );
                         } else {
-                            $list[$key] = $this->anidateSmartyConversion($row->getTreeData($nb_language, true), $nb_language);
+                            $list[$key] = $this->anidateSmartyConversion(
+                                $row->getTreeData($nb_language, true),
+                                $nb_language,
+                                $prevent_callable
+                            );
                         }
                     }
                 } elseif ($row instanceof CNabuDataObjectList) {
-                    $list[$key] = $this->anidateSmartyConversion($row->getItems(), $nb_language);
+                    $list[$key] = $this->anidateSmartyConversion(
+                        $row->getItems(),
+                        $nb_language,
+                        $prevent_callable
+                    );
                 } elseif ($row instanceof CNabuDataObjectListIndex) {
                     $list[$key] = $row->getKeys();
-                } else if (is_array($row)) {
-                    $list[$key] = $this->anidateSmartyConversion($row, $nb_language);
-                } else if (is_object($row)) {
+                } elseif (is_array($row)) {
+                    $list[$key] = $this->anidateSmartyConversion($row, $nb_language, $prevent_callable);
+                } elseif (is_object($row)) {
                     throw new ENabuCoreException(
                         ENabuCoreException::ERROR_OBJECT_NOT_EXPECTED,
                         array(print_r(get_class($row), true))
@@ -392,18 +439,22 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
                 }
             }
             return $list;
-        } else if ($array instanceof CNabuDataObject) {
+        } elseif ($array instanceof CNabuDataObject) {
             if ($nb_language == null) {
-                return $this->anidateSmartyConversion($array->getTreeData());
+                return $this->anidateSmartyConversion($array->getTreeData(), null, $prevent_callable);
             } else {
-                return $this->anidateSmartyConversion($array->getTreeData($nb_language), $nb_language);
+                return $this->anidateSmartyConversion(
+                    $array->getTreeData($nb_language),
+                    $nb_language,
+                    $prevent_callable
+                );
             }
-        } else if (is_object($array)) {
+        } elseif (is_object($array)) {
             throw new ENabuCoreException(
                 ENabuCoreException::ERROR_OBJECT_NOT_EXPECTED,
                 array(print_r($array, true))
             );
-        } else if ($array != null) {
+        } elseif ($array != null) {
             return array($array);
         }
 
@@ -433,41 +484,8 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
             }
             switch ($output_type) {
                 case 'HTML':
-                    {
-                        $this->smarty->display('display/'.$display_file);
-                        break;
-                    }
-                /*
-                case 'PDF':
-                    {
-                        $page = $this->smarty->fetch('display/'.$display_file);
-                        $pdf = new \providers\html2pdf\CCMSPDFBuilder('A4', 'P', 'en');
-                        $pdf->writeHTML($page);
-                        if (strlen($filename) < 1) $filename = 'document.pdf';
-                        $pdf->buildPDF2Stream($filename);
-                        break;
-                    }
-                case 'XLS':
-                    {
-                        $page = $this->smarty->fetch('display/'.$display_file);
-                        $excel = new CCMSExcelBuilder();
-                        if ($excel->createFromExcel2003XMLStream($page)) {
-                            $stream = $excel->exportToExcel5Stream();
-                            if ($stream) echo $stream;
-                        }
-                        break;
-                    }
-                case 'XLSX':
-                    {
-                        $page = $this->smarty->fetch('display/'.$display_file);
-                        $excel = new CCMSExcelBuilder();
-                        if ($excel->createFromExcel2003XMLStream($page)) {
-                            $stream = $excel->exportToExcel2007Stream();
-                            if ($stream) echo $stream;
-                        }
-                        break;
-                    }
-                */
+                    $this->smarty->display('display/'.$display_file);
+                    break;
             }
 
             return true;
@@ -514,12 +532,16 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
                 $cache_dir = $nb_site->getCacheDirectory();
                 $sm_site = $nb_site->loadFromCache($nb_role, $user_logged, $nb_language_id, $has_wcust);
                 if ($sm_site === false) {
-                    $sm_site = $nb_site->recreateCacheFile($cache_dir, $nb_role, $user_logged, $nb_language_id, $has_wcust);
+                    $sm_site = $nb_site->recreateCacheFile(
+                        $cache_dir, $nb_role, $user_logged, $nb_language_id, $has_wcust
+                    );
                 }
 
                 $sm_site_target = $nb_site_target->loadFromCache($nb_role, $user_logged, $nb_language_id, $has_wcust);
                 if ($sm_site_target['menu'] == false) {
-                    $sm_site_target = $nb_site_target->recreateCacheFile($cache_dir, $nb_role, $user_logged, $nb_language_id, $has_wcust);
+                    $sm_site_target = $nb_site_target->recreateCacheFile(
+                        $cache_dir, $nb_role, $user_logged, $nb_language_id, $has_wcust
+                    );
                 }
                  */
 
@@ -527,12 +549,13 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
                     $this->setSmartyDebug(true);
                 }
 
-                $this->smartyAssign('NABU_VERSION', NABU_VERSION);
-                $this->smartyAssign('NABU_LICENSE_TITLE', NABU_LICENSE_TITLE);
-                $this->smartyAssign('NABU_LICENSE_TARGET', NABU_LICENSE_TARGET);
-                $this->smartyAssign('NABU_LICENSED', NABU_LICENSED);
-                $this->smartyAssign('NABU_LICENSEE_TARGET', NABU_LICENSEE_TARGET);
-                $this->smartyAssign('NABU_OWNER', NABU_OWNER);
+                $constants = get_defined_constants(false);
+                foreach ($constants as $key => $value) {
+                    if (nb_strStartsWith($key, 'NABU_')) {
+                        $this->smartyAssign($key, $value, null, false, true);
+                    }
+                }
+
                 $this->smartyAssign('nb_customer', $nb_engine->getCustomer(), $nb_language);
                 $this->smartyAssign('nb_work_customer', $nb_work_customer, $nb_language);
                 $this->smartyAssign('nb_server', $this->nb_application->getHTTPServer()->getServer());
@@ -542,11 +565,15 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
                     'http_response_message' => $NABU_HTTP_CODES[$nb_response->getHTTPResponseCode()]
                 ));
                 $this->smartyAssign(
-                        'nb_role', $nb_role, $nb_language,
-                        $cache_storage->createContainerId(
-                            'system', 'roles', $nb_role->getValue('nb_role_id'),
-                            array('l' => $nb_language_id)
-                        )
+                    'nb_role',
+                    $nb_role,
+                    $nb_language,
+                    $cache_storage->createContainerId(
+                        'system',
+                        'roles',
+                        $nb_role->getValue('nb_role_id'),
+                        array('l' => $nb_language_id)
+                    )
                 );
 
                 $this->smartyAssign('nb_user', $nb_user, $nb_language);
@@ -556,7 +583,9 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
                             'nb_user',
                             function() use ($nb_user) { return $nb_user; },
                             $nb_language,
-                            $cache_storage->createContainerId('system', 'users', $nb_user->getValue('nb_user_id'), array('l' => $nb_language_id))
+                            $cache_storage->createContainerId(
+                                'system', 'users', $nb_user->getValue('nb_user_id'), array('l' => $nb_language_id)
+                            )
                     );
                 } else {
                     $render->smartyAssign('nb_user', null);
@@ -567,13 +596,16 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
 
                 if ($nb_commerce !== null) {
                     $this->smartyAssign(
-                        'nb_commerce', function() use($nb_commerce) {
+                        'nb_commerce',
+                        function () use ($nb_commerce) {
                             $nb_commerce->getProductCategories();
                             return $nb_commerce;
                         },
                         $nb_language,
                         $cache_storage->createContainerId(
-                            'commerces', 'commerce', $nb_commerce->getId(),
+                            'commerces',
+                            'commerce',
+                            $nb_commerce->getId(),
                             array(
                                 'ul' => $user_logged,
                                 'l' => $nb_language_id
@@ -585,9 +617,13 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
                 }
 
                 $this->smartyAssign(
-                    'nb_site', $nb_site, $nb_language,
+                    'nb_site',
+                    $nb_site,
+                    $nb_language,
                     $cache_storage->createContainerId(
-                        'sites', 'site', $nb_site->getValue('nb_site_id'),
+                        'sites',
+                        'site',
+                        $nb_site->getValue('nb_site_id'),
                         array (
                             'r' => $nb_role->getValue('nb_role_id'),
                             'ul' => $user_logged,
@@ -601,9 +637,13 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
                 $this->smartyAssign('nb_site_alias_role', $nb_request->getSiteAliasRole());
                 $this->smartyAssign('nb_language', $nb_language);
                 $this->smartyAssign(
-                    'nb_site_target', $nb_site_target, $nb_language,
+                    'nb_site_target',
+                    $nb_site_target,
+                    $nb_language,
                     $cache_storage->createContainerId(
-                        'sites', 'target', $nb_site_target->getId(),
+                        'sites',
+                        'target',
+                        $nb_site_target->getId(),
                         array(
                             'r' => $nb_role->getValue('nb_role_id'),
                             'ul' => $user_logged,
@@ -613,9 +653,13 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
                 );
 
                 $this->smartyAssign(
-                    'nb_site_map', $site_maps = $nb_site->getSiteMaps(), $nb_language,
+                    'nb_site_map',
+                    $site_maps = $nb_site->getSiteMaps(),
+                    $nb_language,
                     $cache_storage->createContainerId(
-                        'sites', 'sitemap', $nb_site_target->getValue('nb_site_target_id'),
+                        'sites',
+                        'sitemap',
+                        $nb_site_target->getValue('nb_site_target_id'),
                         array(
                             'r' => $nb_role->getValue('nb_role_id'),
                             'ul' => $user_logged,
@@ -627,7 +671,7 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
 
                 $this->smartyAssign(
                     'nb_mediotecas',
-                    function() {
+                    function () {
                         $nb_mediotecas_manager = $this->nb_application->getMediotecasManager();
                         $nb_mediotecas_manager->indexAll();
                         return array(
@@ -637,7 +681,9 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
                     },
                     $nb_language,
                     $cache_storage->createContainerId(
-                        'mediotecas', 'list', $nb_site->getValue('nb_site_id'),
+                        'mediotecas',
+                        'list',
+                        $nb_site->getValue('nb_site_id'),
                         array(
                             'l' => $nb_language_id
                         )
@@ -645,8 +691,12 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
                 );
 
                 $this->smartyAssign(
-                    'nb_site_static_content', $nb_site->getStaticContents(), $nb_language,
-                    $cache_storage->createContainerId('sites', 'static_content',
+                    'nb_site_static_content',
+                    $nb_site->getStaticContents(),
+                    $nb_language,
+                    $cache_storage->createContainerId(
+                        'sites',
+                        'static_content',
                         $nb_site->getValue('nb_site_id'),
                         array('l' => $nb_language_id)
                     )
@@ -694,29 +744,30 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
             if (is_array($pages)) {
                 $list = $nb_site->implodeStringArray($pages, ', ');
                 $site_target_list = CNabuSiteTarget::buildObjectListFromSQL(
-                        'nb_site_target_id',
-                        "select * "
-                        . "from nb_site_target "
-                       . "where nb_site_target_key in ($list) and nb_site_id=%site_id\$d",
-                        array(
-                            'site_id' => $nb_site->getValue('nb_site_id')
-                        )
+                    'nb_site_target_id',
+                    "SELECT *
+                       FROM nb_site_target
+                      WHERE nb_site_target_key IN ($list)
+                        AND nb_site_id=%site_id\$d",
+                    array(
+                        'site_id' => $nb_site->getValue('nb_site_id')
+                    )
                 );
             } else {
                 $site_target_list = CNabuSiteTarget::buildObjectListFromSQL(
-                        'nb_site_target_id',
-                        "select * "
-                        . "from nb_site_target "
-                       . "where nb_site_target_key='%pages\$s' and nb_site_id=%site_id\$d",
-                        array(
-                            'pages' => $pages,
-                            'site_id' => $nb_site->getValue('nb_site_id')
-                        )
+                    'nb_site_target_id',
+                    "SELECT *
+                       FROM nb_site_target
+                      WHERE nb_site_target_key='%pages\$s'
+                        AND nb_site_id=%site_id\$d",
+                    array(
+                        'pages' => $pages,
+                        'site_id' => $nb_site->getValue('nb_site_id')
+                    )
                 );
             }
 
             if (count($site_target_list) > 0) {
-
                 $nb_engine = CNabuEngine::getEngine();
                 $nb_modules_manager = $nb_engine->getAppsManager();
                 foreach ($site_target_list as $page) {

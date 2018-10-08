@@ -39,7 +39,7 @@ class CSmartyNabuAssignFunction extends CSmartyAbstractFunction
         if (!$this->attributeExists('var')) {
             trigger_error("nabu_assign: missing 'var' parameter");
         } else {
-            $actions = array('sitemap', 'cta', 'section', 'medioteca', 'static');
+            $actions = array('sitemap', 'cta', 'section', 'medioteca', 'static', 'target');
             switch ($this->getFirstOccurence($actions)) {
                 case 'sitemap':
                     $retval = $this->executeSitemap();
@@ -55,6 +55,9 @@ class CSmartyNabuAssignFunction extends CSmartyAbstractFunction
                     break;
                 case 'static':
                     $retval = $this->executeStatic();
+                    break;
+                case 'target':
+                    $retval = $this->executeTarget();
                     break;
                 default:
                     trigger_error("nabu_assign: missing parameter between [" . implode($actions, ', ') . "]");
@@ -254,6 +257,35 @@ class CSmartyNabuAssignFunction extends CSmartyAbstractFunction
             }
         } else {
             trigger_error("nabu_assign: [static] attribute value is not valid");
+        }
+
+        return '';
+    }
+
+    private function executeTarget()
+    {
+        $varname = $this->params['var'];
+        $target = $this->params['target'];
+
+        if (is_string($target)) {
+            if (is_array($nb_site = $this->template->getVariable('nb_site')->value) &&
+                array_key_exists('target_keys', $nb_site) &&
+                is_array($nb_site['target_keys']) &&
+                array_key_exists($target, $nb_site['target_keys']) &&
+                is_array($nb_site['target_keys'][$target]) &&
+                array_key_exists('pointer', $nb_site['target_keys'][$target]) &&
+                ($pointer = $nb_site['target_keys'][$target]['pointer']) !== null &&
+                array_key_exists('targets', $nb_site) &&
+                is_array($nb_site['targets']) &&
+                array_key_exists($pointer, $nb_site['targets']) &&
+                is_array($nb_site['targets'][$pointer])
+            ) {
+                $this->template->assign($varname, $nb_site['targets'][$pointer]);
+            } else {
+                trigger_error("nabu_assign: target indexed by key [$target] not found");
+            }
+        } else {
+            trigger_error("nabu_assign: [target] attribute value is not valid");
         }
 
         return '';

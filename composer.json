@@ -3,7 +3,7 @@
     "name": "nabu-3/provider-smarty-smarty",
     "description": "nabu-3 Provider to add Smarty as HTML Render",
     "keywords": [ "nabu-3", "nabu", "smarty", "provider" ],
-    "version": "0.0.9",
+    "version": "0.1.0",
     "license": "Apache-2.0",
     "authors": [
         {

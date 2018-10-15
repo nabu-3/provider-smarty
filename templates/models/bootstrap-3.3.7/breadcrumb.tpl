@@ -9,7 +9,7 @@
     {/if}
 {/if}
 {if is_array($root_sitemap) && array_key_exists('breadcrumb', $root_sitemap) && $root_sitemap.breadcrumb}
-    <ol class="breadcrumb{if isset($class) && is_string($class)} {$class}{/if}">{strip}
+    <ol class="breadcrumb{if isset($class) && is_string($class)} {$class}{/if}"{if isset($title) && strlen($title)>0} title="{$title}"{/if}>{strip}
         {assign var=parent_sitemap value=null}
         {while $root_sitemap!==null && $root_sitemap.breadcrumb}
             {assign var=next_sitemap value=null}

@@ -67,20 +67,22 @@
                     <div class="dropdown">
                         <button class="btn btn-breadcrumb dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">{$root_sitemap.translation.content}<span class="caret"></span></button>
                         <ul class="dropdown-menu">
-                            {foreach from=$parent_sitemap item=parent}
-                                {strip}
-                                    <li{if $parent.breadcrumb} class="active"{/if}>
-                                            {if isset($parts) && array_key_exists($parent.key, $parts)}
-                                                <a href="{$parent.translation.final_url|sprintf:$parts[$parent.key]['slug']}">
-                                                    {$parent.translation.content|sprintf:$parts[$parent.key]}
-                                                </a>
-                                            {else}
-                                                <a href="{$parent.translation.final_url}">
-                                                    {$parent.translation.content}
-                                                </a>
-                                            {/if}
-                                    </li>
-                                {/strip}
+                            {foreach from=$parent_sitemap item=parent}<!-- {$parent|print_r:true} -->
+                                {if $parent.visible=='T'}
+                                    {strip}
+                                        <li{if $parent.breadcrumb} class="active"{/if}>
+                                                {if isset($parts) && array_key_exists($parent.key, $parts)}
+                                                    <a href="{$parent.translation.final_url|sprintf:$parts[$parent.key]['slug']}">
+                                                        {$parent.translation.content|sprintf:$parts[$parent.key]}
+                                                    </a>
+                                                {else}
+                                                    <a href="{$parent.translation.final_url}">
+                                                        {$parent.translation.content}
+                                                    </a>
+                                                {/if}
+                                        </li>
+                                    {/strip}
+                                {/if}
                             {/foreach}
                         </ul>
                     </div>

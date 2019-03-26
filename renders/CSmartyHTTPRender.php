@@ -1,6 +1,7 @@
 <?php
 
-/*  Copyright 2009-2011 Rafael Gutierrez Martinez
+/** @license
+ *  Copyright 2009-2011 Rafael Gutierrez Martinez
  *  Copyright 2012-2013 Welma WEB MKT LABS, S.L.
  *  Copyright 2014-2016 Where Ideas Simply Come True, S.L.
  *  Copyright 2017 nabu-3 Group
@@ -43,7 +44,7 @@ require_once SMARTY_PROVIDER_PATH . '/plugins/compiler.nabu_role.php';
  * Class to dump HTML rendered with Smarty as HTTP response.
  * @author Rafael Gutierrez <rgutierrez@nabu-3.com>
  * @since 0.0.1
- * @version 0.0.6
+ * @version 0.1.1
  * @package providers\smarty\smarty\renders
  */
 class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter

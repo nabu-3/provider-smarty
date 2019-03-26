@@ -1,6 +1,7 @@
 <?php
 
-/*  Copyright 2009-2011 Rafael Gutierrez Martinez
+/** @license
+ *  Copyright 2009-2011 Rafael Gutierrez Martinez
  *  Copyright 2012-2013 Welma WEB MKT LABS, S.L.
  *  Copyright 2014-2016 Where Ideas Simply Come True, S.L.
  *  Copyright 2017 nabu-3 Group
@@ -25,7 +26,7 @@ use providers\smarty\smarty\builders\base\CSmartyAbstractBlock;
  * This class builds the tag nabu_raw_assign.
  * @author Rafael Gutierrez <rgutierrez@nabu-3.com>
  * @since 0.0.1
- * @version 0.0.4
+ * @version 0.1.1
  * @package \providers\smarty\smarty\renders
  */
 class CSmartyNabuRawAssignBlock extends CSmartyAbstractBlock

@@ -1,6 +1,7 @@
 <?php
 
-/*  Copyright 2009-2011 Rafael Gutierrez Martinez
+/** @license
+ *  Copyright 2009-2011 Rafael Gutierrez Martinez
  *  Copyright 2012-2013 Welma WEB MKT LABS, S.L.
  *  Copyright 2014-2016 Where Ideas Simply Come True, S.L.
  *  Copyright 2017 nabu-3 Group
@@ -24,7 +25,7 @@ use providers\smarty\smarty\builders\CSmartyNabuDatetimeFunction;
  * This function is a wrapper to call CSmartyNabuAssignFunction that implements all functionalities.
  * @author Rafael Gutierrez <rgutierrez@nabu-3.com>
  * @since 0.0.9
- * @version 0.0.9
+ * @version 0.1.1
  * @param mixed $params Params array passed by Smarty Analyzer
  * @param Smarty_Internal_Template $template Smarty Template
  */

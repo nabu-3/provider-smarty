@@ -67,7 +67,7 @@
                     <div class="dropdown">
                         <button class="btn btn-breadcrumb dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">{$root_sitemap.translation.content}<span class="caret"></span></button>
                         <ul class="dropdown-menu">
-                            {foreach from=$parent_sitemap item=parent}<!-- {$parent|print_r:true} -->
+                            {foreach from=$parent_sitemap item=parent}
                                 {if $parent.visible=='T'}
                                     {strip}
                                         <li{if $parent.breadcrumb} class="active"{/if}>

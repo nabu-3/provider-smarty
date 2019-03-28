@@ -1,6 +1,7 @@
 <?php
 
-/*  Copyright 2009-2011 Rafael Gutierrez Martinez
+/** @license
+ *  Copyright 2009-2011 Rafael Gutierrez Martinez
  *  Copyright 2012-2013 Welma WEB MKT LABS, S.L.
  *  Copyright 2014-2016 Where Ideas Simply Come True, S.L.
  *  Copyright 2017 nabu-3 Group
@@ -26,7 +27,7 @@
  * To work we need to include this file in CSmartyHTTPRender class file.
  * @author Rafael Gutierrez <rgutierrez@nabu-3.com>
  * @since 0.0.1
- * @version 0.0.9
+ * @version 0.1.1
  */
 class Smarty_Internal_Compile_Nabu_Role extends Smarty_Internal_CompileBase
 {

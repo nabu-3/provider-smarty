@@ -1,6 +1,7 @@
 <?php
 
-/*  Copyright 2009-2011 Rafael Gutierrez Martinez
+/** @license
+ *  Copyright 2009-2011 Rafael Gutierrez Martinez
  *  Copyright 2012-2013 Welma WEB MKT LABS, S.L.
  *  Copyright 2014-2016 Where Ideas Simply Come True, S.L.
  *  Copyright 2017 nabu-3 Group
@@ -43,7 +44,7 @@ require_once SMARTY_PROVIDER_PATH . '/plugins/compiler.nabu_role.php';
  * Class to dump HTML rendered with Smarty as HTTP response.
  * @author Rafael Gutierrez <rgutierrez@nabu-3.com>
  * @since 0.0.1
- * @version 0.0.6
+ * @version 0.1.1
  * @package providers\smarty\smarty\renders
  */
 class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
@@ -63,20 +64,18 @@ class CSmartyHTTPRender extends CNabuHTTPResponseRenderAdapter
 
         $this->nb_smarty_manager = CNabuEngine::getEngine()->getProviderManager(SMARTY_VENDOR_KEY, SMARTY_MODULE_KEY);
         $nb_http_server = $nb_application->getHTTPServer();
+        $nb_http_fs = $nb_http_server->getFileSystem();
         $nb_server = $nb_http_server->getServer();
         $nb_site = $nb_http_server->getSite();
 
-        /*if (is_array($params) && array_key_exists('basepath', $params)) {
-            $base = $params['basepath'];
-        } else {
-            $base = $nb_server->getVirtualHostsPath() . $nb_site->getValue('nb_site_base_path');
-        }*/
-        $vhosts_path = $nb_site->getVirtualHostPath($nb_server);
-        $vlib_path = $nb_site->getVirtualLibrariesPath($nb_server) . SMARTY_BASE_FOLDER;
+        $vhosts_path = $nb_http_fs->getSiteBasePath($nb_site);
+
+        $vlib_path = $nb_http_fs->getSiteVirtualLibraryPath($nb_site) . SMARTY_BASE_FOLDER;
         if (!is_dir($vlib_path) && !mkdir($vlib_path, 0775, true)) {
             throw new ENabuCoreException(ENabuCoreException::ERROR_HOST_PATH_NOT_FOUND, array($vlib_path));
         }
-        $vcache_path = $nb_site->getVirtualLibrariesPath($nb_server) . SMARTY_BASE_FOLDER;
+
+        $vcache_path = $nb_http_fs->getSiteCachePath($nb_site) . SMARTY_BASE_FOLDER;
         if (!is_dir($vcache_path) && !mkdir($vcache_path, 0775, true)) {
             throw new ENabuCoreException(ENabuCoreException::ERROR_HOST_PATH_NOT_FOUND, array($vcache_path));
         }

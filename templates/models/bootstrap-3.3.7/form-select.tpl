@@ -88,7 +88,9 @@
                 <span class="input-group-addon">{$addon_left_label}</span>
             {/if}
         {/if}
-        <div class="{if $addons}dropdown{else}dropdown{/if}"{if isset($id)} id="{$id}"{/if} data-toggle="nabu-select"{if isset($reflect) && is_string($reflect) && strlen($reflect)>0} data-reflect="{$reflect}"{/if}>
+        <div class="{if $addons}dropdown{else}dropdown{/if}"{if isset($id)} id="{$id}"{/if} data-toggle="nabu-select"
+             {if isset($reflect) && is_string($reflect) && strlen($reflect)>0} data-reflect="{$reflect}"{/if}
+             {if isset($options_default_name)} data-caption-default="{$options_default_name|escape:quotes}{/if}">
             <div class="btn-group">
                 <button class="btn btn-default" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"{if $addons && isset($addon_left) && ($addon_left==='radiobox' || $addon_left==='checkbox') && isset($addon_left_check) && $value_left!==$addon_left_check} disabled{/if}>{strip}
                     {assign var=final_text value='&nbsp;'}
